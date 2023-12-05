@@ -1,19 +1,13 @@
 import {FC} from "react";
-import YandexWidget from "@/app/account/login/yandex-widget";
-import {headers} from "next/headers";
-import Script from "next/script";
-
+import YandexWidget from "./yandex-widget";
 
 const Login: FC = async () => {
-    const clientId = process.env.YANDEX_CLIENT_ID || "";
-    const redirectUrl = (headers().get('hostname') || "");
+    const clientId = process.env.YANDEX_CLIENT_ID!;
+    const redirectUrl = new URL(process.env.YANDEX_REDIRECT_URL!).href;
+    const tokenPageUrl = new URL( "/api/account/token", redirectUrl).href;
 
     return <>
-        <Script
-            strategy={"beforeInteractive"}
-            src="https://yastatic.net/s3/passport-sdk/autofill/v1/sdk-suggest-with-polyfills-latest.js"
-        />
-        <YandexWidget clientId={clientId} redirectUrl={redirectUrl} tokenPageUrl={redirectUrl + "/api/account/token"}/>
+        <YandexWidget clientId={clientId} redirectUrl={redirectUrl} tokenPageUrl={tokenPageUrl}/>
     </>;
 }
 
