@@ -5,7 +5,7 @@ import Script from "next/script";
 
 declare var YaAuthSuggest: any;
 
-const YandexWidget: FC<{ clientId: string; redirectUrl: string; }> = ({clientId, redirectUrl}) => {
+const YandexWidget: FC<{ clientId: string; redirectUrl: string; tokenPageUrl: string; }> = ({clientId, redirectUrl, tokenPageUrl}) => {
     return <Script
         onLoad={() => {
             console.debug(YaAuthSuggest)
@@ -13,7 +13,7 @@ const YandexWidget: FC<{ clientId: string; redirectUrl: string; }> = ({clientId,
                 {
                     client_id: clientId,
                     response_type: 'token',
-                    redirect_uri: redirectUrl
+                    redirect_uri: tokenPageUrl
                 },
                 redirectUrl
             )
