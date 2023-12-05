@@ -14,7 +14,9 @@ const YandexWidget: FC<{ clientId: string; redirectUrl: string; tokenPageUrl: st
                 redirect_uri: tokenPageUrl
             },
             redirectUrl
-        ).then((data: any) => console.debug(data))
+        )
+            .then((data: any) => console.debug(data.handler()))
+            .then((data: any) => console.debug(data))
     }, [clientId, redirectUrl, tokenPageUrl])
 
     return <></>
