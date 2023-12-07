@@ -26,7 +26,12 @@ const AccountLogin = async (req: NextRequest) => {
             secure: process.env.NODE_ENV === "production",
         })
 
-        return NextResponse.redirect("/");
+        const redirectUrl = new URL(req.nextUrl);
+        redirectUrl.pathname = "/";
+        redirectUrl.search = "";
+        redirectUrl.hash = "";
+
+        return NextResponse.redirect(redirectUrl);
     } catch (e) {
         if (e instanceof OauthLoginException) {
             return NextResponse.json({
@@ -35,6 +40,14 @@ const AccountLogin = async (req: NextRequest) => {
                 status: 401
             })
         }
+
+        console.error(e);
+
+        return NextResponse.json({
+            message: e
+        }, {
+            status: 500
+        })
     }
 
 };
