@@ -6,7 +6,9 @@ const Login: FC = () => {
     const {appId, redirectUrl} = oauthConfigFactory();
 
     return (
-        <OauthVkLoginButton appId={appId} redirectUrl={redirectUrl}/>
+        <main>
+            <OauthVkLoginButton appId={appId} redirectUrl={redirectUrl}/>
+        </main>
     );
 }
 
