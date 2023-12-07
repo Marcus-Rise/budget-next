@@ -25,7 +25,7 @@ const YandexLoginWidget: FC<{ clientId: string; redirectOriginUrl: string; redir
                     buttonIcon: 'ya',
                 }
             )
-                .then((data: any) => console.debug(data.handler()))
+                .then((data: any) => data.handler())
                 .then((data: any) => console.debug(data))
         }}
         src="https://yastatic.net/s3/passport-sdk/autofill/v1/sdk-suggest-with-polyfills-latest.js"
