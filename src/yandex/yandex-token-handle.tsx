@@ -5,13 +5,13 @@ import Script from "next/script";
 
 declare var YaSendSuggestToken: any;
 
-const YandexTokenHandle: FC<{redirectTokenUrl: string}> = ({redirectTokenUrl}) => {
+const YandexTokenHandle: FC<{redirectUrl: string}> = ({redirectUrl}) => {
     return (
         <>
             <Script
                 onLoad={() => {
                     YaSendSuggestToken(
-                        redirectTokenUrl,
+                        redirectUrl,
                         {
                             flag: true
                         }

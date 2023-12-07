@@ -1,8 +1,7 @@
 type IConfig = {
     clientId: string;
-    redirectUrl: string;
+    redirectOriginUrl: string;
     tokenPageUrl: string;
-    tokenAcceptRouteUrl: string;
 }
 
 const configFactory = (): IConfig => {
@@ -10,9 +9,8 @@ const configFactory = (): IConfig => {
 
     return ({
         clientId: process.env.YANDEX_CLIENT_ID!,
-        redirectUrl: redirectUrl.href,
+        redirectOriginUrl: redirectUrl.href,
         tokenPageUrl: new URL("/account/token", redirectUrl).href,
-        tokenAcceptRouteUrl: new URL("/api/account/token", redirectUrl).href,
     });
 };
 

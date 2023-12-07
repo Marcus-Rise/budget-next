@@ -5,16 +5,16 @@ import Script from "next/script";
 
 declare var YaAuthSuggest: any;
 
-const YandexLoginWidget: FC<{ clientId: string; redirectUrl: string; tokenPageUrl: string; }> = (props) =>
+const YandexLoginWidget: FC<{ clientId: string; redirectOriginUrl: string; redirectUrl: string; }> = (props) =>
     <Script
         onLoad={() => {
             YaAuthSuggest.init(
                 {
                     client_id: props.clientId,
                     response_type: 'token',
-                    redirect_uri: props.tokenPageUrl
+                    redirect_uri: props.redirectUrl
                 },
-                props.redirectUrl,
+                props.redirectOriginUrl,
                 {
                     view: "button",
                     parentId: "buttonContainerId",

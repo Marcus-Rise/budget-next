@@ -3,10 +3,10 @@ import {YandexLoginWidget} from "@/yandex/yandex-login-widget";
 import {configFactory} from "@/helpers/config";
 
 const Login: FC = () => {
-    const {tokenPageUrl, redirectUrl, clientId} = configFactory();
+    const {tokenPageUrl, redirectOriginUrl, clientId} = configFactory();
 
     return <>
-        <YandexLoginWidget clientId={clientId} redirectUrl={redirectUrl} tokenPageUrl={tokenPageUrl}/>
+        <YandexLoginWidget clientId={clientId} redirectOriginUrl={redirectOriginUrl} redirectUrl={tokenPageUrl}/>
     </>;
 }
 
