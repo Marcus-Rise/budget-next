@@ -24,6 +24,7 @@ const AccountLogin = async (req: NextRequest) => {
             path: "/",
             sameSite: "strict",
             secure: process.env.NODE_ENV === "production",
+            expires: new Date() // todo надо срок действия токена
         })
 
         const redirectUrl = new URL(req.nextUrl);
