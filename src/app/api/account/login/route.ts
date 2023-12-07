@@ -4,6 +4,7 @@ import {oauthConfigFactory} from "@/oauth/config";
 import {OauthService} from "@/oauth/oauth.service";
 import {OauthLoginException} from "@/oauth/oauth-login.exception";
 import {cookies} from "next/headers";
+import addYears from 'date-fns/addYears'
 
 const AccountLogin = async (req: NextRequest) => {
     const payloadString = req.nextUrl.searchParams.get("payload");
@@ -24,7 +25,7 @@ const AccountLogin = async (req: NextRequest) => {
             path: "/",
             sameSite: "strict",
             secure: process.env.NODE_ENV === "production",
-            expires: new Date() // todo надо срок действия токена
+            expires: addYears(new Date(), 1)
         })
 
         const redirectUrl = new URL(req.nextUrl);
