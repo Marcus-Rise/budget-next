@@ -22,7 +22,7 @@ const AccountLogin = async (req: NextRequest) => {
         cookies().set("Authorization", accessToken, {
             httpOnly: true,
             path: "/",
-            sameSite: true,
+            sameSite: "strict",
             secure: process.env.NODE_ENV === "production",
         })
 
