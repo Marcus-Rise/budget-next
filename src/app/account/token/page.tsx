@@ -10,4 +10,4 @@ const TokenHandlePage: FC = () => {
     );
 };
 
-export {TokenHandlePage};
+export default TokenHandlePage;
