@@ -1,13 +1,13 @@
 import {FC} from "react";
-import {YandexLoginWidget} from "@/yandex/yandex-login-widget";
-import {configFactory} from "@/helpers/config";
+import {OauthVkLoginButton} from "@/oauth/vk-login-button";
+import {oauthConfigFactory} from "@/oauth/config";
 
 const Login: FC = () => {
-    const {tokenPageUrl, redirectOriginUrl, clientId} = configFactory();
+    const {appId, redirectUrl} = oauthConfigFactory();
 
-    return <>
-        <YandexLoginWidget clientId={clientId} redirectOriginUrl={redirectOriginUrl} redirectUrl={tokenPageUrl}/>
-    </>;
+    return (
+        <OauthVkLoginButton appId={appId} redirectUrl={redirectUrl}/>
+    );
 }
 
 export default Login;
