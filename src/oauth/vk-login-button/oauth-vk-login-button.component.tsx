@@ -1,10 +1,8 @@
-"use client";
-
 import type {FC} from 'react';
-import {useEffect} from "react";
-import * as VKID from '@vkid/sdk';
 import styles from './oauth-vk-login-button.module.css';
 import classNames from "classnames";
+import {v4 as uuid} from 'uuid';
+import Link from "next/link";
 
 type OauthVkLoginButtonProps = {
     appId: number;
@@ -12,20 +10,15 @@ type OauthVkLoginButtonProps = {
 };
 
 const OauthVkLoginButton: FC<OauthVkLoginButtonProps> = ({redirectUrl, appId}) => {
-    useEffect(() => {
-        VKID.Config.set({
-            app: appId, // Идентификатор приложения.
-            redirectUrl: redirectUrl, // Адрес для перехода после авторизации.
-        });
-    }, [appId, redirectUrl])
-
-    const login = () => {
-        VKID.Auth.login();
-    }
+    const oauthUrl = new URL("https://id.vk.com/auth");
+    oauthUrl.searchParams.append('uuid', uuid());
+    oauthUrl.searchParams.append('app_id', String(appId));
+    oauthUrl.searchParams.append('response_type', 'silent_token');
+    oauthUrl.searchParams.append('redirect_uri', redirectUrl);
 
     return (
-        <button id="VKIDSDKAuthButton" onClick={login}
-                className={classNames(styles.VkIdWebSdk__button, styles.VkIdWebSdk__button_reset)}>
+        <Link href={oauthUrl.href} prefetch={false}
+                className={classNames(styles.VkIdWebSdk__link, styles.VkIdWebSdk__button, styles.VkIdWebSdk__button_reset)}>
             <div className={styles.VkIdWebSdk__button_container}>
                 <div className={styles.VkIdWebSdk__button_icon}>
                     <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -39,7 +32,7 @@ const OauthVkLoginButton: FC<OauthVkLoginButtonProps> = ({redirectUrl, appId}) =
                     Войти через VK ID
                 </div>
             </div>
-        </button>
+        </Link>
     );
 };
 

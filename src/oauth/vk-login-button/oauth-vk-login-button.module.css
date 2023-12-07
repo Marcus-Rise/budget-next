@@ -13,6 +13,12 @@
     -webkit-appearance: none;
 }
 
+.VkIdWebSdk__link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
 .VkIdWebSdk__button {
     background: #0077ff;
     cursor: pointer;
