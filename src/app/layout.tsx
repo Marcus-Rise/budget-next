@@ -3,6 +3,7 @@ import './globals.css';
 import { FC, PropsWithChildren } from 'react';
 import { Roboto } from 'next/font/google';
 import classNames from 'classnames';
+import { configFactory } from '@/config';
 
 const roboto = Roboto({
   weight: ['400', '700'],
@@ -16,10 +17,15 @@ const RootLayout: FC<PropsWithChildren> = ({ children }) => (
   </html>
 );
 
-const metadata: Metadata = {
-  title: 'Мой бюджет',
-  description: 'Приложение для учета бюджета',
+const generateMetadata = (): Metadata => {
+  const { baseUrl } = configFactory();
+
+  return {
+    title: 'Мой бюджет',
+    description: 'Приложение для учета бюджета',
+    metadataBase: baseUrl,
+  };
 };
 
 export default RootLayout;
-export { metadata };
+export { generateMetadata };

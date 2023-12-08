@@ -1,4 +1,5 @@
 type IConfig = {
+  baseUrl: URL;
   apiBaseUrl: string;
   apiVersion: string;
 };
