@@ -14,7 +14,9 @@ const PublicLayout: FC<PropsWithChildren> = async ({ children }) => {
   return (
     <div className={'h-[calc(100dvh)] w-full flex flex-col'}>
       <header className={'basis-1/2 flex flex-col justify-center'}>
-        <h1 className={'font-bold text-center text-4xl'}>Мой бюджет</h1>
+        <Link href="/">
+          <h1 className={'font-bold text-center text-4xl'}>Мой бюджет</h1>
+        </Link>
       </header>
       <main className={'basis-1/2'}>{children}</main>
       <footer className={'px-2 py-1 basis-auto flex justify-end gap-1'}>

@@ -29,7 +29,9 @@ const SecureLayout: FC<PropsWithChildren> = async ({ children }) => {
   return (
     <div className={'h-[calc(100dvh)] w-full flex flex-col'}>
       <header className={'px-2 py-2 basis-1 flex justify-between items-center shadow'}>
-        <h1 className={'font-bold'}>Мой бюджет</h1>
+        <Link href={'/'}>
+          <h1 className={'font-bold'}>Мой бюджет</h1>
+        </Link>
         <Suspense fallback={<div>Profile loading...</div>}>
           <Profile />
         </Suspense>
