@@ -6,7 +6,7 @@ import { redirect } from 'next/navigation';
 import { OauthService } from '@/oauth/oauth.service';
 import { oauthConfigFactory } from '@/oauth/config';
 import { configFactory } from '@/config';
-import { Profile } from '@/app/(secure)/profile.component';
+import { Profile } from '@/app/(secure)/profile';
 import { Suspense } from 'react';
 import Logo from '@/app/opengraph-image.png';
 
