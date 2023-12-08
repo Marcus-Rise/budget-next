@@ -21,6 +21,7 @@ const Profile: FC = async () => {
         width={PHOTO_SIZE}
         className={'rounded-full object-cover border-2 border-gray-300'}
       />
+      {String(user.avatar)}
       <Link
         prefetch={false}
         href="/api/account/logout"
