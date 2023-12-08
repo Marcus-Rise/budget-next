@@ -6,6 +6,7 @@ import classNames from 'classnames';
 
 const roboto = Roboto({
   weight: ['400', '700'],
+  subsets: ['cyrillic', 'latin'],
 });
 
 const RootLayout: FC<PropsWithChildren> = ({ children }) => (
