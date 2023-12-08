@@ -13,7 +13,7 @@ const Profile: FC = async () => {
   const user = await new UserService(configFactory()).getCurrentUser(auth);
 
   return (
-    <div className={'flex justify-between items-center gap-1'}>
+    <div className={'flex justify-between items-center gap-2'}>
       <Image
         alt={'user avatar'}
         src={user.avatar || Placeholder}
@@ -24,7 +24,7 @@ const Profile: FC = async () => {
       <Link
         prefetch={false}
         href="/api/account/logout"
-        className="block text-gray-700 bloclassName-4 px-2 py-2 text-sm"
+        className="block text-gray-700 bloclassName-4 py-2 text-sm"
         role="menuitem"
         tabIndex={-1}
         id="menu-item-0"
