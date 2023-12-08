@@ -16,7 +16,7 @@ const Profile: FC = async () => {
     <div className={'flex justify-between items-center gap-1'}>
       <Image
         alt={'user avatar'}
-        src={user.avatar ?? Placeholder}
+        src={user.avatar || Placeholder}
         height={PHOTO_SIZE}
         width={PHOTO_SIZE}
         className={'rounded-full object-cover border-2 border-gray-300'}
