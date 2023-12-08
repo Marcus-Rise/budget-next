@@ -27,7 +27,7 @@ const AccountLogin = async (req: NextRequest) => {
     response.cookies.set('Authorization', accessToken, {
       httpOnly: true,
       path: '/',
-      sameSite: 'strict',
+      sameSite: 'lax',
       secure: process.env.NODE_ENV === 'production',
       expires: addYears(new Date(), 1),
     });
