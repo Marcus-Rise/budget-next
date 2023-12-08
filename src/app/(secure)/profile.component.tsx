@@ -4,6 +4,7 @@ import { configFactory } from '@/config';
 import { cookies } from 'next/headers';
 import Image from 'next/image';
 import Link from 'next/link';
+import Placeholder from './image-placeholder.png';
 
 const PHOTO_SIZE = 35;
 
@@ -19,6 +20,8 @@ const Profile: FC = async () => {
         height={PHOTO_SIZE}
         width={PHOTO_SIZE}
         className={'rounded-full object-cover'}
+        placeholder={'blur'}
+        blurDataURL={Placeholder.blurDataURL}
       />
       <Link
         prefetch={false}
