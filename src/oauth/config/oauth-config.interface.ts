@@ -1,4 +1,5 @@
 type IOauthConfig = {
+  idApiUrl: string;
   appId: number;
   serviceToken: string;
   redirectUrl: string;

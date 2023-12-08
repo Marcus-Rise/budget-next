@@ -7,10 +7,11 @@ import Link from 'next/link';
 type OauthVkLoginButtonProps = {
   appId: number;
   redirectUrl: string;
+  apiUrl: string | URL;
 };
 
-const OauthVkLoginButton: FC<OauthVkLoginButtonProps> = ({ redirectUrl, appId }) => {
-  const oauthUrl = new URL('https://id.vk.com/auth');
+const OauthVkLoginButton: FC<OauthVkLoginButtonProps> = ({ redirectUrl, appId, apiUrl }) => {
+  const oauthUrl = new URL(apiUrl);
   oauthUrl.searchParams.append('uuid', uuid());
   oauthUrl.searchParams.append('app_id', String(appId));
   oauthUrl.searchParams.append('response_type', 'silent_token');
