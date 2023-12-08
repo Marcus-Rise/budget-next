@@ -4,7 +4,7 @@ type AccessToken = string;
 type UserId = number;
 
 interface IOauthService {
-  login(payload: OauthSilentTokenPayload): Promise<AccessToken>;
+  login(payload: OauthSilentTokenPayload): Promise<{ accessToken: AccessToken; userId: UserId }>;
 
   checkToken(accessToken: AccessToken): Promise<UserId>;
 }

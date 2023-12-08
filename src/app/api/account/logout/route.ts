@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
 
 const AccountLogout = (req: NextRequest) => {
-  cookies().delete('Authorization');
+  const response = NextResponse.redirect(new URL('/account/login', req.nextUrl));
 
-  return NextResponse.redirect(new URL('/account/login', req.nextUrl));
+  response.cookies.delete('Authorization');
+  response.cookies.delete('UserId');
+
+  return response;
 };
 
 export { AccountLogout as GET };

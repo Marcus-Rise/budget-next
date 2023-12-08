@@ -13,10 +13,11 @@ import Logo from '@/app/opengraph-image.png';
 const SecureLayout: FC<PropsWithChildren> = async ({ children }) => {
   const year = new Date().getFullYear();
   const auth = cookies().get('Authorization');
+  const userId = cookies().get('UserId');
   const returnUrl = encodeURIComponent(headers().get('x-invoke-path') || '/');
   const redirectUrl = `/account/login?returnUrl=${returnUrl}`;
 
-  if (!auth) {
+  if (!auth || !userId) {
     return redirect(redirectUrl);
   }
 

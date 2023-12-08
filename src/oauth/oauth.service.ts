@@ -35,7 +35,7 @@ class OauthService implements IOauthService {
       throw new OauthLoginException('Invalid oauth response');
     }
 
-    return dto.response.access_token;
+    return { accessToken: dto.response.access_token, userId: dto.response.user_id };
   }
 
   async checkToken(accessToken: string) {

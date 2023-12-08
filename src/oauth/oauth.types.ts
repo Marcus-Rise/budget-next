@@ -23,7 +23,7 @@ type OauthAccessTokenResponseDto = {
   response: {
     access_token: string;
     access_token_id: string;
-    user_id: string;
+    user_id: number;
     phone: string;
     /**
      * date

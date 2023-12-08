@@ -5,6 +5,7 @@ import { OauthService } from '@/oauth/oauth.service';
 import { OauthLoginException } from '@/oauth/oauth-login.exception';
 import addYears from 'date-fns/addYears';
 import { configFactory } from '@/config';
+import { ResponseCookie } from 'next/dist/compiled/@edge-runtime/cookies';
 
 const AccountLogin = async (req: NextRequest) => {
   const payloadString = req.nextUrl.searchParams.get('payload');
@@ -18,19 +19,22 @@ const AccountLogin = async (req: NextRequest) => {
   const service = new OauthService(configFactory(), oauthConfigFactory());
 
   try {
-    const accessToken = await service.login(payload);
+    const { accessToken, userId } = await service.login(payload);
     const returnUrl = req.nextUrl.searchParams.get('returnUrl') || '/';
     const redirectUrl = new URL(returnUrl, req.nextUrl);
 
     const response = NextResponse.redirect(redirectUrl, { status: 302 });
 
-    response.cookies.set('Authorization', accessToken, {
+    const cookieOptions: Partial<ResponseCookie> = {
       httpOnly: true,
       path: '/',
       sameSite: 'lax',
       secure: process.env.NODE_ENV === 'production',
       expires: addYears(new Date(), 1),
-    });
+    };
+
+    response.cookies.set('Authorization', accessToken, cookieOptions);
+    response.cookies.set('UserId', String(userId), cookieOptions);
 
     return response;
   } catch (e) {
