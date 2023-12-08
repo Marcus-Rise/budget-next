@@ -4,7 +4,7 @@ import { configFactory } from '@/config';
 import { cookies } from 'next/headers';
 import Image from 'next/image';
 import Link from 'next/link';
-import Placeholder from './image-placeholder.png';
+import Placeholder from './profile.svg';
 
 const PHOTO_SIZE = 35;
 
@@ -16,7 +16,7 @@ const Profile: FC = async () => {
     <div className={'flex justify-between items-center gap-1'}>
       <Image
         alt={'user avatar'}
-        src={user.avatar}
+        src={user.avatar ?? Placeholder}
         height={PHOTO_SIZE}
         width={PHOTO_SIZE}
         className={'rounded-full object-cover border-2 border-gray-300'}
