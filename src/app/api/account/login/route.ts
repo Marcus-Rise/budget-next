@@ -3,7 +3,6 @@ import { OauthSilentTokenPayload } from '@/oauth/oauth.types';
 import { oauthConfigFactory } from '@/oauth/config';
 import { OauthService } from '@/oauth/oauth.service';
 import { OauthLoginException } from '@/oauth/oauth-login.exception';
-import { cookies } from 'next/headers';
 import addYears from 'date-fns/addYears';
 import { configFactory } from '@/config';
 
@@ -23,7 +22,7 @@ const AccountLogin = async (req: NextRequest) => {
     const returnUrl = req.nextUrl.searchParams.get('returnUrl') || '/';
     const redirectUrl = new URL(returnUrl, req.nextUrl);
 
-    const response = NextResponse.redirect(redirectUrl);
+    const response = NextResponse.redirect(redirectUrl, { status: 302 });
 
     response.cookies.set('Authorization', accessToken, {
       httpOnly: true,
