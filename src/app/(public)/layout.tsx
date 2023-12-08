@@ -1,8 +1,15 @@
 import type { FC, PropsWithChildren } from 'react';
 import Link from 'next/link';
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 
-const PublicLayout: FC<PropsWithChildren> = ({ children }) => {
+const PublicLayout: FC<PropsWithChildren> = async ({ children }) => {
   const year = new Date().getFullYear();
+  const auth = cookies().get('Authorization');
+
+  if (auth) {
+    return redirect('/');
+  }
 
   return (
     <div className={'h-[calc(100dvh)] w-full flex flex-col'}>

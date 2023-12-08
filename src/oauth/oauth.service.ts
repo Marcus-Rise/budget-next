@@ -1,22 +1,25 @@
-import { IOauthConfig } from "@/oauth/config";
+import { IOauthConfig } from '@/oauth/config';
 import {
+  OauthAccessTokenChekResponseDto,
   OauthAccessTokenResponseDto,
   OauthSilentTokenPayload,
-} from "@/oauth/oauth.types";
-import { OauthLoginException } from "@/oauth/oauth-login.exception";
+} from '@/oauth/oauth.types';
+import { OauthLoginException } from '@/oauth/oauth-login.exception';
+import { IOauthService } from '@/oauth/oauth-service.interface';
+import { IConfig } from '@/config';
 
-class OauthService {
-  constructor(private readonly _config: IOauthConfig) {}
+class OauthService implements IOauthService {
+  constructor(
+    private readonly _config: IConfig,
+    private readonly _oauthConfig: IOauthConfig,
+  ) {}
 
   async login(payload: OauthSilentTokenPayload) {
-    const requestUrl = new URL(
-      "/method/auth.exchangeSilentAuthToken",
-      this._config.apiBaseUrl,
-    );
-    requestUrl.searchParams.set("v", this._config.apiVersion);
-    requestUrl.searchParams.set("token", payload.token);
-    requestUrl.searchParams.set("access_token", this._config.serviceToken);
-    requestUrl.searchParams.set("uuid", payload.uuid);
+    const requestUrl = new URL('/method/auth.exchangeSilentAuthToken', this._config.apiBaseUrl);
+    requestUrl.searchParams.set('v', this._config.apiVersion);
+    requestUrl.searchParams.set('token', payload.token);
+    requestUrl.searchParams.set('access_token', this._oauthConfig.serviceToken);
+    requestUrl.searchParams.set('uuid', payload.uuid);
 
     const response = await fetch(requestUrl);
 
@@ -29,10 +32,33 @@ class OauthService {
     if (!dto.response) {
       console.error(dto);
 
-      throw new OauthLoginException("Invalid oauth response");
+      throw new OauthLoginException('Invalid oauth response');
     }
 
     return dto.response.access_token;
+  }
+
+  async checkToken(accessToken: string) {
+    const requestUrl = new URL('/method/secure.checkToken', this._config.apiBaseUrl);
+    requestUrl.searchParams.set('v', this._config.apiVersion);
+    requestUrl.searchParams.set('access_token', this._oauthConfig.serviceToken);
+    requestUrl.searchParams.set('token', accessToken);
+
+    const response = await fetch(requestUrl);
+
+    if (!response.ok) {
+      throw new OauthLoginException('Invalid token');
+    }
+
+    const {
+      response: { user_id, expire, date, success },
+    }: OauthAccessTokenChekResponseDto = await response.json();
+
+    if (expire - date <= 0 || success !== 1) {
+      throw new OauthLoginException('Expired token');
+    }
+
+    return user_id;
   }
 }
 
