@@ -1,1 +1,1 @@
-export * from './oauth-vk-login-button.component'
+export * from "./oauth-vk-login-button.component";
