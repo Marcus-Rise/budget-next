@@ -20,8 +20,12 @@ const AccountLogin = async (req: NextRequest) => {
 
   try {
     const accessToken = await service.login(payload);
+    const returnUrl = req.nextUrl.searchParams.get('returnUrl') || '/';
+    const redirectUrl = new URL(returnUrl, req.nextUrl);
 
-    cookies().set('Authorization', accessToken, {
+    const response = NextResponse.redirect(redirectUrl);
+
+    response.cookies.set('Authorization', accessToken, {
       httpOnly: true,
       path: '/',
       sameSite: 'strict',
@@ -29,11 +33,7 @@ const AccountLogin = async (req: NextRequest) => {
       expires: addYears(new Date(), 1),
     });
 
-    const returnUrl = req.nextUrl.searchParams.get('returnUrl') || '/';
-
-    const redirectUrl = new URL(returnUrl, req.nextUrl);
-
-    return NextResponse.redirect(redirectUrl);
+    return response;
   } catch (e) {
     if (e instanceof OauthLoginException) {
       return NextResponse.json(

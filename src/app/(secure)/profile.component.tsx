@@ -19,9 +19,7 @@ const Profile: FC = async () => {
         src={user.avatar}
         height={PHOTO_SIZE}
         width={PHOTO_SIZE}
-        className={'rounded-full object-cover'}
-        placeholder={'blur'}
-        blurDataURL={Placeholder.blurDataURL}
+        className={'rounded-full object-cover border-2 border-gray-300'}
       />
       <Link
         prefetch={false}
