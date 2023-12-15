@@ -1,15 +1,15 @@
 import type { FC } from 'react';
-import { Transaction } from '@/transaction/transaction.types';
 import { ListDated } from '@/components/list-dated';
 import { dateToStringHelper } from '@/helpers/date';
 import { TransactionListItem } from '@/transaction/components/transaction-list-item.component';
 import { TransactionListItemEditSpy } from '@/transaction/components/transaction-list-item-edit-spy.component';
+import { TransactionService } from '@/transaction/transaction.service';
 
-type TransactionListProps = {
-  items: Array<Transaction>;
-};
+type TransactionListProps = {};
 
-const TransactionList: FC<TransactionListProps> = ({ items }) => {
+const TransactionList: FC<TransactionListProps> = async ({}) => {
+  const items = await new TransactionService().getAll();
+
   return (
     <ListDated
       items={items}
