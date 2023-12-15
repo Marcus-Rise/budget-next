@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { Suspense } from 'react';
 import { TransactionList } from '@/transaction/components/transaction-list.component';
-import { TransactionEditor } from '@/transaction/transaction-editor.component';
+import { TransactionEditor } from '@/transaction/components/transaction-editor.component';
 
 const Page: FC = () => (
   <div className={'p-3 flex flex-col gap-3'}>
