@@ -5,6 +5,7 @@ import { Roboto } from 'next/font/google';
 import { configFactory } from '@/config';
 import classNames from 'classnames';
 import metaConfig from '@/meta-config.cjs';
+import Logo from './icon.png';
 
 const roboto = Roboto({
   weight: ['400', '500', '700'],
@@ -35,6 +36,9 @@ const generateMetadata = (): Metadata => {
       capable: true,
       statusBarStyle: 'default',
       title: metaConfig.title,
+    },
+    openGraph: {
+      images: new URL(Logo.src, baseUrl),
     },
   };
 };
