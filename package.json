@@ -4,6 +4,7 @@
     "name": "Ilya Konstantinov",
     "url": "ilya-konstantinov.ru"
   },
+  "type": "module",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -14,6 +15,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@ducanh2912/next-pwa": "^10.0.0",
     "@hookform/resolvers": "^3.3.2",
     "classnames": "^2.3.2",
     "date-fns": "^2.30.0",
