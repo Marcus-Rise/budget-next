@@ -39,6 +39,9 @@ const generateMetadata = (): Metadata => {
     },
     openGraph: {
       images: new URL(Logo.src, baseUrl),
+      title: metaConfig.title,
+      description: metaConfig.description,
+      type: 'website',
     },
   };
 };
