@@ -4,7 +4,7 @@ import { FC, PropsWithChildren } from 'react';
 import { Roboto } from 'next/font/google';
 import { configFactory } from '@/config';
 import classNames from 'classnames';
-import colors from 'tailwindcss/colors';
+import metaConfig from '@/meta-config.cjs';
 
 const roboto = Roboto({
   weight: ['400', '500', '700'],
@@ -24,20 +24,17 @@ const RootLayout: FC<PropsWithChildren> = ({ children }) => (
 const generateMetadata = (): Metadata => {
   const { baseUrl } = configFactory();
 
-  const title = 'Мой бюджет';
-  const description = 'Приложение для учета бюджета';
-
   return {
     metadataBase: baseUrl,
 
-    applicationName: title,
-    title,
-    description,
+    applicationName: metaConfig.title,
+    title: metaConfig.title,
+    description: metaConfig.description,
     manifest: '/manifest.json',
     appleWebApp: {
       capable: true,
       statusBarStyle: 'default',
-      title,
+      title: metaConfig.title,
     },
   };
 };
@@ -47,8 +44,8 @@ const viewport: Viewport = {
   initialScale: 1,
   colorScheme: 'light dark',
   themeColor: [
-    { media: '(prefers-color-scheme: dark)', color: colors.gray['800'] },
-    { media: '(prefers-color-scheme: light)', color: colors.white },
+    { media: '(prefers-color-scheme: dark)', color: metaConfig.themeColor.dark },
+    { media: '(prefers-color-scheme: light)', color: metaConfig.themeColor.light },
   ],
 };
 

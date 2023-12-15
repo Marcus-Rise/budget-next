@@ -1,4 +1,5 @@
 const colors = require('tailwindcss/colors');
+const metaConfig = require('./src/meta-config');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -32,8 +33,8 @@ module.exports = {
         },
         background: {
           DEFAULT: 'var(--color-background)',
-          light: colors.white,
-          dark: colors.gray['800'],
+          light: metaConfig.themeColor.light,
+          dark: metaConfig.themeColor.dark,
         },
         font: {
           DEFAULT: 'var(--color-font)',

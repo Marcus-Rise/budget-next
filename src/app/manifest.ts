@@ -1,13 +1,13 @@
 import type { MetadataRoute } from 'next';
 import icon from './icon.png';
-import colors from 'tailwindcss/colors';
+import metaConfig from '@/meta-config.cjs';
 
 const manifest = (): MetadataRoute.Manifest => ({
-  name: 'Мой бюджет',
-  short_name: 'Мой бюджет',
-  description: 'Приложение для учета бюджета',
-  theme_color: colors.gray['800'],
-  background_color: colors.gray['800'],
+  name: metaConfig.title,
+  short_name: metaConfig.title,
+  description: metaConfig.description,
+  theme_color: metaConfig.themeColor.dark,
+  background_color: metaConfig.themeColor.dark,
   display: 'standalone',
   orientation: 'portrait',
   start_url: '/',

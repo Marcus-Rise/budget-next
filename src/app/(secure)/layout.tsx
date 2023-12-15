@@ -10,6 +10,7 @@ import { configFactory } from '@/config';
 import { Profile } from '@/app/(secure)/profile';
 import Logo from '@/app/icon.png';
 import { Footer } from '@/app/footer.component';
+import metaConfig from '@/meta-config.cjs';
 
 const SecureLayout: FC<PropsWithChildren> = async ({ children }) => {
   const auth = cookies().get('Authorization');
@@ -35,7 +36,7 @@ const SecureLayout: FC<PropsWithChildren> = async ({ children }) => {
         <div className={'container mx-auto px-2 py-2 basis-1 flex justify-between items-center'}>
           <Link href={'/'} className={'inline-flex items-center gap-2'}>
             <Image alt={'logo'} src={Logo} width={30} height={30} />
-            <h1 className={'font-medium'}>Мой бюджет</h1>
+            <h1 className={'font-medium'}>{metaConfig.title}</h1>
           </Link>
           <Suspense fallback={<div>Profile loading...</div>}>
             <Profile />
@@ -43,7 +44,11 @@ const SecureLayout: FC<PropsWithChildren> = async ({ children }) => {
         </div>
       </header>
       <main className={'bg-background container mx-auto basis-full'}>{children}</main>
-      <Footer className={'bg-background basis-auto'} />
+      <Footer
+        authorName={metaConfig.author.name}
+        authorUrl={metaConfig.author.url}
+        className={'bg-background basis-auto'}
+      />
     </div>
   );
 };
