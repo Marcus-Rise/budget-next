@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next';
 import icon from './icon.png';
-const colors = require('tailwindcss/colors');
+import colors from 'tailwindcss/colors';
 
 const manifest = (): MetadataRoute.Manifest => ({
   name: 'Мой бюджет',
