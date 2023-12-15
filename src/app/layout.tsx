@@ -2,18 +2,21 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { FC, PropsWithChildren } from 'react';
 import { Roboto } from 'next/font/google';
-import classNames from 'classnames';
 import { configFactory } from '@/config';
+import classNames from 'classnames';
 
 const roboto = Roboto({
-  weight: ['400', '700'],
+  weight: ['400', '500', '700'],
   subsets: ['cyrillic', 'latin'],
   display: 'swap',
+  variable: '--roboto',
 });
 
 const RootLayout: FC<PropsWithChildren> = ({ children }) => (
   <html lang="ru">
-    <body className={classNames(roboto.className, 'h-screen')}>{children}</body>
+    <body className={classNames(roboto.variable, 'h-screen font-sans bg-background text-font')}>
+      {children}
+    </body>
   </html>
 );
 

@@ -1,3 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    --color-primary: theme('colors.primary.light');
+    --color-success: theme('colors.success.light');
+    --color-secondary: theme('colors.secondary.light');
+    --color-danger: theme('colors.danger.light');
+    --color-background: theme('colors.background.light');
+    --color-font: theme('colors.font.light');
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-primary: theme('colors.primary.dark');
+      --color-success: theme('colors.success.dark');
+      --color-secondary: theme('colors.secondary.dark');
+      --color-danger: theme('colors.danger.dark');
+      --color-background: theme('colors.background.dark');
+      --color-font: theme('colors.font.dark');
+    }
+  }
+}
+
+

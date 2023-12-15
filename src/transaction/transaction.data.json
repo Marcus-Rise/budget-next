@@ -1,0 +1,74 @@
+[
+  {
+    "uuid": "8744949a-af0c-4c84-9e9e-07124436aeb4",
+    "title": "Title9",
+    "category": "Category9",
+    "amount": 1009,
+    "type": "Доход",
+    "date": "2022-07-05T20:00:00.000Z"
+  },
+  {
+    "uuid": "c705acdc-e68d-4cd8-88a5-b8ed57a3919f",
+    "title": "Title8",
+    "category": "Category8",
+    "amount": 1008,
+    "type": "Доход",
+    "date": "2022-07-04T20:00:00.000Z"
+  },
+  {
+    "uuid": "ccd1b77d-4700-4bf9-9ce6-3188009aaf65",
+    "title": "Title7",
+    "category": "Category7",
+    "amount": 1007,
+    "type": "Расход",
+    "date": "2022-06-03T12:56:58.877Z"
+  },
+  {
+    "uuid": "7738e35f-3c18-43f1-8788-3e3a587ea32f",
+    "title": "Title6",
+    "category": "Category6",
+    "amount": 1006,
+    "type": "Расход",
+    "date": "2022-06-02T20:00:00.000Z"
+  },
+  {
+    "uuid": "85b014ce-bc39-4fc2-86c9-883614ec127b",
+    "title": "Title5",
+    "category": "Category5",
+    "amount": 1005,
+    "type": "Расход",
+    "date": "2022-06-02T20:00:00.000Z"
+  },
+  {
+    "uuid": "ef89030c-ce74-463e-a5d2-2f67381a9376",
+    "title": "Title4",
+    "category": "Category4",
+    "amount": 1004,
+    "type": "Расход",
+    "date": "2022-06-19T20:00:00.000Z"
+  },
+  {
+    "uuid": "e6db87fc-9e5b-4259-b583-c3611070504f",
+    "title": "Title3",
+    "category": "Category3",
+    "amount": 1003,
+    "type": "Расход",
+    "date": "2022-06-02T20:00:00.000Z"
+  },
+  {
+    "uuid": "ae262832-2196-4605-9350-703d971c7e1e",
+    "title": "Title1",
+    "category": "Category1",
+    "amount": 1000,
+    "type": "Расход",
+    "date": "2022-06-05T20:00:00.000Z"
+  },
+  {
+    "uuid": "765b23bb-caef-4c6a-808d-2cb1345015f8",
+    "title": "Title2",
+    "category": "Category2",
+    "amount": 1002,
+    "type": "Расход",
+    "date": "2022-05-20T12:12:28.947Z"
+  }
+]

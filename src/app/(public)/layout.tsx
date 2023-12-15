@@ -14,13 +14,13 @@ const PublicLayout: FC<PropsWithChildren> = async ({ children }) => {
 
   return (
     <div className={'h-[calc(100dvh)] w-full flex flex-col'}>
-      <header className={'basis-1/2 flex flex-col justify-center'}>
+      <header className={'bg-background basis-1/2 flex flex-col justify-center'}>
         <Link href="/">
           <h1 className={'font-bold text-center text-4xl'}>Мой бюджет</h1>
         </Link>
       </header>
-      <main className={'basis-1/2'}>{children}</main>
-      <Footer />
+      <main className={'bg-background basis-1/2'}>{children}</main>
+      <Footer className={'bg-background basis-auto'} />
     </div>
   );
 };

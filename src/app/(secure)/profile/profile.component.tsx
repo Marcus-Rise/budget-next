@@ -24,7 +24,7 @@ const Profile: FC = async () => {
       <Link
         prefetch={false}
         href="/api/account/logout"
-        className="block text-gray-700 bloclassName-4 py-2 text-sm"
+        className="block py-2 text-sm"
         role="menuitem"
         tabIndex={-1}
         id="menu-item-0"
