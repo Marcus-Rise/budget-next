@@ -7,6 +7,7 @@ import {
 import { OauthLoginException } from '@/oauth/oauth-login.exception';
 import { IOauthService } from '@/oauth/oauth-service.interface';
 import { IConfig } from '@/config';
+import { cookies, headers } from 'next/headers';
 
 class OauthService implements IOauthService {
   constructor(
@@ -38,7 +39,7 @@ class OauthService implements IOauthService {
     return { accessToken: dto.response.access_token, userId: dto.response.user_id };
   }
 
-  async checkToken(accessToken: string) {
+  private async checkToken(accessToken: string) {
     const requestUrl = new URL('/method/secure.checkToken', this._config.apiBaseUrl);
     requestUrl.searchParams.set('v', this._config.apiVersion);
     requestUrl.searchParams.set('access_token', this._oauthConfig.serviceToken);
@@ -59,6 +60,30 @@ class OauthService implements IOauthService {
     }
 
     return user_id;
+  }
+
+  async checkAuth() {
+    const auth = cookies().get('Authorization');
+    const userId = cookies().get('UserId');
+    const returnUrl = encodeURIComponent(headers().get('x-invoke-path') || '/');
+    const redirectUrl = `/account/login?returnUrl=${returnUrl}`;
+
+    if (!auth || !userId) {
+      throw redirectUrl;
+    }
+
+    const freshUserId = await this.checkToken(auth.value);
+
+    if (String(freshUserId) !== userId.value) {
+      throw redirectUrl;
+    }
+  }
+
+  isAuthed() {
+    const auth = cookies().get('Authorization');
+    const userId = cookies().get('UserId');
+
+    return !!auth?.value && !!userId?.value;
   }
 }
 

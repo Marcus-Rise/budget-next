@@ -6,7 +6,7 @@ type UserId = number;
 interface IOauthService {
   login(payload: OauthSilentTokenPayload): Promise<{ accessToken: AccessToken; userId: UserId }>;
 
-  checkToken(accessToken: AccessToken): Promise<UserId>;
+  checkAuth(): Promise<void>;
 }
 
 export type { IOauthService };
