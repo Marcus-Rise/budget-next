@@ -5,7 +5,7 @@ import { ITransactionRepository } from '@/transaction/transaction-repository.int
 import { TransactionRepository } from '@/transaction/transaction.repository';
 import { cookies } from 'next/headers';
 import { TransactionRemoveDto, TransactionSaveDto } from '@/transaction/transaction.dto';
-import { TransactionEntityType } from '@/transaction/transaction.entity';
+import { TransactionTable } from '@/transaction/transaction.table';
 
 class TransactionService {
   private readonly _repo: ITransactionRepository;
@@ -17,14 +17,20 @@ class TransactionService {
   }
 
   async getAll(): Promise<Transaction[]> {
-    return this._repo.list({
-      userId: this._userId,
-    });
+    return this._repo
+      .list({
+        userId: this._userId,
+      })
+      .catch((e) => {
+        console.error(e);
+        return [];
+      });
   }
 
-  async save(dto: TransactionSaveDto): Promise<void> {
-    const model: Omit<TransactionEntityType, 'uuid'> & { uuid?: string } = {
+  async save({ uuid, ...dto }: TransactionSaveDto): Promise<void> {
+    const model: Omit<TransactionTable, 'id'> & { id?: string } = {
       ...dto,
+      id: uuid,
       userId: this._userId,
     };
 

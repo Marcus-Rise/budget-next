@@ -5,7 +5,6 @@ const configFactory: ConfigFactory = () => ({
   baseUrl: new URL(process.env.BASE_URL!),
   apiBaseUrl: new URL(process.env.VK_API_URL!).href,
   apiVersion: process.env.VK_API_VERSION!,
-  mongoUrl: process.env.MONGODB_URI!,
 });
 
 export { configFactory };

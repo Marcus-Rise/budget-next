@@ -1,12 +1,12 @@
 import { Transaction } from '@/transaction/transaction.types';
-import { TransactionEntityType } from '@/transaction/transaction.entity';
+import { TransactionTable } from '@/transaction/transaction.table';
 
 type TransactionRepositoryQuery = { userId: string };
 
 interface ITransactionRepository {
   list(query: TransactionRepositoryQuery): Promise<Transaction[]>;
-  save(dto: Omit<TransactionEntityType, 'uuid'> & { uuid?: string }): Promise<void>;
-  remove(uuid: string): Promise<void>;
+  save(dto: Omit<TransactionTable, 'id'> & { id?: string }): Promise<void>;
+  remove(id: string): Promise<void>;
 }
 
 export type { ITransactionRepository, TransactionRepositoryQuery };
