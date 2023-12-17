@@ -1,18 +1,19 @@
 'use client';
 
 import type { FC } from 'react';
-import { Controller, FieldErrors, SubmitHandler, useForm } from 'react-hook-form';
+import { useEffect } from 'react';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import format from 'date-fns/format';
 import { Input } from '@/components/input.component';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { TransactionFormDto, TransactionFormDtoSchema } from '@/transaction/transaction.dto';
-import { useEffect } from 'react';
+import { TransactionSaveDtoSchema, TransactionSaveDto } from '@/transaction/transaction.dto';
 import { Button } from '@/components/button.component';
 
-type TransactionFormProps = TransactionFormDto & {
+type TransactionFormDto = Omit<TransactionSaveDto, 'uuid'>;
+
+type TransactionFormProps = Partial<TransactionFormDto> & {
   onSubmit: SubmitHandler<TransactionFormDto>;
   isPending?: boolean;
-  errors?: FieldErrors<TransactionFormDto>;
   onCancel: () => void;
   onDelete: () => void;
   deletable?: boolean;
@@ -30,12 +31,12 @@ const TransactionForm: FC<TransactionFormProps> = ({
   deletable,
 }) => {
   const { control, handleSubmit, reset } = useForm<TransactionFormDto>({
-    resolver: zodResolver(TransactionFormDtoSchema),
+    resolver: zodResolver(TransactionSaveDtoSchema),
     defaultValues: {
-      amount,
-      category,
-      date,
-      title,
+      amount: amount ?? ('' as unknown as typeof NaN),
+      category: category ?? '',
+      date: date ?? new Date(),
+      title: title ?? '',
     },
   });
 
@@ -138,4 +139,3 @@ const TransactionForm: FC<TransactionFormProps> = ({
 };
 
 export { TransactionForm };
-export type { TransactionFormDto };

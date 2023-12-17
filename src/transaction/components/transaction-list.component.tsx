@@ -4,16 +4,19 @@ import { dateToStringHelper } from '@/helpers/date';
 import { TransactionListItem } from '@/transaction/components/transaction-list-item.component';
 import { TransactionListItemEditSpy } from '@/transaction/components/transaction-list-item-edit-spy.component';
 import { TransactionService } from '@/transaction/transaction.service';
+import classNames from 'classnames';
 
-type TransactionListProps = {};
+type TransactionListProps = { className?: string };
 
-const TransactionList: FC<TransactionListProps> = async ({}) => {
+const TransactionList: FC<TransactionListProps> = async ({ className }) => {
   const items = await new TransactionService().getAll();
 
   return (
     <ListDated
       items={items}
-      renderWrapper={({ children }) => <dl className={'flex flex-col gap-5'}>{children}</dl>}
+      renderWrapper={({ children }) => (
+        <dl className={classNames(className, 'flex flex-col gap-5')}>{children}</dl>
+      )}
     >
       {(date, items) => {
         const title = dateToStringHelper(date);

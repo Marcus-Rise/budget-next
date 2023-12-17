@@ -1,12 +1,12 @@
-import { Transaction } from '@/transaction/transaction.types';
 import { create } from 'zustand';
+import { Transaction } from '@/transaction/transaction.types';
 
 type State = {
-  transaction: Transaction | null;
+  transaction: Partial<Transaction> | null;
 };
 
 type Action = {
-  openEditor: (transaction: Transaction) => void;
+  openEditor: (transaction?: Partial<Transaction>) => void;
   closeEditor: () => void;
 };
 

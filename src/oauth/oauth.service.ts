@@ -1,3 +1,4 @@
+import 'server-only';
 import { IOauthConfig } from '@/oauth/config';
 import {
   OauthAccessTokenChekResponseDto,

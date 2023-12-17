@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const TransactionFormDtoSchema = z.object({
+const TransactionSaveDtoSchema = z.object({
   title: z.string().min(1, 'Введите название'),
   category: z.string().min(1, 'Введите категорию'),
   amount: z.number({
@@ -16,7 +16,13 @@ const TransactionFormDtoSchema = z.object({
   uuid: z.string().uuid('Неверный идентификатор').optional(),
 });
 
-type TransactionFormDto = z.infer<typeof TransactionFormDtoSchema>;
+type TransactionSaveDto = z.infer<typeof TransactionSaveDtoSchema>;
 
-export type { TransactionFormDto };
-export { TransactionFormDtoSchema };
+const TransactionRemoveDtoSchema = z.object({
+  uuid: z.string().uuid('Неверный идентификатор'),
+});
+
+type TransactionRemoveDto = z.infer<typeof TransactionRemoveDtoSchema>;
+
+export type { TransactionSaveDto, TransactionRemoveDto };
+export { TransactionSaveDtoSchema, TransactionRemoveDtoSchema };

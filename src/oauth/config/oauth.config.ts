@@ -1,3 +1,4 @@
+import 'server-only';
 import { OauthConfigFactory } from '@/oauth/config/oauth-config.interface';
 
 const oauthConfigFactory: OauthConfigFactory = () => {
