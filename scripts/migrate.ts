@@ -1,12 +1,10 @@
-import { config } from 'dotenv';
+import 'dotenv-flow/config';
 import * as path from 'path';
 import { promises as fs } from 'fs';
 import { FileMigrationProvider, Migrator } from 'kysely';
-
-config({ path: './.env.production.local' });
+import { db } from '@/db';
 
 async function migrateToLatest() {
-  const db = await import('@/db').then((m) => m.db);
   Object.defineProperty(db.getExecutor().adapter, 'supportsTransactionalDdl', () => false);
 
   const migrator = new Migrator({
