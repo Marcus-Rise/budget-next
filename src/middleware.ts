@@ -52,7 +52,7 @@ const middleware = async (request: NextRequest) => {
 };
 
 const config = {
-  matcher: ['/', '/account/login'],
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
 };
 
 export { config, middleware };

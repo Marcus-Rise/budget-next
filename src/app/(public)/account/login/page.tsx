@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { OauthVkLoginButton } from '@/oauth/vk-login-button';
 import { oauthConfigFactory } from '@/oauth/config';
+import { LoginLink } from '@/app/(public)/account/login/login-link.component';
 
 const Login: FC = () => {
   const { appId, redirectUrl, idApiUrl } = oauthConfigFactory();
@@ -9,15 +10,19 @@ const Login: FC = () => {
     <div className={'flex flex-col gap-2'}>
       <p className={'text-center text-2xl'}>Добро пожаловать!</p>
 
-      <div className={'mx-auto w-80'}>
-        <OauthVkLoginButton
-          appId={appId}
-          redirectUrl={redirectUrl}
-          apiUrl={new URL('/auth', idApiUrl)}
-        />
-      </div>
+      <LoginLink
+        className={'mx-auto w-80'}
+        apiUrl={idApiUrl}
+        appId={appId}
+        redirectUri={redirectUrl}
+        responseType={'silent_token'}
+      >
+        <OauthVkLoginButton />
+      </LoginLink>
     </div>
   );
 };
+
+export const dynamic = 'force-dynamic';
 
 export default Login;
