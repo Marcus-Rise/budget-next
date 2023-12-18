@@ -50,7 +50,13 @@ const TransactionForm: FC<TransactionFormProps> = ({
         control={control}
         name={'title'}
         render={({ field, fieldState }) => (
-          <Input {...field} type="text" label={'Название'} error={fieldState.error?.message} />
+          <Input
+            {...field}
+            type="text"
+            label={'Название'}
+            error={fieldState.error?.message}
+            autoFocus
+          />
         )}
       />
       <Controller
