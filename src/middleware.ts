@@ -21,17 +21,22 @@ const middleware = async (request: NextRequest) => {
     return NextResponse.next();
   } catch (e: Error | string | any) {
     // failed to log in
+    let response: NextResponse<unknown>;
     console.error(e);
 
     if (typeof e === 'string') {
       // existing redirect
       const redirectUrl = new URL(e, baseUrl);
 
-      return NextResponse.redirect(redirectUrl);
+      response = NextResponse.redirect(redirectUrl);
+    } else {
+      // general redirect
+      response = NextResponse.redirect(loginRedirectUrl);
     }
 
-    // general redirect
-    return NextResponse.redirect(loginRedirectUrl);
+    response.cookies.delete('Authorization').delete('UserId');
+
+    return response;
   }
 };
 
