@@ -8,7 +8,13 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+/**
+ * @link https://kysely.dev/docs/migrations
+ */
 async function migrateToLatest() {
+  /**
+   * @link https://github.com/vercel/storage/issues/325?ysclid=lq9t0atagw503702362#issuecomment-1680858882
+   */
   Object.defineProperty(db.getExecutor().adapter, 'supportsTransactionalDdl', () => false);
 
   const migrator = new Migrator({
