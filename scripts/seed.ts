@@ -1,5 +1,6 @@
 import 'dotenv-flow/config';
 import { TransactionTable } from '@/transaction/transaction.table';
+// @ts-ignore
 import data from './seed.json';
 import { Kysely } from 'kysely';
 import { Database } from '@/db/database.types';
