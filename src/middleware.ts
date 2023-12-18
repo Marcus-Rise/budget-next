@@ -6,53 +6,49 @@ import { OauthService } from '@/oauth/oauth.service';
 
 const middleware = async (request: NextRequest) => {
   const oauthService = new OauthService(configFactory(), oauthConfigFactory());
+  const isAuthed = oauthService.isAuthed();
+  const baseUrl = new URL('/', request.url);
+  const loginRedirectUrl = new URL('/account/login', request.url);
 
-  const baseUrl = new URL(request.nextUrl.protocol + request.nextUrl.host).href;
-
-  if (request.nextUrl.pathname === '/') {
-    // need to log in
-    try {
-      await oauthService.checkAuth();
-
-      // allow entry
-      return NextResponse.next();
-    } catch (e) {
-      // failed to log in
-      console.error(e);
-
-      if (typeof e === 'string') {
-        // existing redirect
-        const redirectUrl = new URL(e, baseUrl);
-
-        return NextResponse.redirect(redirectUrl.href);
-      }
-
-      //general redirect
-      const redirectUrl = new URL('/account/login', baseUrl);
-
-      return NextResponse.redirect(redirectUrl.href);
-    }
-  } else if (request.nextUrl.pathname === '/account/login') {
+  if (request.nextUrl.pathname.startsWith('/account/login')) {
     // public url, must be logged out
-    const isAuthed = oauthService.isAuthed();
+    return isAuthed ? NextResponse.redirect(baseUrl) : NextResponse.next();
+  }
 
-    if (isAuthed) {
-      // logged in, redirect to home page
-      const redirectUrl = new URL('/', baseUrl);
+  try {
+    await oauthService.checkAuth();
 
-      return NextResponse.redirect(redirectUrl.href);
+    return NextResponse.next();
+  } catch (e: Error | string | any) {
+    // failed to log in
+    console.error(e);
+
+    if (typeof e === 'string') {
+      // existing redirect
+      const redirectUrl = new URL(e, baseUrl);
+
+      return NextResponse.redirect(redirectUrl);
     }
 
-    // logged out, allow to entry
-    return NextResponse.next();
-  } else {
-    // some unhanding url, allow entry
-    return NextResponse.next();
+    // general redirect
+    return NextResponse.redirect(loginRedirectUrl);
   }
 };
 
-const config = {
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
+/**
+ * @link https://github.com/vercel/next.js/issues/59536
+ */
+export const config = {
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes)
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     */
+    '/((?!api|_next/static|_next/image|manifest.webmanifest|favicon.ico|icon.png*).*)',
+  ],
 };
 
-export { config, middleware };
+export { middleware };
