@@ -6,6 +6,7 @@ import { configFactory } from '@/config';
 import classNames from 'classnames';
 import metaConfig from '@/meta-config.cjs';
 import Logo from './icon.png';
+import { Analytics } from '@vercel/analytics/react';
 
 const roboto = Roboto({
   weight: ['400', '500', '700'],
@@ -18,6 +19,7 @@ const RootLayout: FC<PropsWithChildren> = ({ children }) => (
   <html lang="ru">
     <body className={classNames(roboto.variable, 'h-screen font-sans bg-background text-font')}>
       {children}
+      <Analytics />
     </body>
   </html>
 );
