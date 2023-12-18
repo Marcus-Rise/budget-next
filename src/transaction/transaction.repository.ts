@@ -9,12 +9,22 @@ import { db } from '@/db';
 
 class TransactionRepository implements ITransactionRepository {
   constructor() {}
-  async list(query: TransactionRepositoryQuery): Promise<Transaction[]> {
-    const items = await db
-      .selectFrom('transactions')
-      .where('userId', '=', query.userId)
-      .selectAll()
-      .execute();
+  async list(query?: TransactionRepositoryQuery): Promise<Transaction[]> {
+    let queryBuilder = db.selectFrom('transactions').selectAll();
+
+    if (query?.userId) {
+      queryBuilder = queryBuilder.where('userId', '=', query.userId);
+    }
+
+    if (query?.dateStart) {
+      queryBuilder = queryBuilder.where('date', '>=', query?.dateStart);
+    }
+
+    if (query?.dateEnd) {
+      queryBuilder = queryBuilder.where('date', '<=', query?.dateEnd);
+    }
+
+    const items = await queryBuilder.execute();
 
     return items.map(({ amount, category, date, title, id }) => ({
       amount,

@@ -1,10 +1,10 @@
 import { Transaction } from '@/transaction/transaction.types';
 import { TransactionTable } from '@/transaction/transaction.table';
 
-type TransactionRepositoryQuery = { userId: string };
+type TransactionRepositoryQuery = Partial<{ userId: string; dateStart: Date; dateEnd: Date }>;
 
 interface ITransactionRepository {
-  list(query: TransactionRepositoryQuery): Promise<Transaction[]>;
+  list(query?: TransactionRepositoryQuery): Promise<Transaction[]>;
   save(dto: Omit<TransactionTable, 'id'> & { id?: string }): Promise<void>;
   remove(id: string): Promise<void>;
 }

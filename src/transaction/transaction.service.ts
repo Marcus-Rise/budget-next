@@ -6,6 +6,9 @@ import { TransactionRepository } from '@/transaction/transaction.repository';
 import { cookies } from 'next/headers';
 import { TransactionRemoveDto, TransactionSaveDto } from '@/transaction/transaction.dto';
 import { TransactionTable } from '@/transaction/transaction.table';
+import lastDayOfMonth from 'date-fns/lastDayOfMonth';
+import format from 'date-fns/format';
+import parse from 'date-fns/parse';
 
 class TransactionService {
   private readonly _repo: ITransactionRepository;
@@ -17,9 +20,15 @@ class TransactionService {
   }
 
   async getAll(): Promise<Transaction[]> {
+    const today = new Date();
+    const firstDateOfMonth = parse(format(today, 'yyyy-MM-01'), 'yyyy-MM-01', new Date());
+    const lastDateOfMonth = lastDayOfMonth(today);
+
     return this._repo
       .list({
         userId: this._userId,
+        dateStart: firstDateOfMonth,
+        dateEnd: lastDateOfMonth,
       })
       .catch((e) => {
         console.error(e);
