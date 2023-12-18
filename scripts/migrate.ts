@@ -3,6 +3,10 @@ import * as path from 'path';
 import { promises as fs } from 'fs';
 import { FileMigrationProvider, Migrator } from 'kysely';
 import { db } from '@/db';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 async function migrateToLatest() {
   Object.defineProperty(db.getExecutor().adapter, 'supportsTransactionalDdl', () => false);
@@ -13,7 +17,7 @@ async function migrateToLatest() {
       fs,
       path,
       // This needs to be an absolute path.
-      migrationFolder: path.resolve('scripts', 'migrations'),
+      migrationFolder: path.resolve(__dirname, 'migrations'),
     }),
   });
 

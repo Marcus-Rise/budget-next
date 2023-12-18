@@ -14,7 +14,9 @@
     "lint": "next lint",
     "test": "jest",
     "migrations:create": "tsx ./scripts/create-migration.ts",
-    "migrations:migrate": "tsx ./scripts/migrate.ts"
+    "m:c": "npm run migrations:create --",
+    "migrations:migrate": "tsx ./scripts/migrate.ts",
+    "m:m": "npm run migrations:migrate --"
   },
   "postcss": {
     "plugins": {
