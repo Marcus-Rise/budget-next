@@ -62,7 +62,7 @@ const TransactionForm: FC<TransactionFormProps> = ({
             type="text"
             label={'Название'}
             error={fieldState.error?.message}
-            autoFocus
+            autoFocus={!title}
           />
         )}
       />
