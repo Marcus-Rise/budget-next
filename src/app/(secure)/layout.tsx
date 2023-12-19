@@ -20,7 +20,7 @@ const SecureLayout: FC<PropsWithChildren> = ({ children }) => (
         </Suspense>
       </div>
     </header>
-    <main className={'bg-background container mx-auto basis-full'}>{children}</main>
+    <main className={'bg-background basis-full'}>{children}</main>
     <Footer
       authorName={metaConfig.author.name}
       authorUrl={metaConfig.author.url}

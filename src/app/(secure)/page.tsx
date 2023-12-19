@@ -24,16 +24,22 @@ const Page = ({
   return (
     <div className={'flex flex-col gap-3'}>
       <TransactionEditor className={'px-3 py-2'} />
-      <div className={'px-3 py-2 sticky top-[3.25rem] bg-background shadow flex flex-col gap-3'}>
-        <div className={'flex flex-row gap-3 items-center'}>
-          <h2 className={'basis-full text-xl font-medium'}>История</h2>
-          <ReloadButton />
-          <TransactionCreateButton className={'basis-1'} />
+      <div className={'sticky top-[3.25rem] bg-background shadow'}>
+        <div className={'px-3 py-2 container mx-auto flex flex-col gap-3'}>
+          <div className={'flex flex-row gap-3 items-center'}>
+            <h2 className={'basis-full text-xl font-medium'}>История</h2>
+            <ReloadButton />
+            <TransactionCreateButton className={'basis-1'} />
+          </div>
+          <TransactionFilter dateStart={dateStart} dateEnd={dateEnd} />
         </div>
-        <TransactionFilter dateStart={dateStart} dateEnd={dateEnd} />
       </div>
       <Suspense fallback={'loading...'}>
-        <TransactionList dateStart={dateStart} dateEnd={dateEnd} className={'px-3'} />
+        <TransactionList
+          dateStart={dateStart}
+          dateEnd={dateEnd}
+          className={'container mx-auto px-3'}
+        />
       </Suspense>
     </div>
   );
