@@ -2,12 +2,13 @@
 
 import type { FC } from 'react';
 import { useEffect } from 'react';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, SubmitHandler, useForm, useWatch } from 'react-hook-form';
 import format from 'date-fns/format';
 import { Input } from '@/components/input.component';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { TransactionSaveDtoSchema, TransactionSaveDto } from '@/transaction/transaction.dto';
 import { Button } from '@/components/button.component';
+import { IconMinus, IconPlus } from '@/assets';
 
 type TransactionFormDto = Omit<TransactionSaveDto, 'uuid'>;
 
@@ -30,7 +31,7 @@ const TransactionForm: FC<TransactionFormProps> = ({
   onDelete,
   deletable,
 }) => {
-  const { control, handleSubmit, reset } = useForm<TransactionFormDto>({
+  const { control, handleSubmit, reset, setValue } = useForm<TransactionFormDto>({
     resolver: zodResolver(TransactionSaveDtoSchema),
     defaultValues: {
       amount: amount ?? ('' as unknown as typeof NaN),
@@ -39,6 +40,12 @@ const TransactionForm: FC<TransactionFormProps> = ({
       title: title ?? '',
     },
   });
+
+  const amountCurrentValue = useWatch({ control, name: 'amount' });
+
+  const toggleAmountSign = () => {
+    setValue('amount', amountCurrentValue * -1);
+  };
 
   useEffect(() => {
     reset({ amount, category, date, title });
@@ -66,39 +73,63 @@ const TransactionForm: FC<TransactionFormProps> = ({
           <Input {...field} type="text" label={'Категория'} error={fieldState.error?.message} />
         )}
       />
-      <Controller
-        control={control}
-        name={'amount'}
-        render={({ field: { onChange, ...field }, fieldState }) => (
-          <Input
-            {...field}
-            type="number"
-            label={'Сумма'}
-            onChange={(e) => {
-              let number: number;
+      <div className={'flex flex-row gap-1 items-center justify-between'}>
+        <Controller
+          control={control}
+          name={'amount'}
+          render={({ field: { onChange, ...field }, fieldState }) => (
+            <Input
+              {...field}
+              type="number"
+              label={'Сумма'}
+              className={'basis-1/2'}
+              onChange={(e) => {
+                let number: number;
 
-              if (e.target.value === '') {
-                return onChange('');
-              }
+                if (e.target.value === '') {
+                  return onChange('');
+                }
 
-              try {
-                number = parseInt(e.target.value);
+                try {
+                  number = parseInt(e.target.value);
 
-                const naN = isNaN(number);
+                  const naN = isNaN(number);
 
-                if (naN || e.target.value !== String(e.target.valueAsNumber)) {
+                  if (naN || e.target.value !== String(e.target.valueAsNumber)) {
+                    number = 0;
+                  }
+                } catch {
                   number = 0;
                 }
-              } catch {
-                number = 0;
-              }
 
-              onChange(number);
-            }}
-            error={fieldState.error?.message}
-          />
-        )}
-      />
+                onChange(number);
+              }}
+              error={fieldState.error?.message}
+            />
+          )}
+        />
+        <div className={'basis-1/2 flex flex-row gap-3 items-center justify-end'}>
+          <Button
+            type={'button'}
+            variant={'secondary'}
+            disabled={amountCurrentValue > 0}
+            onClick={toggleAmountSign}
+            rounded
+          >
+            <IconPlus />
+          </Button>
+          <Button
+            type={'button'}
+            variant={'secondary'}
+            rounded
+            disabled={amountCurrentValue < 0}
+            onClick={toggleAmountSign}
+          >
+            <IconMinus />
+          </Button>
+        </div>
+      </div>
+
       <Controller
         control={control}
         name={'date'}
