@@ -41,6 +41,9 @@ const TransactionStatistic: FC<TransactionStatisticProps> = async ({
         <p>
           Расход: <Price amount={sumCredit} />
         </p>
+        <p>
+          Остаток: <Price amount={sumDebit + sumCredit} />
+        </p>
       </div>
     </Collapse>
   );
