@@ -8,7 +8,7 @@ import { Footer } from '@/app/footer.component';
 import metaConfig from '@/meta-config.cjs';
 
 const SecureLayout: FC<PropsWithChildren> = ({ children }) => (
-  <div className={'min-h-[calc(100dvh)] w-full flex flex-col'}>
+  <div className={'w-full flex flex-col'}>
     <header className={'shadow sticky top-0 left-0 bg-background'}>
       <div className={'container mx-auto px-2 py-2 basis-1 flex justify-between items-center'}>
         <Link href={'/'} className={'inline-flex items-center gap-2'}>
@@ -20,7 +20,7 @@ const SecureLayout: FC<PropsWithChildren> = ({ children }) => (
         </Suspense>
       </div>
     </header>
-    <main className={'bg-background basis-full'}>{children}</main>
+    <main className={'min-h-[calc(100dvh)] bg-background basis-full'}>{children}</main>
     <Footer
       authorName={metaConfig.author.name}
       authorUrl={metaConfig.author.url}

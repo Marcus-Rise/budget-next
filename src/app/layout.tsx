@@ -17,7 +17,7 @@ const roboto = Roboto({
 
 const RootLayout: FC<PropsWithChildren> = ({ children }) => (
   <html lang="ru">
-    <body className={classNames(roboto.variable, 'h-screen font-sans bg-background text-font')}>
+    <body className={classNames(roboto.variable, 'font-sans bg-background text-font')}>
       {children}
       <Analytics />
     </body>
