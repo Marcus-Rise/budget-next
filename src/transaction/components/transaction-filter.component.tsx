@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import parse from 'date-fns/parse';
 import format from 'date-fns/format';
 import lastDayOfMonth from 'date-fns/lastDayOfMonth';
+import isWithinInterval from 'date-fns/isWithinInterval';
 import subMonths from 'date-fns/subMonths';
 import addMonths from 'date-fns/addMonths';
 import { redirect } from 'next/navigation';
@@ -28,47 +29,59 @@ const getMonthInterval = (date: Date): { start: Date; end: Date } => {
 
 const dateToSearchParam = (date: Date): string => format(date, 'yyyy-MM-dd');
 
+const getDateSearchParams = (date: Date): URLSearchParams => {
+  const period = getMonthInterval(date);
+
+  return new URLSearchParams({
+    dateStart: dateToSearchParam(period.start),
+    dateEnd: dateToSearchParam(period.end),
+  });
+};
+
 const TransactionFilter: FC<TransactionFilterProps> = ({ className, dateStart, dateEnd }) => {
+  const today = new Date();
+  const todayPeriod = getMonthInterval(today);
+  const todaySearchParams = new URLSearchParams({
+    dateStart: dateToSearchParam(todayPeriod.start),
+    dateEnd: dateToSearchParam(todayPeriod.end),
+  });
+
   if (!dateStart || !dateEnd) {
-    const today = new Date();
-
-    const { start, end } = getMonthInterval(today);
-    const searchParams = new URLSearchParams({
-      dateStart: dateToSearchParam(start),
-      dateEnd: dateToSearchParam(end),
-    });
-
-    redirect('/?' + searchParams);
+    return redirect('/?' + todaySearchParams);
   }
 
   const date = parse(dateStart, 'yyyy-MM-dd', new Date());
-  const month = format(date, 'LLLL', {
+  const isInCurrentPeriod = isWithinInterval(date, todayPeriod);
+  const dateFilterLabel = format(date, 'LLLL yyyy', {
     locale,
   });
 
-  const previousMonthInterval = getMonthInterval(subMonths(date, 1));
-  const nextMonthInterval = getMonthInterval(addMonths(date, 1));
-
-  const previousMonthSearchParams = new URLSearchParams({
-    dateStart: dateToSearchParam(previousMonthInterval.start),
-    dateEnd: dateToSearchParam(previousMonthInterval.end),
-  });
-  const nextMonthIntervalSearchParams = new URLSearchParams({
-    dateStart: dateToSearchParam(nextMonthInterval.start),
-    dateEnd: dateToSearchParam(nextMonthInterval.end),
-  });
+  const previousMonthSearchParams = getDateSearchParams(subMonths(date, 1));
+  const nextMonthIntervalSearchParams = getDateSearchParams(addMonths(date, 1));
 
   const iconSize = '2rem';
 
   return (
-    <div className={classNames(className, 'flex gap-3 items-center')}>
-      <Link href={'/?' + previousMonthSearchParams} prefetch={false}>
-        <IconChevronLeft width={iconSize} height={iconSize} />
+    <div className={classNames(className, 'flex flex-row gap-3 items-center')}>
+      <Link
+        href={isInCurrentPeriod ? '#' : `/?${todaySearchParams}`}
+        prefetch={false}
+        className={classNames({
+          'cursor-not-allowed': isInCurrentPeriod,
+          'text-secondary': isInCurrentPeriod,
+        })}
+      >
+        Сегодня
       </Link>
-      <span className={'capitalize'}>{month}</span>
-      <Link href={'/?' + nextMonthIntervalSearchParams} prefetch={false}>
-        <IconChevronRight width={iconSize} height={iconSize} />
-      </Link>
+      <div className={'flex gap-3 items-center'}>
+        <Link href={'/?' + previousMonthSearchParams} prefetch={false}>
+          <IconChevronLeft width={iconSize} height={iconSize} />
+        </Link>
+        <span className={'capitalize'}>{dateFilterLabel}</span>
+        <Link href={'/?' + nextMonthIntervalSearchParams} prefetch={false}>
+          <IconChevronRight width={iconSize} height={iconSize} />
+        </Link>
+      </div>
     </div>
   );
 };
