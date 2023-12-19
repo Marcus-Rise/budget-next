@@ -32,7 +32,7 @@ module.exports = {
         },
         secondary: {
           DEFAULT: 'var(--color-secondary)',
-          light: colors.gray['500'],
+          light: colors.gray['400'],
           dark: colors.gray['400'],
         },
         danger: {
