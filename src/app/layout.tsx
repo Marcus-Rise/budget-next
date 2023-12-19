@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import metaConfig from '@/meta-config.cjs';
 import Logo from './icon.png';
 import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const roboto = Roboto({
   weight: ['400', '500', '700'],
@@ -20,6 +21,7 @@ const RootLayout: FC<PropsWithChildren> = ({ children }) => (
     <body className={classNames(roboto.variable, 'font-sans bg-background text-font')}>
       {children}
       <Analytics />
+      <SpeedInsights />
     </body>
   </html>
 );

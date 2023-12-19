@@ -30,6 +30,7 @@
     "@hookform/resolvers": "^3.3.2",
     "@vercel/analytics": "^1.1.1",
     "@vercel/postgres-kysely": "^0.6.0",
+    "@vercel/speed-insights": "^1.0.2",
     "classnames": "^2.3.2",
     "date-fns": "^2.30.0",
     "kysely": "^0.26.3",
