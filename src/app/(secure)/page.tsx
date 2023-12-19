@@ -32,7 +32,7 @@ const Page = ({
             <ReloadButton />
             <TransactionCreateButton className={'basis-1'} />
           </div>
-          <div className={'flex flex-row flex-wrap justify-between items-center gap-3'}>
+          <div className={'flex flex-col flex-wrap justify-between gap-3'}>
             <TransactionFilter dateStart={dateStart} dateEnd={dateEnd} />
 
             <Suspense fallback={'Statistic loading...'}>
