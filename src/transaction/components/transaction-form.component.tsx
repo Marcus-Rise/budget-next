@@ -73,7 +73,7 @@ const TransactionForm: FC<TransactionFormProps> = ({
           <Input {...field} type="text" label={'Категория'} error={fieldState.error?.message} />
         )}
       />
-      <div className={'flex flex-row gap-1 items-center justify-between'}>
+      <div className={'flex flex-row gap-3 items-end justify-between'}>
         <Controller
           control={control}
           name={'amount'}
@@ -82,7 +82,7 @@ const TransactionForm: FC<TransactionFormProps> = ({
               {...field}
               type="number"
               label={'Сумма'}
-              className={'basis-1/2'}
+              className={'basis-full'}
               onChange={(e) => {
                 let number: number;
 
@@ -108,7 +108,7 @@ const TransactionForm: FC<TransactionFormProps> = ({
             />
           )}
         />
-        <div className={'basis-1/2 flex flex-row gap-3 items-center justify-end'}>
+        <div className={' flex flex-row gap-3 items-center justify-end'}>
           <Button
             type={'button'}
             variant={'secondary'}

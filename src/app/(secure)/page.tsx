@@ -23,7 +23,7 @@ const Page = ({
 
   return (
     <div className={'flex flex-col gap-3'}>
-      <TransactionEditor className={'px-3 py-2'} />
+      <TransactionEditor className={'px-3 py-2 container mx-auto'} />
       <div className={'sticky top-[3.25rem] bg-background shadow'}>
         <div className={'px-3 py-2 container mx-auto flex flex-col gap-3'}>
           <div className={'flex flex-row gap-3 items-center'}>
