@@ -22,7 +22,6 @@ const middleware = async (request: NextRequest) => {
   } catch (e: Error | string | any) {
     // failed to log in
     let response: NextResponse<unknown>;
-    console.error(e);
 
     if (typeof e === 'string') {
       // existing redirect
@@ -30,6 +29,8 @@ const middleware = async (request: NextRequest) => {
 
       response = NextResponse.redirect(redirectUrl);
     } else {
+      console.error(e);
+
       // general redirect
       response = NextResponse.redirect(loginRedirectUrl);
     }
