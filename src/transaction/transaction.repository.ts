@@ -10,7 +10,7 @@ import { db } from '@/db';
 class TransactionRepository implements ITransactionRepository {
   constructor() {}
   async list(query?: TransactionRepositoryQuery): Promise<Transaction[]> {
-    let queryBuilder = db.selectFrom('transactions').selectAll();
+    let queryBuilder = db.selectFrom('transactions').selectAll().orderBy('date', 'desc');
 
     if (query?.userId) {
       queryBuilder = queryBuilder.where('userId', '=', query.userId);
