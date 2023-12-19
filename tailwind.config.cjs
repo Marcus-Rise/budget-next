@@ -6,6 +6,15 @@ module.exports = {
   content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
   darkMode: 'media',
   theme: {
+    container: {
+      screens: {
+        sm: '600px',
+        md: '728px',
+        lg: '728px',
+        xl: '728px',
+        '2xl': '728px',
+      },
+    },
     extend: {
       fontFamily: {
         sans: ['var(--roboto)'],
