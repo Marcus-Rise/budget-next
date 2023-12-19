@@ -6,10 +6,13 @@ import { TransactionListItemEditSpy } from '@/transaction/components/transaction
 import { TransactionService } from '@/transaction/transaction.service';
 import classNames from 'classnames';
 
-type TransactionListProps = { className?: string };
+type TransactionListProps = { className?: string; dateStart?: string; dateEnd?: string };
 
-const TransactionList: FC<TransactionListProps> = async ({ className }) => {
-  const items = await new TransactionService().getAll();
+const TransactionList: FC<TransactionListProps> = async ({ className, dateStart, dateEnd }) => {
+  const items = await new TransactionService().getAll({
+    dateStart: dateStart ? new Date(dateStart) : undefined,
+    dateEnd: dateEnd ? new Date(dateEnd) : undefined,
+  });
 
   return (
     <ListDated
