@@ -5,7 +5,7 @@ import { TransactionCreateButton } from '@/transaction/components/transaction-cr
 import { ReloadButton } from '@/app/(secure)/reload-button.component';
 import { TransactionFilter } from '@/transaction/components/transaction-filter.component';
 import { redirect } from 'next/navigation';
-import { TransactionStatistic } from '@/transaction/transaction-statistic.component';
+import { TransactionStatistic } from '@/transaction/components/transaction-statistic.component';
 
 const Page = ({
   searchParams,
