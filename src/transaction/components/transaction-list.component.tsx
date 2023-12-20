@@ -5,6 +5,8 @@ import { TransactionListItem } from '@/transaction/components/transaction-list-i
 import { TransactionListItemEditSpy } from '@/transaction/components/transaction-list-item-edit-spy.component';
 import { TransactionService } from '@/transaction/transaction.service';
 import classNames from 'classnames';
+import { Price } from '@/components/price';
+import { Collapse } from '@/components/collapse.component';
 
 type TransactionListProps = { className?: string; dateStart?: string; dateEnd?: string };
 
@@ -22,6 +24,19 @@ const TransactionList: FC<TransactionListProps> = async ({ className, dateStart,
       )}
     >
       {(date, items) => {
+        const { sumCredit, sumDebit } = items.reduce(
+          ({ sumDebit, sumCredit }, item) => {
+            return {
+              sumDebit: item.amount > 0 ? sumDebit + item.amount : sumDebit,
+              sumCredit: item.amount < 0 ? sumCredit + item.amount : sumCredit,
+            };
+          },
+          {
+            sumDebit: 0,
+            sumCredit: 0,
+          },
+        );
+
         const title = dateToStringHelper(date);
         const renderItems = items.map((item) => (
           <li key={item.uuid}>
@@ -43,7 +58,19 @@ const TransactionList: FC<TransactionListProps> = async ({ className, dateStart,
 
         return (
           <>
-            <dt className={'text-secondary'}>{title}</dt>
+            <dt className={'text-secondary'}>
+              <Collapse title={title}>
+                <p>
+                  Доход: <Price amount={sumDebit} />
+                </p>
+                <p>
+                  Расход: <Price amount={sumCredit} />
+                </p>
+                <p>
+                  Остаток: <Price amount={sumDebit + sumCredit} />
+                </p>
+              </Collapse>
+            </dt>
             <dd>
               <ul className={'flex flex-col gap-5 pl-2'}>{renderItems}</ul>
             </dd>
