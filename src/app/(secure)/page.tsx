@@ -1,5 +1,5 @@
 import { JSX, Suspense } from 'react';
-import { TransactionList } from '@/transaction/components/transaction-list.component';
+import { TransactionList, TransactionListSkeleton } from '@/transaction/components/list';
 import { TransactionEditor } from '@/transaction/components/transaction-editor.component';
 import { TransactionCreateButton } from '@/transaction/components/transaction-create-button.component';
 import { ReloadButton } from '@/app/(secure)/reload-button.component';
@@ -44,7 +44,7 @@ const Page = ({
           </div>
         </div>
       </div>
-      <Suspense fallback={'Transactions loading...'}>
+      <Suspense fallback={<TransactionListSkeleton className={'container mx-auto px-3'} />}>
         <TransactionList
           dateStart={dateStart}
           dateEnd={dateEnd}

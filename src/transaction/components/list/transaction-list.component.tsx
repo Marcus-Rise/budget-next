@@ -1,8 +1,8 @@
 import type { FC } from 'react';
 import { ListDated } from '@/components/list-dated';
 import { dateToStringHelper } from '@/helpers/date';
-import { TransactionListItem } from '@/transaction/components/transaction-list-item.component';
-import { TransactionListItemEditSpy } from '@/transaction/components/transaction-list-item-edit-spy.component';
+import { TransactionListItem } from '@/transaction/components/list/transaction-list-item.component';
+import { TransactionListItemEditSpy } from '@/transaction/components/list/transaction-list-item-edit-spy.component';
 import { TransactionService } from '@/transaction/transaction.service';
 import classNames from 'classnames';
 import { Price } from '@/components/price';
