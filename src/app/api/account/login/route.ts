@@ -3,7 +3,7 @@ import { OauthSilentTokenPayload } from '@/oauth/oauth.types';
 import { oauthConfigFactory } from '@/oauth/config';
 import { OauthService } from '@/oauth/oauth.service';
 import { OauthLoginException } from '@/oauth/oauth-login.exception';
-import addYears from 'date-fns/addYears';
+import { addYears } from 'date-fns/addYears';
 import { configFactory } from '@/config';
 import { ResponseCookie } from 'next/dist/compiled/@edge-runtime/cookies';
 

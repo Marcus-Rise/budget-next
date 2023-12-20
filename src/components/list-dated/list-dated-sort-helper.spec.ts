@@ -3,7 +3,7 @@ import {
   listDatedSortHelper,
   listDatedSortKeyToDateHelper,
 } from './list-dated-sort.helper';
-import format from 'date-fns/format';
+import { format } from 'date-fns/format';
 
 describe('listDatedSortHelper', () => {
   it('should return grouped object', () => {

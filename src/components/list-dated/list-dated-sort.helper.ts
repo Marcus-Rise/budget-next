@@ -1,6 +1,6 @@
-import format from 'date-fns/format';
-import { compareDesc } from 'date-fns';
-import parse from 'date-fns/parse';
+import { format } from 'date-fns/format';
+import { compareDesc } from 'date-fns/compareDesc';
+import { parse } from 'date-fns/parse';
 
 const LIST_DATED_SORT_KEY = 'yyyy-MM-dd';
 

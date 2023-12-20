@@ -1,5 +1,5 @@
-import format from 'date-fns/format';
-import subDays from 'date-fns/subDays';
+import { format } from 'date-fns/format';
+import { subDays } from 'date-fns/subDays';
 import { ru } from 'date-fns/locale';
 
 const DATE_COMPARE_FORMAT = 'yyyy-MM-dd';

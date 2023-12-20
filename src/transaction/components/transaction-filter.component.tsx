@@ -1,13 +1,13 @@
 import type { FC } from 'react';
 import classNames from 'classnames';
-import parse from 'date-fns/parse';
-import format from 'date-fns/format';
-import lastDayOfMonth from 'date-fns/lastDayOfMonth';
-import isWithinInterval from 'date-fns/isWithinInterval';
-import subMonths from 'date-fns/subMonths';
-import addMonths from 'date-fns/addMonths';
+import { parse } from 'date-fns/parse';
+import { format } from 'date-fns/format';
+import { lastDayOfMonth } from 'date-fns/lastDayOfMonth';
+import { isWithinInterval } from 'date-fns/isWithinInterval';
+import { subMonths } from 'date-fns/subMonths';
+import { addMonths } from 'date-fns/addMonths';
 import { redirect } from 'next/navigation';
-import locale from 'date-fns/locale/ru';
+import { ru as locale } from 'date-fns/locale/ru';
 import { IconChevronLeft, IconChevronRight } from '@/assets';
 import Link from 'next/link';
 
