@@ -1,7 +1,7 @@
 'use client';
 
 import type { FC } from 'react';
-import { useCallback, useTransition } from 'react';
+import { useCallback, useEffect, useTransition } from 'react';
 import { useTransactionEditorStore } from '@/transaction/transaction-editor.store';
 import { TransactionForm } from '@/transaction/components/transaction-form.component';
 import { transactionDelete, transactionSave } from '@/transaction/transaction.actions';
@@ -44,24 +44,71 @@ const TransactionEditor: FC<TransactionEditorProps> = ({ className }) => {
     });
   }, [closeEditor, router, transactionToEdit?.uuid]);
 
+  useEffect(() => {
+    if (transactionToEdit) {
+      document.body.style.overflow = 'hidden';
+
+      return () => {
+        document.body.style.overflow = 'unset';
+      };
+    }
+  }, [transactionToEdit]);
+
+  useEffect(() => {
+    if (transactionToEdit) {
+      const event = 'keydown';
+      const keyDownHandler = (event: KeyboardEvent) => {
+        if (event.key === 'Escape') {
+          event.preventDefault();
+
+          // 👇️ your logic here
+          closeEditor();
+        }
+      };
+
+      document.addEventListener(event, keyDownHandler);
+
+      // 👇️ clean up event listener
+      return () => {
+        document.removeEventListener(event, keyDownHandler);
+      };
+    }
+  }, [closeEditor, transactionToEdit]);
+
   if (!transactionToEdit) {
     return null;
   }
 
   return (
-    <div className={classNames(className, 'flex flex-col gap-1')}>
-      <h3 className={'text-lg text-center font-medium'}>Редактор транзакции</h3>
-      <TransactionForm
-        date={transactionToEdit.date}
-        title={transactionToEdit.title}
-        category={transactionToEdit.category}
-        amount={transactionToEdit.amount}
-        isPending={isPending}
-        onSubmit={saveTransaction}
-        onCancel={closeEditor}
-        onDelete={deleteTransaction}
-        deletable={!!transactionToEdit.uuid}
+    <div
+      className={
+        'w-screen h-screen flex flex-col items-center justify-center fixed top-0 left-0 z-[100] md:z-[300] '
+      }
+    >
+      <div
+        className={'bg-black opacity-50 w-full h-full absolute top-0 lef-0 z-[1]'}
+        onClick={closeEditor}
       />
+      <div
+        className={classNames(
+          className,
+          'h-full md:h-fit md:rounded-md md:p-10 bg-background flex flex-col items-center justify-center gap-7 z-[2] relative',
+        )}
+      >
+        <h2 className={'text-xl text-center font-medium'}>Редактор транзакции</h2>
+        <TransactionForm
+          className={'w-full'}
+          date={transactionToEdit.date}
+          title={transactionToEdit.title}
+          category={transactionToEdit.category}
+          amount={transactionToEdit.amount}
+          isPending={isPending}
+          onSubmit={saveTransaction}
+          onCancel={closeEditor}
+          onDelete={deleteTransaction}
+          deletable={!!transactionToEdit.uuid}
+        />
+      </div>
     </div>
   );
 };

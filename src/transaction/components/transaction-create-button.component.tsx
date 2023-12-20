@@ -17,12 +17,13 @@ const TransactionCreateButton: FC<TransactionCreateButtonProps> = ({ className }
     openEditor(TransactionDtoFactory.empty());
   }, [openEditor]);
 
-  if (!!transactionToEdit) {
-    return null;
-  }
-
   return (
-    <Button className={className} rounded onClick={createTransaction}>
+    <Button
+      disabled={!!transactionToEdit}
+      className={className}
+      rounded
+      onClick={createTransaction}
+    >
       <IconPlus />
     </Button>
   );

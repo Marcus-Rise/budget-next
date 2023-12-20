@@ -9,7 +9,7 @@ import metaConfig from '@/meta-config.cjs';
 
 const SecureLayout: FC<PropsWithChildren> = ({ children }) => (
   <div className={'w-full flex flex-col'}>
-    <header className={'shadow sticky top-0 left-0 bg-background'}>
+    <header className={'shadow sticky top-0 left-0 bg-background z-[200]'}>
       <div className={'container mx-auto px-2 py-2 basis-1 flex justify-between items-center'}>
         <Link href={'/'} className={'inline-flex items-center gap-2'}>
           <Image alt={'logo'} src={Logo} width={30} height={30} />
@@ -20,7 +20,7 @@ const SecureLayout: FC<PropsWithChildren> = ({ children }) => (
         </Suspense>
       </div>
     </header>
-    <main className={'min-h-[calc(100dvh)] bg-background basis-full'}>{children}</main>
+    <main className={'min-h-[calc(100dvh)] bg-background basis-full relative'}>{children}</main>
     <Footer
       authorName={metaConfig.author.name}
       authorUrl={metaConfig.author.url}

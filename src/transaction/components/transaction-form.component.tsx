@@ -9,6 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { TransactionSaveDtoSchema, TransactionSaveDto } from '@/transaction/transaction.dto';
 import { Button } from '@/components/button.component';
 import { IconMinus, IconPlus } from '@/assets';
+import classNames from 'classnames';
 
 type TransactionFormDto = Omit<TransactionSaveDto, 'uuid'>;
 
@@ -18,6 +19,7 @@ type TransactionFormProps = Partial<TransactionFormDto> & {
   onCancel: () => void;
   onDelete: () => void;
   deletable?: boolean;
+  className?: string;
 };
 
 const TransactionForm: FC<TransactionFormProps> = ({
@@ -30,6 +32,7 @@ const TransactionForm: FC<TransactionFormProps> = ({
   onCancel,
   onDelete,
   deletable,
+  className,
 }) => {
   const { control, handleSubmit, reset, setValue } = useForm<TransactionFormDto>({
     resolver: zodResolver(TransactionSaveDtoSchema),
@@ -52,7 +55,10 @@ const TransactionForm: FC<TransactionFormProps> = ({
   }, [amount, category, date, reset, title]);
 
   return (
-    <form className={'flex flex-col gap-3'} onSubmit={handleSubmit(onSubmit)}>
+    <form
+      className={classNames(className, 'flex flex-col gap-3')}
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <Controller
         control={control}
         name={'title'}
