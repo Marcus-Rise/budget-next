@@ -5,7 +5,10 @@ import { TransactionCreateButton } from '@/transaction/components/transaction-cr
 import { ReloadButton } from '@/app/(secure)/reload-button.component';
 import { TransactionFilter } from '@/transaction/components/transaction-filter.component';
 import { redirect } from 'next/navigation';
-import { TransactionStatistic } from '@/transaction/components/transaction-statistic.component';
+import {
+  TransactionStatistic,
+  TransactionStatisticSkeleton,
+} from '@/transaction/components/statistic';
 
 const Page = ({
   searchParams,
@@ -35,7 +38,7 @@ const Page = ({
           <div className={'flex flex-col flex-wrap justify-between gap-3'}>
             <TransactionFilter dateStart={dateStart} dateEnd={dateEnd} />
 
-            <Suspense fallback={'Statistic loading...'}>
+            <Suspense fallback={<TransactionStatisticSkeleton />}>
               <TransactionStatistic dateStart={dateStart} dateEnd={dateEnd} />
             </Suspense>
           </div>
