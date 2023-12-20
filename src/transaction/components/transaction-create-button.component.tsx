@@ -1,15 +1,18 @@
 'use client';
 
-import type { FC } from 'react';
+import type { FC, PropsWithChildren } from 'react';
+import { useCallback } from 'react';
 import { useTransactionEditorStore } from '@/transaction/transaction-editor.store';
 import { Button } from '@/components/button.component';
-import { useCallback } from 'react';
 import { TransactionDtoFactory } from '@/transaction/transaction-dto.factory';
-import { IconPlus } from '@/assets';
 
-type TransactionCreateButtonProps = { className?: string };
+type TransactionCreateButtonProps = PropsWithChildren<{ className?: string; rounded?: boolean }>;
 
-const TransactionCreateButton: FC<TransactionCreateButtonProps> = ({ className }) => {
+const TransactionCreateButton: FC<TransactionCreateButtonProps> = ({
+  children,
+  className,
+  rounded,
+}) => {
   const transactionToEdit = useTransactionEditorStore((state) => state.transaction);
   const openEditor = useTransactionEditorStore((state) => state.openEditor);
 
@@ -21,10 +24,10 @@ const TransactionCreateButton: FC<TransactionCreateButtonProps> = ({ className }
     <Button
       disabled={!!transactionToEdit}
       className={className}
-      rounded
+      rounded={rounded}
       onClick={createTransaction}
     >
-      <IconPlus />
+      {children}
     </Button>
   );
 };

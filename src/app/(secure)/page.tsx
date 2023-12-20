@@ -9,6 +9,7 @@ import {
   TransactionStatistic,
   TransactionStatisticSkeleton,
 } from '@/transaction/components/statistic';
+import { IconPlus } from '@/assets';
 
 const Page = ({
   searchParams,
@@ -33,7 +34,9 @@ const Page = ({
           <div className={'flex flex-row gap-3 items-center'}>
             <h2 className={'basis-full text-xl font-medium'}>История</h2>
             <ReloadButton />
-            <TransactionCreateButton className={'basis-1'} />
+            <TransactionCreateButton className={'basis-1'} rounded>
+              <IconPlus />
+            </TransactionCreateButton>
           </div>
           <div className={'flex flex-col flex-wrap justify-between gap-3'}>
             <TransactionFilter dateStart={dateStart} dateEnd={dateEnd} />
@@ -49,7 +52,11 @@ const Page = ({
           dateStart={dateStart}
           dateEnd={dateEnd}
           className={'container mx-auto px-3'}
-        />
+        >
+          <div className={'h-[calc(50dvh)] w-full flex flex-col items-center justify-center'}>
+            <TransactionCreateButton>Добавить первую запись</TransactionCreateButton>
+          </div>
+        </TransactionList>
       </Suspense>
     </div>
   );

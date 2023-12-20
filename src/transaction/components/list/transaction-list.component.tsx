@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import type { FC, PropsWithChildren } from 'react';
 import { ListDated } from '@/components/list-dated';
 import { dateToStringHelper } from '@/helpers/date';
 import { TransactionListItem } from '@/transaction/components/list/transaction-list-item.component';
@@ -8,13 +8,26 @@ import classNames from 'classnames';
 import { Price } from '@/components/price';
 import { Collapse } from '@/components/collapse.component';
 
-type TransactionListProps = { className?: string; dateStart?: string; dateEnd?: string };
+type TransactionListProps = PropsWithChildren<{
+  className?: string;
+  dateStart?: string;
+  dateEnd?: string;
+}>;
 
-const TransactionList: FC<TransactionListProps> = async ({ className, dateStart, dateEnd }) => {
+const TransactionList: FC<TransactionListProps> = async ({
+  children,
+  className,
+  dateStart,
+  dateEnd,
+}) => {
   const items = await new TransactionService().getAll({
     dateStart: dateStart ? new Date(dateStart) : undefined,
     dateEnd: dateEnd ? new Date(dateEnd) : undefined,
   });
+
+  if (!items.length) {
+    return <div className={className}>{children}</div>;
+  }
 
   return (
     <ListDated
