@@ -17,7 +17,7 @@ const Item: FC = () => (
 );
 
 const TransactionListSkeleton: FC<TransactionListSkeletonProps> = ({ className }) => {
-  const items = new Array(5).fill(<Item />);
+  const items = new Array(5).fill(1).map((_, index) => <Item key={index} />);
 
   return (
     <div className={classNames(className, 'animate-pulse flex flex-col gap-7')}>
