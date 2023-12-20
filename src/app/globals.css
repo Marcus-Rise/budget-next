@@ -10,6 +10,7 @@
     --color-danger: theme('colors.danger.light');
     --color-background: theme('colors.background.light');
     --color-font: theme('colors.font.light');
+    --color-skeleton: theme('colors.skeleton.light');
   }
 
   @media (prefers-color-scheme: dark) {
@@ -20,6 +21,7 @@
       --color-danger: theme('colors.danger.dark');
       --color-background: theme('colors.background.dark');
       --color-font: theme('colors.font.dark');
+      --color-skeleton: theme('colors.skeleton.dark');
     }
   }
 }

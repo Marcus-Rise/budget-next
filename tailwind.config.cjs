@@ -50,6 +50,11 @@ module.exports = {
           light: colors.black,
           dark: colors.gray['200'],
         },
+        skeleton: {
+          DEFAULT: 'var(--color-skeleton)',
+          light: colors.gray['400'],
+          dark: colors.gray['400'],
+        },
       },
     },
   },
