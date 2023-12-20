@@ -2,7 +2,7 @@ import type { FC, PropsWithChildren } from 'react';
 import { Suspense } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Profile } from '@/app/(secure)/profile';
+import { Profile, ProfileSkeleton } from '@/app/(secure)/profile';
 import Logo from '@/app/icon.png';
 import { Footer } from '@/app/footer.component';
 import metaConfig from '@/meta-config.cjs';
@@ -15,7 +15,7 @@ const SecureLayout: FC<PropsWithChildren> = ({ children }) => (
           <Image alt={'logo'} src={Logo} width={30} height={30} />
           <h1 className={'font-medium'}>{metaConfig.title}</h1>
         </Link>
-        <Suspense fallback={<div>Profile loading...</div>}>
+        <Suspense fallback={<ProfileSkeleton />}>
           <Profile />
         </Suspense>
       </div>
