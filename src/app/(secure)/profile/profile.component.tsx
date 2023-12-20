@@ -2,9 +2,8 @@ import type { FC } from 'react';
 import { UserService } from '@/user/user.service';
 import { configFactory } from '@/config';
 import { cookies } from 'next/headers';
-import Image from 'next/image';
 import Link from 'next/link';
-import Placeholder from './profile.svg';
+import { ProfileImage } from '@/app/(secure)/profile/profile-image.component';
 
 const PHOTO_SIZE = 35;
 
@@ -14,9 +13,9 @@ const Profile: FC = async () => {
 
   return (
     <div className={'flex justify-between items-center gap-2'}>
-      <Image
+      <ProfileImage
         alt={'user avatar'}
-        src={user.avatar || Placeholder}
+        src={user.avatar}
         height={PHOTO_SIZE}
         width={PHOTO_SIZE}
         className={'rounded-full object-cover border-2 border-gray-300'}
