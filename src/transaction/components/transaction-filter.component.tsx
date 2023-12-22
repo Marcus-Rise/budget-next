@@ -77,7 +77,7 @@ const TransactionFilter: FC<TransactionFilterProps> = ({ className, dateStart, d
         <Link href={'/?' + previousMonthSearchParams} prefetch={false}>
           <IconChevronLeft width={iconSize} height={iconSize} />
         </Link>
-        <span className={'capitalize'}>{dateFilterLabel}</span>
+        <span className={'capitalize text-center'}>{dateFilterLabel}</span>
         <Link href={'/?' + nextMonthIntervalSearchParams} prefetch={false}>
           <IconChevronRight width={iconSize} height={iconSize} />
         </Link>
