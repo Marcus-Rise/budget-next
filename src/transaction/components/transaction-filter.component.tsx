@@ -52,9 +52,10 @@ const TransactionFilter: FC<TransactionFilterProps> = ({ className, dateStart, d
 
   const date = parse(dateStart, 'yyyy-MM-dd', new Date());
   const isInCurrentPeriod = isWithinInterval(date, todayPeriod);
-  const dateFilterLabel = format(date, 'LLLL yyyy', {
+  const dateMonth = format(date, 'LLLL', {
     locale,
   });
+  const dateYear = format(date, 'yyyy');
 
   const previousMonthSearchParams = getDateSearchParams(subMonths(date, 1));
   const nextMonthIntervalSearchParams = getDateSearchParams(addMonths(date, 1));
@@ -77,7 +78,10 @@ const TransactionFilter: FC<TransactionFilterProps> = ({ className, dateStart, d
         <Link href={'/?' + previousMonthSearchParams} prefetch={false}>
           <IconChevronLeft width={iconSize} height={iconSize} />
         </Link>
-        <span className={'capitalize text-center'}>{dateFilterLabel}</span>
+        <div className={'flex flex-col md:flex-row content-center gap-1'}>
+          <span className={'capitalize text-center'}>{dateMonth}</span>
+          <span className={'capitalize text-center'}>{dateYear}</span>
+        </div>
         <Link href={'/?' + nextMonthIntervalSearchParams} prefetch={false}>
           <IconChevronRight width={iconSize} height={iconSize} />
         </Link>
