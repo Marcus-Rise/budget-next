@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import classNames from 'classnames';
+import { Price } from '@/components/price';
 
 type Value = number;
 type TransactionStatisticChartProps = {
@@ -27,7 +28,9 @@ const TransactionStatisticChart: FC<TransactionStatisticChartProps> = ({
             'w-full flex flex-row gap-1 items-center content-center justify-between rounded-md outline-2 hover:outline'
           }
         >
-          <span className={'capitalize px-2 py-1'}>{label}</span>
+          <span className={'capitalize px-2 py-1'}>
+            {label}: <Price amount={value} />
+          </span>
           <span
             className={classNames('bg-secondary inline-block min-w-fit max-w-full px-2 py-1')}
             style={{

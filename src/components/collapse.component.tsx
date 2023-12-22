@@ -1,7 +1,7 @@
-import type { FC, PropsWithChildren } from 'react';
+import type { FC, PropsWithChildren, ReactNode } from 'react';
 
 type CollapseProps = PropsWithChildren<{
-  title: string;
+  title: string | ReactNode;
   className?: string;
 }>;
 
@@ -15,3 +15,4 @@ const Collapse: FC<CollapseProps> = ({ title, className, children }) => {
 };
 
 export { Collapse };
+export type { CollapseProps };

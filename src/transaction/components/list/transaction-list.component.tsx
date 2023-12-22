@@ -69,19 +69,28 @@ const TransactionList: FC<TransactionListProps> = async ({
           </li>
         ));
 
+        const debitExists = sumDebit > 0;
+        const creditExists = sumCredit < 0;
+
         return (
           <>
             <dt className={'text-secondary'}>
               <Collapse title={title}>
-                <p>
-                  Доход: <Price amount={sumDebit} />
-                </p>
-                <p>
-                  Расход: <Price amount={sumCredit} />
-                </p>
-                <p>
-                  Остаток: <Price amount={sumDebit + sumCredit} />
-                </p>
+                {debitExists && (
+                  <p>
+                    Доход: <Price amount={sumDebit} />
+                  </p>
+                )}
+                {creditExists && (
+                  <p>
+                    Расход: <Price amount={sumCredit} />
+                  </p>
+                )}
+                {debitExists && creditExists && (
+                  <p>
+                    Остаток: <Price amount={sumDebit + sumCredit} />
+                  </p>
+                )}
               </Collapse>
             </dt>
             <dd>

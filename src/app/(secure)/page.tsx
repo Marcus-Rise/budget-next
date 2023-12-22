@@ -10,6 +10,7 @@ import {
   TransactionStatisticSkeleton,
 } from '@/transaction/components/statistic';
 import { IconPlus } from '@/assets';
+import { Price } from '@/components/price';
 
 const Page = ({
   searchParams,
@@ -30,34 +31,37 @@ const Page = ({
     <div className={'flex flex-col gap-3'}>
       <TransactionEditor className={'px-3 py-2 container mx-auto'} />
       <div className={'sticky top-[3.25rem] bg-background shadow'}>
-        <div className={'px-3 py-2 container mx-auto flex flex-col gap-3'}>
+        <div className={'px-3 py-2 container mx-auto flex flex-row justify-between gap-3'}>
+          <TransactionFilter dateStart={dateStart} dateEnd={dateEnd} />
           <div className={'flex flex-row gap-3 items-center'}>
-            <h2 className={'basis-full text-xl font-medium'}>История</h2>
             <ReloadButton />
-            <TransactionCreateButton className={'basis-1'} rounded>
+            <TransactionCreateButton rounded>
               <IconPlus />
             </TransactionCreateButton>
           </div>
-          <div className={'flex flex-col flex-wrap justify-between gap-3'}>
-            <TransactionFilter dateStart={dateStart} dateEnd={dateEnd} />
-
-            <Suspense fallback={<TransactionStatisticSkeleton />}>
-              <TransactionStatistic dateStart={dateStart} dateEnd={dateEnd} />
-            </Suspense>
-          </div>
         </div>
       </div>
-      <Suspense fallback={<TransactionListSkeleton className={'container mx-auto px-3'} />}>
-        <TransactionList
-          dateStart={dateStart}
-          dateEnd={dateEnd}
-          className={'container mx-auto px-3'}
-        >
-          <div className={'h-[calc(50dvh)] w-full flex flex-col items-center justify-center'}>
-            <TransactionCreateButton>Добавить первую запись</TransactionCreateButton>
-          </div>
-        </TransactionList>
-      </Suspense>
+      <div className={'px-3 container mx-auto flex flex-col gap-3'}>
+        <Suspense fallback={<TransactionStatisticSkeleton />}>
+          <TransactionStatistic
+            title={({ remainAmount }) => (
+              <h2 className={'inline text-xl font-medium'}>
+                За период: <Price className={'font-medium'} amount={remainAmount} />
+              </h2>
+            )}
+            dateStart={dateStart}
+            dateEnd={dateEnd}
+          />
+        </Suspense>
+        <h2 className={'text-xl font-medium'}>История</h2>
+        <Suspense fallback={<TransactionListSkeleton />}>
+          <TransactionList dateStart={dateStart} dateEnd={dateEnd}>
+            <div className={'h-[calc(50dvh)] w-full flex flex-col items-center justify-center'}>
+              <TransactionCreateButton>Добавить первую запись</TransactionCreateButton>
+            </div>
+          </TransactionList>
+        </Suspense>
+      </div>
     </div>
   );
 };

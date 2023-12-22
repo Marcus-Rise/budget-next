@@ -8,12 +8,14 @@ type TransactionStatisticProps = {
   dateStart?: string;
   dateEnd?: string;
   className?: string;
+  title: FC<{ remainAmount: number }>;
 };
 
 const TransactionStatistic: FC<TransactionStatisticProps> = async ({
   className,
   dateStart,
   dateEnd,
+  title: Title,
 }) => {
   const transactions = await new TransactionService().getAll({
     dateStart: dateStart ? new Date(dateStart) : undefined,
@@ -52,19 +54,18 @@ const TransactionStatistic: FC<TransactionStatisticProps> = async ({
     },
   );
 
+  const remain = sumDebit + sumCredit;
+
   return (
-    <Collapse className={className} title={'Статистика'}>
+    <Collapse className={className} title={<Title remainAmount={remain} />}>
       <div className={'py-3 flex flex-col gap-1'}>
         <p>
-          Доход: <Price amount={sumDebit} />
+          <span className={'font-medium'}>Доход:</span> <Price amount={sumDebit} />
         </p>
+        <TransactionStatisticChart map={debitCategories} total={sumDebit} />
         <p>
-          Расход: <Price amount={sumCredit} />
+          <span className={'font-medium'}>Расход:</span> <Price amount={sumCredit} />
         </p>
-        <p>
-          Остаток: <Price amount={sumDebit + sumCredit} />
-        </p>
-
         <TransactionStatisticChart map={creditCategories} total={sumCredit} />
       </div>
     </Collapse>
