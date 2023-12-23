@@ -9,7 +9,6 @@ import { OauthLoginException } from '@/oauth/oauth-login.exception';
 import { AccessToken, IOauthService, UserId } from '@/oauth/oauth-service.interface';
 import { configFactory, IConfig } from '@/config';
 import { cookies, headers } from 'next/headers';
-import { addYears } from 'date-fns/addYears';
 import { ResponseCookie } from 'next/dist/compiled/@edge-runtime/cookies';
 
 class OauthService implements IOauthService {
@@ -44,12 +43,14 @@ class OauthService implements IOauthService {
       throw new OauthLoginException('Invalid oauth response');
     }
 
+    const { expire } = await this._checkToken(dto.response.access_token);
+
     const cookieOptions: Partial<ResponseCookie> = {
       httpOnly: true,
       path: '/',
       sameSite: 'lax',
       secure: process.env.NODE_ENV === 'production',
-      expires: addYears(new Date(), 1),
+      expires: expire,
     };
 
     return {
@@ -98,7 +99,7 @@ class OauthService implements IOauthService {
       throw new OauthLoginException('Expired token');
     }
 
-    return { userId: user_id, accessToken };
+    return { userId: user_id, accessToken, expire: new Date(expire * 1000) };
   }
 
   private _getAccessToken() {
