@@ -17,7 +17,7 @@ class UserService {
     requestUrl.searchParams.set('access_token', accessToken);
     requestUrl.searchParams.append('fields', 'photo');
 
-    const response = await fetch(requestUrl, { cache: 'force-cache' });
+    const response = await fetch(requestUrl);
     const dto: UserGetResponseDto = await response.json();
 
     const { first_name, photo } = dto.response.at(0)!;
