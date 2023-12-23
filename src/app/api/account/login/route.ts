@@ -1,11 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { OauthSilentTokenPayload } from '@/oauth/oauth.types';
-import { oauthConfigFactory } from '@/oauth/config';
-import { OauthService } from '@/oauth/oauth.service';
 import { OauthLoginException } from '@/oauth/oauth-login.exception';
-import { addYears } from 'date-fns/addYears';
-import { configFactory } from '@/config';
-import { ResponseCookie } from 'next/dist/compiled/@edge-runtime/cookies';
+import { oauthService } from '@/oauth/oauth.service';
 
 const AccountLogin = async (req: NextRequest) => {
   const payloadString = req.nextUrl.searchParams.get('payload');
@@ -16,25 +12,14 @@ const AccountLogin = async (req: NextRequest) => {
 
   const payload: OauthSilentTokenPayload = JSON.parse(payloadString);
 
-  const service = new OauthService(configFactory(), oauthConfigFactory());
-
   try {
-    const { accessToken, userId } = await service.login(payload);
+    const { accessToken, cookieKey, cookieOptions } = await oauthService.login(payload);
     const returnUrl = req.nextUrl.searchParams.get('returnUrl') || '/';
     const redirectUrl = new URL(returnUrl, req.nextUrl);
 
     const response = NextResponse.redirect(redirectUrl, { status: 302 });
 
-    const cookieOptions: Partial<ResponseCookie> = {
-      httpOnly: true,
-      path: '/',
-      sameSite: 'lax',
-      secure: process.env.NODE_ENV === 'production',
-      expires: addYears(new Date(), 1),
-    };
-
-    response.cookies.set('Authorization', accessToken, cookieOptions);
-    response.cookies.set('UserId', String(userId), cookieOptions);
+    response.cookies.set(cookieKey, accessToken, cookieOptions);
 
     return response;
   } catch (e) {

@@ -9,6 +9,7 @@ import { db } from '@/db';
 
 class TransactionRepository implements ITransactionRepository {
   constructor() {}
+
   async list(query?: TransactionRepositoryQuery): Promise<Transaction[]> {
     let queryBuilder = db.selectFrom('transactions').selectAll().orderBy('date', 'desc');
 
@@ -17,11 +18,11 @@ class TransactionRepository implements ITransactionRepository {
     }
 
     if (query?.dateStart) {
-      queryBuilder = queryBuilder.where('date', '>=', query?.dateStart);
+      queryBuilder = queryBuilder.where('date', '>=', query.dateStart);
     }
 
     if (query?.dateEnd) {
-      queryBuilder = queryBuilder.where('date', '<=', query?.dateEnd);
+      queryBuilder = queryBuilder.where('date', '<=', query.dateEnd);
     }
 
     const items = await queryBuilder.execute();

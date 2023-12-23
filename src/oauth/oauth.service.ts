@@ -1,14 +1,16 @@
 import 'server-only';
-import { IOauthConfig } from '@/oauth/config';
+import { IOauthConfig, oauthConfigFactory } from '@/oauth/config';
 import {
-  OauthAccessTokenChekResponseDto,
+  OauthAccessTokenCheckResponseDto,
   OauthAccessTokenResponseDto,
   OauthSilentTokenPayload,
 } from '@/oauth/oauth.types';
 import { OauthLoginException } from '@/oauth/oauth-login.exception';
-import { IOauthService } from '@/oauth/oauth-service.interface';
-import { IConfig } from '@/config';
+import { AccessToken, IOauthService, UserId } from '@/oauth/oauth-service.interface';
+import { configFactory, IConfig } from '@/config';
 import { cookies, headers } from 'next/headers';
+import { addYears } from 'date-fns/addYears';
+import { ResponseCookie } from 'next/dist/compiled/@edge-runtime/cookies';
 
 class OauthService implements IOauthService {
   constructor(
@@ -16,7 +18,12 @@ class OauthService implements IOauthService {
     private readonly _oauthConfig: IOauthConfig,
   ) {}
 
-  async login(payload: OauthSilentTokenPayload) {
+  async login(payload: OauthSilentTokenPayload): Promise<{
+    accessToken: AccessToken;
+    userId: UserId;
+    cookieKey: string;
+    cookieOptions: Partial<ResponseCookie>;
+  }> {
     const requestUrl = new URL('/method/auth.exchangeSilentAuthToken', this._config.apiBaseUrl);
     requestUrl.searchParams.set('v', this._config.apiVersion);
     requestUrl.searchParams.set('token', payload.token);
@@ -37,31 +44,38 @@ class OauthService implements IOauthService {
       throw new OauthLoginException('Invalid oauth response');
     }
 
-    return { accessToken: dto.response.access_token, userId: dto.response.user_id };
-  }
+    const cookieOptions: Partial<ResponseCookie> = {
+      httpOnly: true,
+      path: '/',
+      sameSite: 'lax',
+      secure: process.env.NODE_ENV === 'production',
+      expires: addYears(new Date(), 1),
+    };
 
-  async checkAuth() {
-    const auth = cookies().get('Authorization');
-    const userId = cookies().get('UserId');
-    const returnUrl = encodeURIComponent(headers().get('x-invoke-path') || '/');
-    const redirectUrl = `/account/login?returnUrl=${returnUrl}`;
-
-    if (!auth || !userId) {
-      throw redirectUrl;
-    }
-
-    const freshUserId = await this._checkToken(auth.value);
-
-    if (String(freshUserId) !== userId.value) {
-      throw redirectUrl;
-    }
+    return {
+      accessToken: dto.response.access_token,
+      userId: dto.response.user_id,
+      cookieKey: OauthService._COOKIE_KEY,
+      cookieOptions,
+    };
   }
 
   isAuthed() {
-    const auth = cookies().get('Authorization');
-    const userId = cookies().get('UserId');
+    const auth = this._getAccessToken();
 
-    return !!auth?.value && !!userId?.value;
+    return !!auth;
+  }
+
+  async checkAuth() {
+    const accessToken = this._getAccessToken();
+    const returnUrl = encodeURIComponent(headers().get('x-invoke-path') || '/');
+    const redirectUrl = `/account/login?returnUrl=${returnUrl}`;
+
+    if (!accessToken) {
+      throw redirectUrl;
+    }
+
+    return this._checkToken(accessToken);
   }
 
   private async _checkToken(accessToken: string) {
@@ -70,7 +84,7 @@ class OauthService implements IOauthService {
     requestUrl.searchParams.set('access_token', this._oauthConfig.serviceToken);
     requestUrl.searchParams.set('token', accessToken);
 
-    const response = await fetch(requestUrl);
+    const response = await fetch(requestUrl, { cache: 'force-cache' });
 
     if (!response.ok) {
       throw new OauthLoginException('Invalid token');
@@ -78,14 +92,20 @@ class OauthService implements IOauthService {
 
     const {
       response: { user_id, expire, date, success },
-    }: OauthAccessTokenChekResponseDto = await response.json();
+    }: OauthAccessTokenCheckResponseDto = await response.json();
 
     if (expire - date <= 0 || success !== 1) {
       throw new OauthLoginException('Expired token');
     }
 
-    return user_id;
+    return { userId: user_id, accessToken };
   }
+
+  private _getAccessToken() {
+    return cookies().get(OauthService._COOKIE_KEY)?.value;
+  }
+
+  private static _COOKIE_KEY = 'Authorization';
 }
 
-export { OauthService };
+export const oauthService: IOauthService = new OauthService(configFactory(), oauthConfigFactory());

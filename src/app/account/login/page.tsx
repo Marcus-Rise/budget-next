@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { OauthVkLoginButton } from '@/oauth/vk-login-button';
 import { oauthConfigFactory } from '@/oauth/config';
-import { LoginLink } from '@/app/(public)/account/login/login-link.component';
+import { LoginLink } from '@/app/account/login/login-link.component';
 import Image from 'next/image';
 import Logo from '@/app/icon.png';
 import Link from 'next/link';

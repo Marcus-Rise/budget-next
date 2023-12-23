@@ -1,8 +1,8 @@
 import type { FC } from 'react';
 import { Collapse } from '@/components/collapse.component';
-import { TransactionService } from '@/transaction/transaction.service';
 import { Price } from '@/components/price';
 import { TransactionStatisticChart } from '@/transaction/components/statistic/transaction-statistic-chart.component';
+import { transactionService } from '@/transaction/transaction.service';
 
 type TransactionStatisticProps = {
   dateStart?: string;
@@ -17,7 +17,7 @@ const TransactionStatistic: FC<TransactionStatisticProps> = async ({
   dateEnd,
   title: Title,
 }) => {
-  const transactions = await new TransactionService().getAll({
+  const transactions = await transactionService.getAll({
     dateStart: dateStart ? new Date(dateStart) : undefined,
     dateEnd: dateEnd ? new Date(dateEnd) : undefined,
   });

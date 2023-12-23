@@ -6,7 +6,7 @@ import {
   TransactionSaveDto,
   TransactionSaveDtoSchema,
 } from '@/transaction/transaction.dto';
-import { TransactionService } from '@/transaction/transaction.service';
+import { transactionService } from '@/transaction/transaction.service';
 
 const transactionSave = async (dto: TransactionSaveDto) => {
   const validatedFields = TransactionSaveDtoSchema.safeParse(dto);
@@ -18,7 +18,7 @@ const transactionSave = async (dto: TransactionSaveDto) => {
     };
   }
 
-  await new TransactionService().save(dto);
+  await transactionService.save(dto);
 
   return {
     success: true,
@@ -35,7 +35,7 @@ const transactionDelete = async (dto: TransactionRemoveDto) => {
     };
   }
 
-  await new TransactionService().remove(dto);
+  await transactionService.remove(dto);
 
   return {
     success: true,

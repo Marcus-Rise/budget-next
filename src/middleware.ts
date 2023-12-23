@@ -1,11 +1,8 @@
-import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { configFactory } from '@/config';
-import { oauthConfigFactory } from '@/oauth/config';
-import { OauthService } from '@/oauth/oauth.service';
+import { NextResponse } from 'next/server';
+import { oauthService } from '@/oauth/oauth.service';
 
 const middleware = async (request: NextRequest) => {
-  const oauthService = new OauthService(configFactory(), oauthConfigFactory());
   const isAuthed = oauthService.isAuthed();
   const baseUrl = new URL('/', request.url);
   const loginRedirectUrl = new URL('/account/login', request.url);
@@ -35,7 +32,7 @@ const middleware = async (request: NextRequest) => {
       response = NextResponse.redirect(loginRedirectUrl);
     }
 
-    response.cookies.delete('Authorization').delete('UserId');
+    response.cookies.delete('Authorization');
 
     return response;
   }

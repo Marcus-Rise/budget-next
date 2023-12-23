@@ -36,7 +36,7 @@ type OauthAccessTokenResponseDto = {
   };
 };
 
-type OauthAccessTokenChekResponseDto = {
+type OauthAccessTokenCheckResponseDto = {
   response: {
     success: number;
     user_id: number;
@@ -49,5 +49,5 @@ export type {
   OauthSilentTokenPayload,
   OauthAccessTokenRequestDto,
   OauthAccessTokenResponseDto,
-  OauthAccessTokenChekResponseDto,
+  OauthAccessTokenCheckResponseDto,
 };

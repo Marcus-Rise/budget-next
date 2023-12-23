@@ -3,10 +3,10 @@ import { ListDated } from '@/components/list-dated';
 import { dateToStringHelper } from '@/helpers/date';
 import { TransactionListItem } from '@/transaction/components/list/transaction-list-item.component';
 import { TransactionListItemEditSpy } from '@/transaction/components/list/transaction-list-item-edit-spy.component';
-import { TransactionService } from '@/transaction/transaction.service';
 import classNames from 'classnames';
 import { Price } from '@/components/price';
 import { Collapse } from '@/components/collapse.component';
+import { transactionService } from '@/transaction/transaction.service';
 
 type TransactionListProps = PropsWithChildren<{
   className?: string;
@@ -20,7 +20,7 @@ const TransactionList: FC<TransactionListProps> = async ({
   dateStart,
   dateEnd,
 }) => {
-  const items = await new TransactionService().getAll({
+  const items = await transactionService.getAll({
     dateStart: dateStart ? new Date(dateStart) : undefined,
     dateEnd: dateEnd ? new Date(dateEnd) : undefined,
   });

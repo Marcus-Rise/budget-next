@@ -1,15 +1,12 @@
 import type { FC } from 'react';
-import { UserService } from '@/user/user.service';
-import { configFactory } from '@/config';
-import { cookies } from 'next/headers';
 import Link from 'next/link';
 import { ProfileImage } from '@/app/(secure)/profile/profile-image.component';
+import { userService } from '@/user/user.service';
 
 const PHOTO_SIZE = 35;
 
 const Profile: FC = async () => {
-  const auth = cookies().get('Authorization')?.value!;
-  const user = await new UserService(configFactory()).getCurrentUser(auth);
+  const user = await userService.getCurrentUser();
 
   return (
     <div className={'flex justify-between items-center gap-2'}>

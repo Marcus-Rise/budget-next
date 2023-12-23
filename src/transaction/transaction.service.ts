@@ -6,23 +6,23 @@ import {
   TransactionRepositoryQuery,
 } from '@/transaction/transaction-repository.interface';
 import { TransactionRepository } from '@/transaction/transaction.repository';
-import { cookies } from 'next/headers';
 import { TransactionRemoveDto, TransactionSaveDto } from '@/transaction/transaction.dto';
 import { TransactionTable } from '@/transaction/transaction.table';
+import { IOauthService } from '@/oauth/oauth-service.interface';
+import { oauthService } from '@/oauth/oauth.service';
 
 class TransactionService {
-  private readonly _repo: ITransactionRepository;
-  private readonly _userId: string;
-
-  constructor() {
-    this._userId = cookies().get('UserId')?.value!;
-    this._repo = new TransactionRepository();
-  }
+  constructor(
+    private readonly _repo: ITransactionRepository,
+    private readonly _oauth: IOauthService,
+  ) {}
 
   async getAll(query?: Omit<TransactionRepositoryQuery, 'userId'>): Promise<Transaction[]> {
+    const { userId } = await oauthService.checkAuth();
+
     return this._repo
       .list({
-        userId: this._userId,
+        userId: String(userId),
         ...query,
       })
       .catch((e) => {
@@ -32,10 +32,12 @@ class TransactionService {
   }
 
   async save({ uuid, ...dto }: TransactionSaveDto): Promise<void> {
+    const { userId } = await oauthService.checkAuth();
+
     const model: Omit<TransactionTable, 'id'> & { id?: string } = {
       ...dto,
       id: uuid,
-      userId: this._userId,
+      userId: String(userId),
     };
 
     await this._repo.save(model);
@@ -46,4 +48,4 @@ class TransactionService {
   }
 }
 
-export { TransactionService };
+export const transactionService = new TransactionService(new TransactionRepository(), oauthService);
