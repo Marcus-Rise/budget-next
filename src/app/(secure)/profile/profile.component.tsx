@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import Link from 'next/link';
 import { ProfileImage } from '@/app/(secure)/profile/profile-image.component';
-import { userService } from '@/user/user.service';
+import { userService } from '@/user/service';
 
 const PHOTO_SIZE = 35;
 

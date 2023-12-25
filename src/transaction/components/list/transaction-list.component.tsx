@@ -6,7 +6,7 @@ import { TransactionListItemEditSpy } from '@/transaction/components/list/transa
 import classNames from 'classnames';
 import { Price } from '@/components/price';
 import { Collapse } from '@/components/collapse.component';
-import { transactionService } from '@/transaction/transaction.service';
+import { transactionService } from '@/transaction/service';
 
 type TransactionListProps = PropsWithChildren<{
   className?: string;

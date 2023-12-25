@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import { Collapse } from '@/components/collapse.component';
 import { Price } from '@/components/price';
 import { TransactionStatisticChart } from '@/transaction/components/statistic/transaction-statistic-chart.component';
-import { transactionService } from '@/transaction/transaction.service';
+import { transactionService } from '@/transaction/service';
 
 type TransactionStatisticProps = {
   dateStart?: string;

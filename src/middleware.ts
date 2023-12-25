@@ -1,40 +1,22 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
-import { oauthService } from '@/oauth/oauth.service';
+import { authService } from '@/auth/service';
 
 const middleware = async (request: NextRequest) => {
-  const isAuthed = oauthService.isAuthed();
-  const baseUrl = new URL('/', request.url);
-  const loginRedirectUrl = new URL('/account/login', request.url);
-
-  if (request.nextUrl.pathname.startsWith('/account/login')) {
-    // public url, must be logged out
-    return isAuthed ? NextResponse.redirect(baseUrl) : NextResponse.next();
-  }
-
   try {
-    await oauthService.checkAuth();
+    const isAuthed = await authService.isAuthed();
 
-    return NextResponse.next();
-  } catch (e: Error | string | any) {
-    // failed to log in
-    let response: NextResponse<unknown>;
-
-    if (typeof e === 'string') {
-      // existing redirect
-      const redirectUrl = new URL(e, baseUrl);
-
-      response = NextResponse.redirect(redirectUrl);
-    } else {
-      console.error(e);
-
-      // general redirect
-      response = NextResponse.redirect(loginRedirectUrl);
+    if (request.nextUrl.pathname.startsWith('/account/login')) {
+      // public url, must be logged out
+      return isAuthed ? NextResponse.redirect(new URL('/', request.nextUrl)) : NextResponse.next();
     }
 
-    response.cookies.delete('Authorization');
+    // private url, must be logged in, saving requested url to return after login
+    return isAuthed ? NextResponse.next() : authService.logout(request, request.nextUrl.pathname);
+  } catch (e) {
+    console.error(e);
 
-    return response;
+    return authService.logout(request);
   }
 };
 

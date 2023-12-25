@@ -1,16 +1,16 @@
 import { User, UserGetResponseDto } from '@/user/user.types';
-import { configFactory, IConfig } from '@/config';
-import { IOauthService } from '@/oauth/oauth-service.interface';
-import { oauthService } from '@/oauth/oauth.service';
+import { IConfig } from '@/config';
+import { IAuthService } from '@/auth/service/auth-service.interface';
+import { IUserService } from '@/user/service/user-service.interface';
 
-class UserService {
+class UserService implements IUserService {
   constructor(
     private readonly _config: IConfig,
-    private readonly _oauth: IOauthService,
+    private readonly _auth: IAuthService,
   ) {}
 
   async getCurrentUser(): Promise<User> {
-    const { accessToken } = await this._oauth.checkAuth();
+    const { accessToken } = await this._auth.getOauthCredentials();
 
     const requestUrl = new URL('/method/users.get', this._config.apiBaseUrl);
     requestUrl.searchParams.set('v', this._config.apiVersion);
@@ -29,4 +29,4 @@ class UserService {
   }
 }
 
-export const userService = new UserService(configFactory(), oauthService);
+export { UserService };

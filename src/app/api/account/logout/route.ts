@@ -1,11 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
+import { authService } from '@/auth/service';
 
-const AccountLogout = (req: NextRequest) => {
-  const response = NextResponse.redirect(new URL('/account/login', req.nextUrl));
-
-  response.cookies.delete('Authorization');
-
-  return response;
-};
+const AccountLogout = (req: NextRequest) => authService.logout(req);
 
 export { AccountLogout as GET };

@@ -6,7 +6,7 @@ import {
   TransactionSaveDto,
   TransactionSaveDtoSchema,
 } from '@/transaction/transaction.dto';
-import { transactionService } from '@/transaction/transaction.service';
+import { transactionService } from '@/transaction/service';
 
 const transactionSave = async (dto: TransactionSaveDto) => {
   const validatedFields = TransactionSaveDtoSchema.safeParse(dto);

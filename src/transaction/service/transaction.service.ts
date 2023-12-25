@@ -5,20 +5,19 @@ import {
   ITransactionRepository,
   TransactionRepositoryQuery,
 } from '@/transaction/transaction-repository.interface';
-import { TransactionRepository } from '@/transaction/transaction.repository';
 import { TransactionRemoveDto, TransactionSaveDto } from '@/transaction/transaction.dto';
 import { TransactionTable } from '@/transaction/transaction.table';
-import { IOauthService } from '@/oauth/oauth-service.interface';
-import { oauthService } from '@/oauth/oauth.service';
+import { IAuthService } from '@/auth/service/auth-service.interface';
+import { ITransactionService } from '@/transaction/service/transaction-service.interface';
 
-class TransactionService {
+class TransactionService implements ITransactionService {
   constructor(
     private readonly _repo: ITransactionRepository,
-    private readonly _oauth: IOauthService,
+    private readonly _auth: IAuthService,
   ) {}
 
   async getAll(query?: Omit<TransactionRepositoryQuery, 'userId'>): Promise<Transaction[]> {
-    const { userId } = await oauthService.checkAuth();
+    const { userId } = await this._auth.getOauthCredentials();
 
     return this._repo
       .list({
@@ -32,7 +31,7 @@ class TransactionService {
   }
 
   async save({ uuid, ...dto }: TransactionSaveDto): Promise<void> {
-    const { userId } = await oauthService.checkAuth();
+    const { userId } = await this._auth.getOauthCredentials();
 
     const model: Omit<TransactionTable, 'id'> & { id?: string } = {
       ...dto,
@@ -48,4 +47,4 @@ class TransactionService {
   }
 }
 
-export const transactionService = new TransactionService(new TransactionRepository(), oauthService);
+export { TransactionService };
