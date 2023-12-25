@@ -7,17 +7,17 @@ import {
 import { NextRequest, NextResponse } from 'next/server';
 import { ResponseCookie } from 'next/dist/compiled/@edge-runtime/cookies';
 import { cookies } from 'next/headers';
+import { IJwtService } from '@/auth/jwt/jwt-service.interface';
 
 class AuthService implements IAuthService {
   private static _COOKIE_KEY = 'Authorization';
 
-  async getOauthCredentials(): Promise<OauthCredentials> {
-    const token = cookies().get(AuthService._COOKIE_KEY)?.value!;
+  constructor(private readonly _jwt: IJwtService) {}
 
-    return {
-      accessToken: token,
-      userId: 0,
-    };
+  async getOauthCredentials(): Promise<OauthCredentials> {
+    const cookie = cookies().get(AuthService._COOKIE_KEY)?.value!;
+
+    return this._jwt.verify<OauthCredentials>(cookie);
   }
 
   async isAuthed(): Promise<boolean> {
@@ -25,7 +25,7 @@ class AuthService implements IAuthService {
   }
 
   async login(
-    { accessToken, expire }: OauthCredentialsWithExpire,
+    { expire, ...credentials }: OauthCredentialsWithExpire,
     request: NextRequest,
   ): Promise<NextResponse> {
     const returnUrl = request.nextUrl.searchParams.get('returnUrl') || '/';
@@ -41,7 +41,9 @@ class AuthService implements IAuthService {
       expires: expire,
     };
 
-    response.cookies.set(AuthService._COOKIE_KEY, accessToken, cookieOptions);
+    const token = await this._jwt.sign<OauthCredentials>(credentials, expire);
+
+    response.cookies.set(AuthService._COOKIE_KEY, token, cookieOptions);
 
     return response;
   }

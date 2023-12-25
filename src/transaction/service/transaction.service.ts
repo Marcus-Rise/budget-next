@@ -19,15 +19,10 @@ class TransactionService implements ITransactionService {
   async getAll(query?: Omit<TransactionRepositoryQuery, 'userId'>): Promise<Transaction[]> {
     const { userId } = await this._auth.getOauthCredentials();
 
-    return this._repo
-      .list({
-        userId: String(userId),
-        ...query,
-      })
-      .catch((e) => {
-        console.error(e);
-        return [];
-      });
+    return this._repo.list({
+      userId: String(userId),
+      ...query,
+    });
   }
 
   async save({ uuid, ...dto }: TransactionSaveDto): Promise<void> {

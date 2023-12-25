@@ -14,10 +14,13 @@ class UserService implements IUserService {
 
     const requestUrl = new URL('/method/users.get', this._config.apiBaseUrl);
     requestUrl.searchParams.set('v', this._config.apiVersion);
-    requestUrl.searchParams.set('access_token', accessToken);
     requestUrl.searchParams.append('fields', 'photo');
 
-    const response = await fetch(requestUrl);
+    const response = await fetch(requestUrl, {
+      headers: {
+        Authorization: 'Bearer ' + accessToken,
+      },
+    });
     const dto: UserGetResponseDto = await response.json();
 
     const { first_name, photo } = dto.response.at(0)!;
