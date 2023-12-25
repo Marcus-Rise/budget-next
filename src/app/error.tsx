@@ -13,6 +13,7 @@ export default function Error({
   reset: () => void;
 }) {
   useEffect(() => {
+    console.log(error.message);
     if (error.message === JWT_ERROR_MESSAGE) {
       redirect('/api/account/logout');
     }
