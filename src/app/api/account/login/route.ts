@@ -24,4 +24,6 @@ const AccountLogin = async (req: NextRequest) => {
   }
 };
 
+export const runtime = 'nodejs';
+
 export { AccountLogin as GET };
