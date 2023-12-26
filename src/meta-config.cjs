@@ -6,7 +6,7 @@ const metaConfig = {
   description: 'Приложение для учета бюджета',
   themeColor: {
     light: colors.white,
-    dark: "#22272d",
+    dark: "#1e1e1e",
   },
   author: {
     name: packageConfig.author.name,
