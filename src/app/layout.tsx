@@ -29,7 +29,6 @@ const metadata: Metadata = {
   applicationName: metaConfig.title,
   title: metaConfig.title,
   description: metaConfig.description,
-  manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
