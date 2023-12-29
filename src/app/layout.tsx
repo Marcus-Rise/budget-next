@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { FC, PropsWithChildren } from 'react';
 import { Roboto } from 'next/font/google';
-import { configFactory } from '@/config';
 import classNames from 'classnames';
 import metaConfig from '@/meta-config.cjs';
 import Logo from './icon.png';
@@ -26,28 +25,22 @@ const RootLayout: FC<PropsWithChildren> = ({ children }) => (
   </html>
 );
 
-const generateMetadata = (): Metadata => {
-  const { baseUrl } = configFactory();
-
-  return {
-    metadataBase: baseUrl,
-
-    applicationName: metaConfig.title,
+const metadata: Metadata = {
+  applicationName: metaConfig.title,
+  title: metaConfig.title,
+  description: metaConfig.description,
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: metaConfig.title,
+  },
+  openGraph: {
+    images: Logo.src,
     title: metaConfig.title,
     description: metaConfig.description,
-    manifest: '/manifest.json',
-    appleWebApp: {
-      capable: true,
-      statusBarStyle: 'default',
-      title: metaConfig.title,
-    },
-    openGraph: {
-      images: new URL(Logo.src, baseUrl),
-      title: metaConfig.title,
-      description: metaConfig.description,
-      type: 'website',
-    },
-  };
+    type: 'website',
+  },
 };
 
 const viewport: Viewport = {
@@ -61,4 +54,4 @@ const viewport: Viewport = {
 };
 
 export default RootLayout;
-export { generateMetadata, viewport };
+export { metadata, viewport };
