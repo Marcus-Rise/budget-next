@@ -4,7 +4,6 @@ import { FC, PropsWithChildren } from 'react';
 import { Roboto } from 'next/font/google';
 import classNames from 'classnames';
 import metaConfig from '@/meta-config.cjs';
-import Logo from './icon.png';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
@@ -33,12 +32,6 @@ const metadata: Metadata = {
     capable: true,
     statusBarStyle: 'default',
     title: metaConfig.title,
-  },
-  openGraph: {
-    images: Logo.src,
-    title: metaConfig.title,
-    description: metaConfig.description,
-    type: 'website',
   },
 };
 
