@@ -1,6 +1,5 @@
 import type { MetadataRoute } from 'next';
 import metaConfig from '@/meta-config.cjs';
-import icon from '@/app/icon.png';
 import icon512 from '@/assets/maskable_icon_x512.png';
 import icon384 from '@/assets/maskable_icon_x384.png';
 import icon192 from '@/assets/maskable_icon_x192.png';
@@ -14,7 +13,6 @@ const getManifestIcon = (image: StaticImageData) => ({
   src: image.src,
   type: 'image/png',
   sizes: `${image.width}x${image.height}`,
-  purpose: 'maskable' as const,
 });
 
 const icons = [icon512, icon384, icon192, icon128, icon96, icon72, icon48].map((icon) =>
@@ -31,15 +29,7 @@ const generateManifest = (): MetadataRoute.Manifest => ({
   orientation: 'portrait',
   start_url: '/',
   id: '/',
-  icons: [
-    ...icons,
-    {
-      src: icon.src,
-      type: 'image/png',
-      sizes: `${icon.width}x${icon.height}`,
-      purpose: 'any',
-    },
-  ],
+  icons,
 });
 
 export default generateManifest;
