@@ -1,8 +1,7 @@
-import type { NextRequest } from 'next/server';
-import { NextResponse } from 'next/server';
+import { NextMiddleware, NextResponse } from 'next/server';
 import { authService } from '@/auth/service';
 
-const middleware = async (request: NextRequest) => {
+const middleware: NextMiddleware = async (request) => {
   try {
     const isAuthed = await authService.isAuthed();
 
