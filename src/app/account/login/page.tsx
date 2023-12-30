@@ -2,16 +2,15 @@ import { FC } from 'react';
 import { OauthVkLoginButton } from '@/oauth/vk-login-button';
 import { oauthConfigFactory } from '@/oauth/config';
 import { LoginLink } from '@/app/account/login/login-link.component';
-import Image from 'next/image';
-import Logo from '@/app/icon.png';
 import Link from 'next/link';
 import metaConfig from '@/meta-config.cjs';
 import { Footer } from '@/app/footer.component';
+import { LogoIcon } from '@/assets';
+
+const LogoSize = 128;
 
 const Login: FC = () => {
   const { appId, redirectUrl, idApiUrl } = oauthConfigFactory();
-
-  const logoSize = 100;
 
   return (
     <div className={'h-[calc(100dvh)] w-full flex flex-col'}>
@@ -21,7 +20,7 @@ const Login: FC = () => {
             <h1 className={'font-bold text-center text-4xl'}>{metaConfig.title}</h1>
           </Link>
 
-          <Image alt={'logo'} src={Logo} width={logoSize} height={logoSize} />
+          <LogoIcon size={LogoSize} />
 
           <p className={'text-center text-2xl'}>Добро пожаловать!</p>
 
