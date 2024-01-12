@@ -15,7 +15,7 @@ import { Price } from '@/components/price';
 const Page = ({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: Record<string, string | string[] | undefined>;
 }): JSX.Element => {
   const dateStart = searchParams.dateStart;
   const dateEnd = searchParams.dateEnd;

@@ -62,6 +62,7 @@ const TransactionForm: FC<TransactionFormProps> = ({
       <Controller
         control={control}
         name={'title'}
+        disabled={isPending}
         render={({ field, fieldState }) => (
           <Input
             {...field}
@@ -75,6 +76,7 @@ const TransactionForm: FC<TransactionFormProps> = ({
       <Controller
         control={control}
         name={'category'}
+        disabled={isPending}
         render={({ field, fieldState }) => (
           <Input {...field} type="text" label={'Категория'} error={fieldState.error?.message} />
         )}
@@ -83,6 +85,7 @@ const TransactionForm: FC<TransactionFormProps> = ({
         <Controller
           control={control}
           name={'amount'}
+          disabled={isPending}
           render={({ field: { onChange, ...field }, fieldState }) => (
             <Input
               {...field}
@@ -118,7 +121,7 @@ const TransactionForm: FC<TransactionFormProps> = ({
           <Button
             type={'button'}
             variant={'secondary'}
-            disabled={amountCurrentValue > 0}
+            disabled={isPending || amountCurrentValue > 0}
             onClick={toggleAmountSign}
             rounded
           >
@@ -128,7 +131,7 @@ const TransactionForm: FC<TransactionFormProps> = ({
             type={'button'}
             variant={'secondary'}
             rounded
-            disabled={amountCurrentValue < 0}
+            disabled={isPending || amountCurrentValue < 0}
             onClick={toggleAmountSign}
           >
             <IconMinus />
@@ -139,6 +142,7 @@ const TransactionForm: FC<TransactionFormProps> = ({
       <Controller
         control={control}
         name={'date'}
+        disabled={isPending}
         render={({ field: { value, onChange, ...field }, fieldState }) => (
           <Input
             {...field}
