@@ -32,7 +32,7 @@ const metadata: Metadata = {
     capable: true,
     statusBarStyle: 'default',
     title: metaConfig.title,
-    startupImage: '/manifest-icon/256',
+    startupImage: '/manifest-icon/512',
   },
 };
 
