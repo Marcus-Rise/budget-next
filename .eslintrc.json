@@ -1,3 +1,14 @@
 {
-  "extends": ["next/core-web-vitals", "prettier"]
+  "extends": [
+    "next/core-web-vitals",
+    "prettier"
+  ],
+  "plugins": [
+    "@typescript-eslint"
+  ],
+  "rules": {
+    "newline-before-return": "error",
+    "@typescript-eslint/consistent-type-imports": "error",
+    "object-shorthand": "error"
+  }
 }

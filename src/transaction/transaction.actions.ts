@@ -1,9 +1,8 @@
 'use server';
 
+import type { TransactionRemoveDto, TransactionSaveDto } from '@/transaction/transaction.dto';
 import {
-  TransactionRemoveDto,
   TransactionRemoveDtoSchema,
-  TransactionSaveDto,
   TransactionSaveDtoSchema,
 } from '@/transaction/transaction.dto';
 import { transactionService } from '@/transaction/service';

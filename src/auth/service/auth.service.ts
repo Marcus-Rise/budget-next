@@ -1,13 +1,14 @@
 import 'server-only';
-import { IAuthService } from '@/auth/service/auth-service.interface';
-import {
+import type { IAuthService } from '@/auth/service/auth-service.interface';
+import type {
   OauthCredentials,
   OauthCredentialsWithExpire,
 } from '@/oauth/service/oauth-service.interface';
-import { NextRequest, NextResponse } from 'next/server';
-import { ResponseCookie } from 'next/dist/compiled/@edge-runtime/cookies';
+import type { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
+import type { ResponseCookie } from 'next/dist/compiled/@edge-runtime/cookies';
 import { cookies } from 'next/headers';
-import { IJwtService } from '@/auth/jwt/jwt-service.interface';
+import type { IJwtService } from '@/auth/jwt/jwt-service.interface';
 
 class AuthService implements IAuthService {
   private static _COOKIE_KEY = 'Authorization';

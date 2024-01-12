@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Transaction } from '@/transaction/transaction.types';
+import type { Transaction } from '@/transaction/transaction.types';
 
 type State = {
   transaction: Partial<Transaction> | null;

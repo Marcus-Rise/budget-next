@@ -1,4 +1,4 @@
-import { User } from '@/user/user.types';
+import type { User } from '@/user/user.types';
 
 interface IUserService {
   getCurrentUser(): Promise<User>;

@@ -1,7 +1,7 @@
 'use client';
 
 import type { FC, PropsWithChildren } from 'react';
-import { Transaction } from '@/transaction/transaction.types';
+import type { Transaction } from '@/transaction/transaction.types';
 import { useTransactionEditorStore } from '@/transaction/transaction-editor.store';
 import { useCallback } from 'react';
 

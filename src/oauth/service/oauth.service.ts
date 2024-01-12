@@ -1,17 +1,17 @@
 import 'server-only';
-import { IOauthConfig } from '@/oauth/config';
-import {
+import type { IOauthConfig } from '@/oauth/config';
+import type {
   OauthAccessTokenCheckResponseDto,
   OauthAccessTokenResponseDto,
   OauthSilentTokenPayload,
 } from '@/oauth/oauth.types';
 import { OauthLoginException } from '@/oauth/oauth-login.exception';
-import {
+import type {
   IOauthService,
   OauthCredentials,
   OauthCredentialsExpire,
 } from '@/oauth/service/oauth-service.interface';
-import { IConfig } from '@/config';
+import type { IConfig } from '@/config';
 
 class OauthService implements IOauthService {
   constructor(

@@ -1,4 +1,4 @@
-import { TransactionSaveDto } from '@/transaction/transaction.dto';
+import type { TransactionSaveDto } from '@/transaction/transaction.dto';
 
 abstract class TransactionDtoFactory {
   static empty(): Partial<TransactionSaveDto> {

@@ -1,4 +1,5 @@
-import { JSX, Suspense } from 'react';
+import type { JSX } from 'react';
+import { Suspense } from 'react';
 import { TransactionList, TransactionListSkeleton } from '@/transaction/components/list';
 import { TransactionEditor } from '@/transaction/components/transaction-editor.component';
 import { TransactionCreateButton } from '@/transaction/components/transaction-create-button.component';

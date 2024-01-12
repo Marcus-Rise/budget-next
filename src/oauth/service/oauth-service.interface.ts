@@ -1,4 +1,4 @@
-import { OauthSilentTokenPayload } from '@/oauth/oauth.types';
+import type { OauthSilentTokenPayload } from '@/oauth/oauth.types';
 
 type OauthAccessToken = string;
 type UserId = number;

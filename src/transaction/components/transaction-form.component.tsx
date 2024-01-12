@@ -2,11 +2,13 @@
 
 import type { FC } from 'react';
 import { useEffect } from 'react';
-import { Controller, SubmitHandler, useForm, useWatch } from 'react-hook-form';
+import type { SubmitHandler } from 'react-hook-form';
+import { Controller, useForm, useWatch } from 'react-hook-form';
 import { format } from 'date-fns/format';
 import { Input } from '@/components/input.component';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { TransactionSaveDtoSchema, TransactionSaveDto } from '@/transaction/transaction.dto';
+import type { TransactionSaveDto } from '@/transaction/transaction.dto';
+import { TransactionSaveDtoSchema } from '@/transaction/transaction.dto';
 import { Button } from '@/components/button.component';
 import { IconMinus, IconPlus } from '@/assets';
 import classNames from 'classnames';

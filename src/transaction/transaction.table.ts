@@ -1,5 +1,5 @@
 import 'server-only';
-import { Generated } from 'kysely';
+import type { Generated } from 'kysely';
 
 interface TransactionTable {
   id: Generated<string>;

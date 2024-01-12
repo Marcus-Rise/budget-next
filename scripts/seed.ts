@@ -1,9 +1,9 @@
 import 'dotenv-flow/config';
-import { TransactionTable } from '@/transaction/transaction.table';
+import type { TransactionTable } from '@/transaction/transaction.table';
 // @ts-ignore
 import data from './seed.json';
-import { Kysely } from 'kysely';
-import { Database } from '@/db/database.types';
+import type { Kysely } from 'kysely';
+import type { Database } from '@/db/database.types';
 import { db } from '@/db';
 
 type TransactionDto = {

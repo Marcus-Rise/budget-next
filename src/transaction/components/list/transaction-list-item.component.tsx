@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { Transaction } from '@/transaction/transaction.types';
+import type { Transaction } from '@/transaction/transaction.types';
 import { Price } from '@/components/price';
 
 type TransactionListItemProps = Pick<Transaction, 'amount' | 'title' | 'category'>;

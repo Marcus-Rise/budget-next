@@ -1,5 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { OauthSilentTokenPayload } from '@/oauth/oauth.types';
+import type { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
+import type { OauthSilentTokenPayload } from '@/oauth/oauth.types';
 import { oauthService } from '@/oauth/service';
 import { authService } from '@/auth/service';
 

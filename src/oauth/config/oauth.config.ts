@@ -1,5 +1,5 @@
 import 'server-only';
-import { OauthConfigFactory } from '@/oauth/config/oauth-config.interface';
+import type { OauthConfigFactory } from '@/oauth/config/oauth-config.interface';
 
 const oauthConfigFactory: OauthConfigFactory = () => {
   const redirectOriginUrl = new URL(process.env.VK_ID_REDIRECT_URL!);

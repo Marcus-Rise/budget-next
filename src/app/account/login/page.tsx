@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import { OauthVkLoginButton } from '@/oauth/vk-login-button';
 import { oauthConfigFactory } from '@/oauth/config';
 import { LoginLink } from '@/app/account/login/login-link.component';

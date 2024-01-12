@@ -1,6 +1,6 @@
-import { AccessToken, IJwtService, JwtPayload } from '@/auth/jwt/jwt-service.interface';
+import type { AccessToken, IJwtService, JwtPayload } from '@/auth/jwt/jwt-service.interface';
 import jwt from 'jsonwebtoken';
-import { IJwtConfig } from '@/auth/jwt/jwt-config.interface';
+import type { IJwtConfig } from '@/auth/jwt/jwt-config.interface';
 import { differenceInDays } from 'date-fns/differenceInDays';
 import { JwtException } from '@/auth/jwt/jwt.exception';
 import { JWT_ERROR_MESSAGE } from '@/auth/jwt/jwt.constants';

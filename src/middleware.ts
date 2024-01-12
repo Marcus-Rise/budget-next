@@ -1,4 +1,5 @@
-import { NextMiddleware, NextResponse } from 'next/server';
+import type { NextMiddleware } from 'next/server';
+import { NextResponse } from 'next/server';
 import { authService } from '@/auth/service';
 
 const middleware: NextMiddleware = async (request) => {

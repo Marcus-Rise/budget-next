@@ -1,8 +1,8 @@
-import {
+import type {
   OauthCredentials,
   OauthCredentialsWithExpire,
 } from '@/oauth/service/oauth-service.interface';
-import { NextRequest, NextResponse } from 'next/server';
+import type { NextRequest, NextResponse } from 'next/server';
 
 interface IAuthService {
   login(oauthCredentials: OauthCredentialsWithExpire, request: NextRequest): Promise<NextResponse>;

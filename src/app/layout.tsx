@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
-import { FC, PropsWithChildren } from 'react';
+import type { FC, PropsWithChildren } from 'react';
 import { Roboto } from 'next/font/google';
 import classNames from 'classnames';
 import metaConfig from '@/meta-config.cjs';

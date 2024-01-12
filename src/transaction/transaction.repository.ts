@@ -1,10 +1,10 @@
 import 'server-only';
-import { Transaction } from '@/transaction/transaction.types';
-import {
+import type { Transaction } from '@/transaction/transaction.types';
+import type {
   ITransactionRepository,
   TransactionRepositoryQuery,
 } from '@/transaction/transaction-repository.interface';
-import { TransactionTable } from '@/transaction/transaction.table';
+import type { TransactionTable } from '@/transaction/transaction.table';
 import { db } from '@/db';
 
 class TransactionRepository implements ITransactionRepository {

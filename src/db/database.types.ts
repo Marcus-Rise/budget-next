@@ -1,4 +1,4 @@
-import { TransactionTable } from '@/transaction/transaction.table';
+import type { TransactionTable } from '@/transaction/transaction.table';
 
 interface Database {
   transactions: TransactionTable;

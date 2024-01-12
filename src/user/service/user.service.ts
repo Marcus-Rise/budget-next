@@ -1,7 +1,7 @@
-import { User, UserGetResponseDto } from '@/user/user.types';
-import { IConfig } from '@/config';
-import { IAuthService } from '@/auth/service/auth-service.interface';
-import { IUserService } from '@/user/service/user-service.interface';
+import type { User, UserGetResponseDto } from '@/user/user.types';
+import type { IConfig } from '@/config';
+import type { IAuthService } from '@/auth/service/auth-service.interface';
+import type { IUserService } from '@/user/service/user-service.interface';
 
 class UserService implements IUserService {
   constructor(
