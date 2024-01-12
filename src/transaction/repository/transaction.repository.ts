@@ -3,15 +3,16 @@ import type { Transaction } from '@/transaction/transaction.types';
 import type {
   ITransactionRepository,
   TransactionRepositoryQuery,
-} from '@/transaction/transaction-repository.interface';
-import type { TransactionTable } from '@/transaction/transaction.table';
-import { db } from '@/db';
+} from '@/transaction/repository/transaction-repository.interface';
+import type { TransactionTable } from '@/transaction/repository/transaction.table';
+import type { Kysely } from 'kysely';
+import type { Database } from '@/db/database.types';
 
 class TransactionRepository implements ITransactionRepository {
-  constructor() {}
+  constructor(private readonly _db: Kysely<Database>) {}
 
   async list(query?: TransactionRepositoryQuery): Promise<Transaction[]> {
-    let queryBuilder = db.selectFrom('transactions').selectAll().orderBy('date', 'desc');
+    let queryBuilder = this._db.selectFrom('transactions').selectAll().orderBy('date', 'desc');
 
     if (query?.userId) {
       queryBuilder = queryBuilder.where('userId', '=', query.userId);
@@ -45,7 +46,7 @@ class TransactionRepository implements ITransactionRepository {
     title,
   }: Omit<TransactionTable, 'id'> & { id?: string }): Promise<void> {
     if (!!id) {
-      await db
+      await this._db
         .updateTable('transactions')
         .set({
           amount,
@@ -56,7 +57,7 @@ class TransactionRepository implements ITransactionRepository {
         .where('id', '=', id)
         .execute();
     } else {
-      await db
+      await this._db
         .insertInto('transactions')
         .values({
           amount,
@@ -70,7 +71,7 @@ class TransactionRepository implements ITransactionRepository {
   }
 
   async remove(id: string): Promise<void> {
-    await db.deleteFrom('transactions').where('id', '=', id).execute();
+    await this._db.deleteFrom('transactions').where('id', '=', id).execute();
   }
 }
 

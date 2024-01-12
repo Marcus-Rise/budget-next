@@ -1,5 +1,5 @@
 import type { Transaction } from '@/transaction/transaction.types';
-import type { TransactionTable } from '@/transaction/transaction.table';
+import type { TransactionTable } from '@/transaction/repository/transaction.table';
 
 type TransactionRepositoryQuery = Partial<{ userId: string; dateStart: Date; dateEnd: Date }>;
 

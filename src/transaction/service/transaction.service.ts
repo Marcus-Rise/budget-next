@@ -4,9 +4,8 @@ import type { Transaction } from '@/transaction/transaction.types';
 import type {
   ITransactionRepository,
   TransactionRepositoryQuery,
-} from '@/transaction/transaction-repository.interface';
+} from '@/transaction/repository/transaction-repository.interface';
 import type { TransactionRemoveDto, TransactionSaveDto } from '@/transaction/transaction.dto';
-import type { TransactionTable } from '@/transaction/transaction.table';
 import type { IAuthService } from '@/auth/service/auth-service.interface';
 import type { ITransactionService } from '@/transaction/service/transaction-service.interface';
 
@@ -28,13 +27,11 @@ class TransactionService implements ITransactionService {
   async save({ uuid, ...dto }: TransactionSaveDto): Promise<void> {
     const { userId } = await this._auth.getOauthCredentials();
 
-    const model: Omit<TransactionTable, 'id'> & { id?: string } = {
+    await this._repo.save({
       ...dto,
       id: uuid,
       userId: String(userId),
-    };
-
-    await this._repo.save(model);
+    });
   }
 
   async remove(dto: TransactionRemoveDto): Promise<void> {
