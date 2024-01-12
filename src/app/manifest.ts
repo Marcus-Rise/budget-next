@@ -1,7 +1,8 @@
 import type { MetadataRoute } from 'next';
 import metaConfig from '@/meta-config.cjs';
+import { ICON_SIZES } from '@/app/icon-sizes.constant';
 
-const icons = [128, 192, 256, 384, 512].flatMap((size) => {
+const icons = ICON_SIZES.flatMap((size) => {
   const contentType = 'image/png';
   const sizes = `${size}x${size}`;
   const srcBase = `/manifest-icon`;

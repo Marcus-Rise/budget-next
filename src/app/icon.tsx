@@ -1,8 +1,9 @@
 import { ImageResponse } from 'next/og';
 import { LogoImageResponse } from '@/app/logo-image-response.component';
+import { ICON_SIZES } from '@/app/icon-sizes.constant';
 
 const generateImageMetadata = () =>
-  [48, 72].map((size) => ({
+  ICON_SIZES.map((size) => ({
     contentType: 'image/png',
     id: String(size),
     size: { width: size, height: size },
