@@ -1,5 +1,5 @@
 import { ImageResponse } from 'next/og';
-import { LogoIcon } from '@/assets/logo.icon';
+import { LogoImageResponse } from '@/app/logo-image-response.component';
 
 const generateImageMetadata = () =>
   [48, 72].map((size) => ({
@@ -11,31 +11,10 @@ const generateImageMetadata = () =>
 const IconResponse = ({ id }: { id: string }) => {
   const size = id;
 
-  return new ImageResponse(
-    (
-      <div
-        style={{
-          background: 'transparent',
-          width: '100%',
-          height: '100%',
-          display: 'flex',
-          padding: '0',
-        }}
-      >
-        <LogoIcon
-          size={`${size}px`}
-          style={{
-            maxWidth: '100%',
-            maxHeight: '100%',
-          }}
-        />
-      </div>
-    ),
-    {
-      width: Number(size),
-      height: Number(size),
-    },
-  );
+  return new ImageResponse(<LogoImageResponse size={id} isMaskable={false} />, {
+    width: Number(size),
+    height: Number(size),
+  });
 };
 
 export default IconResponse;
