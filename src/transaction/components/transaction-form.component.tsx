@@ -186,3 +186,4 @@ const TransactionForm: FC<TransactionFormProps> = ({
 };
 
 export { TransactionForm };
+export default TransactionForm;

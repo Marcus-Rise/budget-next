@@ -3,11 +3,15 @@
 import type { FC } from 'react';
 import { useCallback, useEffect, useState, useTransition } from 'react';
 import { useTransactionEditorStore } from '@/transaction/transaction-editor.store';
-import { TransactionForm } from '@/transaction/components/transaction-form.component';
 import { transactionDelete, transactionSave } from '@/transaction/transaction.actions';
 import { useRouter } from 'next/navigation';
-import { TransactionSaveDto } from '@/transaction/transaction.dto';
+import type { TransactionSaveDto } from '@/transaction/transaction.dto';
 import classNames from 'classnames';
+import dynamic from 'next/dynamic';
+
+const TransactionForm = dynamic(
+  () => import('@/transaction/components/transaction-form.component'),
+);
 
 type TransactionEditorProps = { className?: string };
 
