@@ -1,25 +1,21 @@
 import { ImageResponse } from 'next/og';
 import { LogoIcon } from '@/assets/logo.icon';
+import type { NextRequest } from 'next/server';
 
-const generateImageMetadata = () =>
-  [48, 72].map((size) => ({
-    contentType: 'image/png',
-    id: String(size),
-    size: { width: size, height: size },
-  }));
-
-const IconResponse = ({ id }: { id: string }) => {
-  const size = id;
+const ManifestIcon = (request: NextRequest, { params: { id } }: { params: { id: string } }) => {
+  const isMaskable = id.includes('-maskable');
+  const size = isMaskable ? id.split('-').at(0) : id;
+  const padding = isMaskable ? `${Number(size) / 5}px` : '0';
 
   return new ImageResponse(
     (
       <div
         style={{
-          background: 'transparent',
+          background: isMaskable ? 'white' : 'transparent',
           width: '100%',
           height: '100%',
           display: 'flex',
-          padding: '0',
+          padding,
         }}
       >
         <LogoIcon
@@ -38,5 +34,4 @@ const IconResponse = ({ id }: { id: string }) => {
   );
 };
 
-export default IconResponse;
-export { generateImageMetadata };
+export { ManifestIcon as GET };
