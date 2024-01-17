@@ -1,27 +1,31 @@
 import type { AccessToken, IJwtService, JwtPayload } from '@/auth/jwt/jwt-service.interface';
-import jwt from 'jsonwebtoken';
+import { jwtVerify, SignJWT } from 'jose';
 import type { IJwtConfig } from '@/auth/jwt/jwt-config.interface';
-import { differenceInDays } from 'date-fns/differenceInDays';
 import { JwtException } from '@/auth/jwt/jwt.exception';
 import { JWT_ERROR_MESSAGE } from '@/auth/jwt/jwt.constants';
 
 class JwtService implements IJwtService {
   constructor(private readonly _config: IJwtConfig) {}
 
+  private get _secret() {
+    return new TextEncoder().encode(this._config.secret);
+  }
+
   async sign<Payload extends JwtPayload = JwtPayload>(
     payload: Payload,
     expire: Date,
   ): Promise<AccessToken> {
-    const expiredInDays = differenceInDays(expire, new Date());
-
-    return jwt.sign(payload, this._config.secret, {
-      expiresIn: `${expiredInDays}d`,
-    });
+    return await new SignJWT(payload)
+      .setProtectedHeader({ alg: 'HS256', typ: 'JWT' })
+      .setExpirationTime(expire)
+      .sign(this._secret);
   }
 
   async verify<Payload extends JwtPayload = JwtPayload>(token: AccessToken): Promise<Payload> {
     try {
-      return jwt.verify(token, this._config.secret) as Payload;
+      const { payload } = await jwtVerify(token, this._secret);
+
+      return payload as Payload;
     } catch (e) {
       console.error(e);
 

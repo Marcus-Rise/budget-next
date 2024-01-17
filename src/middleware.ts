@@ -20,8 +20,6 @@ const middleware: NextMiddleware = async (request) => {
   }
 };
 
-export const runtime = 'nodejs';
-
 /**
  * @link https://github.com/vercel/next.js/issues/59536
  */
