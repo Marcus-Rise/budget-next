@@ -28,7 +28,7 @@ module.exports = {
         success: {
           DEFAULT: 'var(--color-success)',
           light: colors.green['500'],
-          dark: colors.green['600'],
+          dark: colors.green['500'],
         },
         secondary: {
           DEFAULT: 'var(--color-secondary)',
