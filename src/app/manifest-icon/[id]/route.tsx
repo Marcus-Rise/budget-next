@@ -22,4 +22,6 @@ export const generateStaticParams = () => {
   ]);
 };
 
+export const runtime = 'nodejs';
+
 export { ManifestIcon as GET };
