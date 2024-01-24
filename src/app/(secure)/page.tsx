@@ -1,4 +1,4 @@
-import type { JSX } from 'react';
+import type { FC } from 'react';
 import { Suspense } from 'react';
 import { TransactionList, TransactionListSkeleton } from '@/transaction/components/list';
 import { TransactionEditor } from '@/transaction/components/transaction-editor.component';
@@ -13,11 +13,9 @@ import {
 import { IconPlus } from '@/assets';
 import { Price } from '@/components/price';
 
-const Page = ({
-  searchParams,
-}: {
+const Page: FC<{
   searchParams: Record<string, string | string[] | undefined>;
-}): JSX.Element => {
+}> = ({ searchParams }) => {
   const dateStart = searchParams.dateStart;
   const dateEnd = searchParams.dateEnd;
 
