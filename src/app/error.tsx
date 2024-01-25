@@ -20,7 +20,7 @@ export default function Error({
       <h1 className={'font-medium text-2xl'}>Что-то пошло не так!</h1>
       <div className={'flex flex-col items-center justify-between gap-3'}>
         <Button onClick={reset}>Обновить страницу</Button>
-        <Link className={'w-full'} href={'/api/account/logout'}>
+        <Link className={'w-full'} href={'/api/account/logout'} prefetch={false}>
           <Button className={'w-full'} variant={'secondary'}>
             Войти заново
           </Button>

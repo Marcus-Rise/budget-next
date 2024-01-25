@@ -66,7 +66,6 @@ const TransactionFilter: FC<TransactionFilterProps> = ({ className, dateStart, d
     <div className={classNames(className, 'flex flex-row gap-3 items-center')}>
       <Link
         href={isInCurrentPeriod ? '#' : `/?${todaySearchParams}`}
-        prefetch={false}
         className={classNames({
           'cursor-not-allowed': isInCurrentPeriod,
           'text-secondary': isInCurrentPeriod,
@@ -75,14 +74,14 @@ const TransactionFilter: FC<TransactionFilterProps> = ({ className, dateStart, d
         Сегодня
       </Link>
       <div className={'flex gap-3 items-center'}>
-        <Link href={'/?' + previousMonthSearchParams} prefetch={false}>
+        <Link href={'/?' + previousMonthSearchParams}>
           <IconChevronLeft width={iconSize} height={iconSize} />
         </Link>
         <div className={'flex flex-col md:flex-row content-center gap-1'}>
           <span className={'capitalize text-center'}>{dateMonth}</span>
           <span className={'capitalize text-center'}>{dateYear}</span>
         </div>
-        <Link href={'/?' + nextMonthIntervalSearchParams} prefetch={false}>
+        <Link href={'/?' + nextMonthIntervalSearchParams}>
           <IconChevronRight width={iconSize} height={iconSize} />
         </Link>
       </div>

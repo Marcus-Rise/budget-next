@@ -14,9 +14,7 @@ const Footer: FC<FooterProps> = ({ className, authorName, authorUrl }) => {
     <footer className={className}>
       <div className={'container mx-auto px-2 py-1 flex justify-end gap-1'}>
         <span>&copy; {year}</span>
-        <Link prefetch={false} href={authorUrl}>
-          {authorName}
-        </Link>
+        <Link href={authorUrl}>{authorName}</Link>
       </div>
     </footer>
   );
