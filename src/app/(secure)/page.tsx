@@ -1,11 +1,15 @@
 import type { FC } from 'react';
-import { TransactionList } from '@/transaction/components/list';
+import { Suspense } from 'react';
+import { TransactionList, TransactionListSkeleton } from '@/transaction/components/list';
 import { TransactionEditor } from '@/transaction/components/transaction-editor.component';
 import { TransactionCreateButton } from '@/transaction/components/transaction-create-button.component';
 import { ReloadButton } from '@/components/reload-button.component';
 import { TransactionFilter } from '@/transaction/components/transaction-filter.component';
 import { redirect } from 'next/navigation';
-import { TransactionStatistic } from '@/transaction/components/statistic';
+import {
+  TransactionStatistic,
+  TransactionStatisticSkeleton,
+} from '@/transaction/components/statistic';
 import { IconPlus } from '@/assets';
 import { Price } from '@/components/price';
 
@@ -37,21 +41,25 @@ const Page: FC<{
         </div>
       </div>
       <div className={'px-3 container mx-auto flex flex-col gap-3'}>
-        <TransactionStatistic
-          title={({ remainAmount }) => (
-            <h2 className={'inline text-xl font-medium'}>
-              За период: <Price className={'font-medium'} amount={remainAmount} />
-            </h2>
-          )}
-          dateStart={dateStart}
-          dateEnd={dateEnd}
-        />
+        <Suspense fallback={<TransactionStatisticSkeleton />}>
+          <TransactionStatistic
+            title={({ remainAmount }) => (
+              <h2 className={'inline text-xl font-medium'}>
+                За период: <Price className={'font-medium'} amount={remainAmount} />
+              </h2>
+            )}
+            dateStart={dateStart}
+            dateEnd={dateEnd}
+          />
+        </Suspense>
         <h2 className={'text-xl font-medium'}>История</h2>
-        <TransactionList dateStart={dateStart} dateEnd={dateEnd}>
-          <div className={'h-[calc(50dvh)] w-full flex flex-col items-center justify-center'}>
-            <TransactionCreateButton>Добавить первую запись</TransactionCreateButton>
-          </div>
-        </TransactionList>
+        <Suspense fallback={<TransactionListSkeleton />}>
+          <TransactionList dateStart={dateStart} dateEnd={dateEnd}>
+            <div className={'h-[calc(50dvh)] w-full flex flex-col items-center justify-center'}>
+              <TransactionCreateButton>Добавить первую запись</TransactionCreateButton>
+            </div>
+          </TransactionList>
+        </Suspense>
       </div>
     </div>
   );
