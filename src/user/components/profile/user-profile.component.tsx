@@ -2,11 +2,16 @@ import type { FC } from 'react';
 import Link from 'next/link';
 import { UserProfileImage } from '@/user/components/profile/user-profile-image.component';
 import { userService } from '@/user/service';
+import { redirect } from 'next/navigation';
 
 const PHOTO_SIZE = 35;
 
 const UserProfile: FC = async () => {
-  const user = await userService.getCurrentUser();
+  const user = await userService.getCurrentUser().catch((e) => {
+    console.error(e);
+
+    return redirect('/api/account/logout');
+  });
 
   return (
     <div className={'flex justify-between items-center gap-2'}>
