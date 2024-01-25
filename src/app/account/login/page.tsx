@@ -5,7 +5,7 @@ import { OauthLoginLink } from '@/oauth/components/oauth-login-link.component';
 import Link from 'next/link';
 import metaConfig from '@/meta-config.cjs';
 import { Footer } from '@/components/footer.component';
-import { LogoIcon } from '@/assets';
+import { LogoImage } from '@/components/logo-image.component';
 
 const LogoSize = 128;
 
@@ -20,7 +20,7 @@ const Login: FC = () => {
             <h1 className={'font-bold text-center text-4xl'}>{metaConfig.title}</h1>
           </Link>
 
-          <LogoIcon size={LogoSize} />
+          <LogoImage size={LogoSize} />
 
           <p className={'text-center text-2xl'}>Добро пожаловать!</p>
 
