@@ -1,5 +1,5 @@
 import { ImageResponse } from 'next/og';
-import { LogoImageResponse } from '@/app/logo-image-response.component';
+import { LogoImageResponse } from '@/components/logo-image-response.component';
 import { ICON_SIZES } from '@/app/icon-sizes.constant';
 
 const generateImageMetadata = () =>

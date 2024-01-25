@@ -1,16 +1,16 @@
 import type { FC } from 'react';
 import Link from 'next/link';
-import { ProfileImage } from '@/app/(secure)/profile/profile-image.component';
+import { UserProfileImage } from '@/user/components/profile/user-profile-image.component';
 import { userService } from '@/user/service';
 
 const PHOTO_SIZE = 35;
 
-const Profile: FC = async () => {
+const UserProfile: FC = async () => {
   const user = await userService.getCurrentUser();
 
   return (
     <div className={'flex justify-between items-center gap-2'}>
-      <ProfileImage
+      <UserProfileImage
         alt={'user avatar'}
         src={user.avatar}
         height={PHOTO_SIZE}
@@ -31,4 +31,4 @@ const Profile: FC = async () => {
   );
 };
 
-export { Profile };
+export { UserProfile };

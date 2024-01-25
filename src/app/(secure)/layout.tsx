@@ -1,8 +1,8 @@
 import type { FC, PropsWithChildren } from 'react';
 import { Suspense } from 'react';
 import Link from 'next/link';
-import { Profile, ProfileSkeleton } from '@/app/(secure)/profile';
-import { Footer } from '@/app/footer.component';
+import { UserProfile, UserProfileSkeleton } from '@/user/components/profile';
+import { Footer } from '@/components/footer.component';
 import metaConfig from '@/meta-config.cjs';
 import { LogoIcon } from '@/assets/logo.icon';
 
@@ -14,8 +14,8 @@ const SecureLayout: FC<PropsWithChildren> = ({ children }) => (
           <LogoIcon size={30} />
           <h1 className={'font-medium'}>{metaConfig.title}</h1>
         </Link>
-        <Suspense fallback={<ProfileSkeleton />}>
-          <Profile />
+        <Suspense fallback={<UserProfileSkeleton />}>
+          <UserProfile />
         </Suspense>
       </div>
     </header>

@@ -6,12 +6,12 @@ import Image from 'next/image';
 import { IconProfile } from '@/assets';
 import classNames from 'classnames';
 
-type ProfileImageProps = Pick<
+type UserProfileImageProps = Pick<
   ComponentProps<typeof Image>,
   'src' | 'className' | 'alt' | 'height' | 'width'
 >;
 
-const ProfileImage: FC<ProfileImageProps> = ({ alt, src, className, height, width }) => {
+const UserProfileImage: FC<UserProfileImageProps> = ({ alt, src, className, height, width }) => {
   const [error, setError] = useState(false);
 
   useEffect(() => {
@@ -36,4 +36,4 @@ const ProfileImage: FC<ProfileImageProps> = ({ alt, src, className, height, widt
   );
 };
 
-export { ProfileImage };
+export { UserProfileImage };

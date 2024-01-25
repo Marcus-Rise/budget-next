@@ -2,7 +2,7 @@ import type { FC, PropsWithChildren } from 'react';
 import { v4 as uuid } from 'uuid';
 import Link from 'next/link';
 
-type LoginLinkProps = PropsWithChildren<{
+type OauthLoginLinkProps = PropsWithChildren<{
   className?: string;
   apiUrl: string;
   appId: string | number;
@@ -10,7 +10,7 @@ type LoginLinkProps = PropsWithChildren<{
   redirectUri: string;
 }>;
 
-const LoginLink: FC<LoginLinkProps> = ({
+const OauthLoginLink: FC<OauthLoginLinkProps> = ({
   className,
   children,
   apiUrl,
@@ -31,4 +31,4 @@ const LoginLink: FC<LoginLinkProps> = ({
   );
 };
 
-export { LoginLink };
+export { OauthLoginLink };

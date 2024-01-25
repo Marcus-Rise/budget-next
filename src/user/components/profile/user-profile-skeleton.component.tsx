@@ -1,8 +1,8 @@
 import type { FC } from 'react';
 
-type ProfileSkeletonProps = {};
+type UserProfileSkeletonProps = {};
 
-const ProfileSkeleton: FC<ProfileSkeletonProps> = ({}) => {
+const UserProfileSkeleton: FC<UserProfileSkeletonProps> = ({}) => {
   return (
     <div className="animate-pulse flex flex-row items-center gap-3">
       <div className="rounded-full bg-skeleton h-9 w-9"></div>
@@ -11,4 +11,4 @@ const ProfileSkeleton: FC<ProfileSkeletonProps> = ({}) => {
   );
 };
 
-export { ProfileSkeleton };
+export { UserProfileSkeleton };

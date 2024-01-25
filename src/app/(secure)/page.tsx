@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 import { TransactionList, TransactionListSkeleton } from '@/transaction/components/list';
 import { TransactionEditor } from '@/transaction/components/transaction-editor.component';
 import { TransactionCreateButton } from '@/transaction/components/transaction-create-button.component';
-import { ReloadButton } from '@/app/(secure)/reload-button.component';
+import { ReloadButton } from '@/components/reload-button.component';
 import { TransactionFilter } from '@/transaction/components/transaction-filter.component';
 import { redirect } from 'next/navigation';
 import {
