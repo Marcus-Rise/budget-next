@@ -18,10 +18,6 @@ const transactionSave = async (dto: TransactionSaveDto) => {
   }
 
   await transactionService.save(dto);
-
-  return {
-    success: true,
-  };
 };
 
 const transactionDelete = async (dto: TransactionRemoveDto) => {
@@ -35,10 +31,6 @@ const transactionDelete = async (dto: TransactionRemoveDto) => {
   }
 
   await transactionService.remove(dto);
-
-  return {
-    success: true,
-  };
 };
 
 export { transactionSave, transactionDelete };

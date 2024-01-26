@@ -1,7 +1,7 @@
 'use client';
 
 import type { FC } from 'react';
-import { useCallback, useEffect, useState, useTransition } from 'react';
+import { useCallback, useEffect, useTransition } from 'react';
 import { useTransactionEditorStore } from '@/transaction/transaction-editor.store';
 import { transactionDelete, transactionSave } from '@/transaction/transaction.actions';
 import { useRouter } from 'next/navigation';
@@ -21,39 +21,34 @@ const TransactionEditor: FC<TransactionEditorProps> = ({ className }) => {
   const transactionToEdit = useTransactionEditorStore((state) => state.transaction);
   const closeEditor = useTransactionEditorStore((state) => state.closeEditor);
   const [isPending, startTransition] = useTransition();
-  const [isSending, setIsSending] = useState(false);
 
   const saveTransaction = useCallback(
     async (dto: TransactionSaveDto) => {
-      setIsSending(true);
+      startTransition(async () => {
+        try {
+          await transactionSave({ ...dto, uuid: transactionToEdit?.uuid });
+          closeEditor();
 
-      try {
-        await transactionSave({ ...dto, uuid: transactionToEdit?.uuid });
-        closeEditor();
-
-        startTransition(() => router.refresh());
-      } catch (e) {
-        console.error(e);
-      }
-
-      setIsSending(false);
+          router.refresh();
+        } catch (e) {
+          console.error(e);
+        }
+      });
     },
     [closeEditor, router, transactionToEdit?.uuid],
   );
 
   const deleteTransaction = useCallback(async () => {
-    setIsSending(true);
+    startTransition(async () => {
+      try {
+        await transactionDelete({ uuid: transactionToEdit?.uuid! });
+        closeEditor();
 
-    try {
-      await transactionDelete({ uuid: transactionToEdit?.uuid! });
-      closeEditor();
-
-      startTransition(() => router.refresh());
-    } catch (e) {
-      console.error(e);
-    }
-
-    setIsSending(false);
+        router.refresh();
+      } catch (e) {
+        console.error(e);
+      }
+    });
   }, [closeEditor, router, transactionToEdit?.uuid]);
 
   useEffect(() => {
@@ -114,7 +109,7 @@ const TransactionEditor: FC<TransactionEditorProps> = ({ className }) => {
           title={transactionToEdit.title}
           category={transactionToEdit.category}
           amount={transactionToEdit.amount}
-          isPending={isSending || isPending}
+          isPending={isPending}
           onSubmit={saveTransaction}
           onCancel={closeEditor}
           onDelete={deleteTransaction}
