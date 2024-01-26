@@ -19,8 +19,8 @@ class TransactionService implements ITransactionService {
     const { userId } = await this._auth.getOauthCredentials();
 
     return this._repo.list({
-      userId: String(userId),
       ...query,
+      userId: String(userId),
     });
   }
 
