@@ -1,36 +1,21 @@
 import type { FC } from 'react';
 import classNames from 'classnames';
-import { parse } from 'date-fns/parse';
 import { format } from 'date-fns/format';
-import { lastDayOfMonth } from 'date-fns/lastDayOfMonth';
 import { isWithinInterval } from 'date-fns/isWithinInterval';
 import { subMonths } from 'date-fns/subMonths';
 import { addMonths } from 'date-fns/addMonths';
-import { redirect } from 'next/navigation';
 import { ru as locale } from 'date-fns/locale/ru';
 import { IconChevronLeft, IconChevronRight } from '@/assets';
 import Link from 'next/link';
+import { dateToSearchParam, getDateMonthInterval } from '@/utils/date.helper';
 
 type TransactionFilterProps = {
   className?: string;
-  dateStart?: string;
-  dateEnd?: string;
+  date: Date;
 };
-
-const getMonthInterval = (date: Date): { start: Date; end: Date } => {
-  const firstDateOfMonth = parse(format(date, 'yyyy-MM-01'), 'yyyy-MM-01', new Date());
-  const lastDateOfMonth = lastDayOfMonth(date);
-
-  return {
-    start: firstDateOfMonth,
-    end: lastDateOfMonth,
-  };
-};
-
-const dateToSearchParam = (date: Date): string => format(date, 'yyyy-MM-dd');
 
 const getDateSearchParams = (date: Date): URLSearchParams => {
-  const period = getMonthInterval(date);
+  const period = getDateMonthInterval(date);
 
   return new URLSearchParams({
     dateStart: dateToSearchParam(period.start),
@@ -38,19 +23,14 @@ const getDateSearchParams = (date: Date): URLSearchParams => {
   });
 };
 
-const TransactionFilter: FC<TransactionFilterProps> = ({ className, dateStart, dateEnd }) => {
+const TransactionFilter: FC<TransactionFilterProps> = ({ className, date }) => {
   const today = new Date();
-  const todayPeriod = getMonthInterval(today);
+  const todayPeriod = getDateMonthInterval(today);
   const todaySearchParams = new URLSearchParams({
     dateStart: dateToSearchParam(todayPeriod.start),
     dateEnd: dateToSearchParam(todayPeriod.end),
   });
 
-  if (!dateStart || !dateEnd) {
-    return redirect('/?' + todaySearchParams);
-  }
-
-  const date = parse(dateStart, 'yyyy-MM-dd', new Date());
   const isInCurrentPeriod = isWithinInterval(date, todayPeriod);
   const dateMonth = format(date, 'LLLL', {
     locale,

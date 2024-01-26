@@ -2,26 +2,19 @@ import type { FC } from 'react';
 import { Collapse } from '@/components/collapse.component';
 import { Price } from '@/components/price';
 import { TransactionStatisticChart } from '@/transaction/components/statistic/transaction-statistic-chart.component';
-import { transactionService } from '@/transaction/service';
+import type { Transaction } from '@/transaction/transaction.types';
 
 type TransactionStatisticProps = {
-  dateStart?: string;
-  dateEnd?: string;
   className?: string;
   title: FC<{ remainAmount: number }>;
+  transactions: Array<Transaction>;
 };
 
 const TransactionStatistic: FC<TransactionStatisticProps> = async ({
   className,
-  dateStart,
-  dateEnd,
+  transactions,
   title: Title,
 }) => {
-  const transactions = await transactionService.getAll({
-    dateStart: dateStart ? new Date(dateStart) : undefined,
-    dateEnd: dateEnd ? new Date(dateEnd) : undefined,
-  });
-
   const creditCategories = new Map<string, number>();
   const debitCategories = new Map<string, number>();
 

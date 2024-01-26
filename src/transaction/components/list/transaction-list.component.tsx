@@ -6,32 +6,21 @@ import { TransactionListItemEditSpy } from '@/transaction/components/list/transa
 import classNames from 'classnames';
 import { Price } from '@/components/price';
 import { Collapse } from '@/components/collapse.component';
-import { transactionService } from '@/transaction/service';
+import type { Transaction } from '@/transaction/transaction.types';
 
 type TransactionListProps = PropsWithChildren<{
   className?: string;
-  dateStart?: string;
-  dateEnd?: string;
+  transactions: Array<Transaction>;
 }>;
 
-const TransactionList: FC<TransactionListProps> = async ({
-  children,
-  className,
-  dateStart,
-  dateEnd,
-}) => {
-  const items = await transactionService.getAll({
-    dateStart: dateStart ? new Date(dateStart) : undefined,
-    dateEnd: dateEnd ? new Date(dateEnd) : undefined,
-  });
-
-  if (!items.length) {
+const TransactionList: FC<TransactionListProps> = async ({ children, className, transactions }) => {
+  if (!transactions.length) {
     return <div className={className}>{children}</div>;
   }
 
   return (
     <ListDated
-      items={items}
+      items={transactions}
       renderWrapper={({ children }) => (
         <dl className={classNames(className, 'flex flex-col gap-5')}>{children}</dl>
       )}
