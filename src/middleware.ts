@@ -32,7 +32,7 @@ export const config = {
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
      */
-    '/((?!api|_next/static|_next/image|manifest.webmanifest|favicon.ico|icon.png|manifest-icon*|icon*|.*js).*)',
+    '/((?!api|_next/static|_next/image|manifest.webmanifest|favicon.ico|icon.png|opengraph-image|manifest-icon*|icon*|.*js).*)',
   ],
 };
 

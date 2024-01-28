@@ -36,4 +36,6 @@ const generateManifest = (): MetadataRoute.Manifest => ({
   icons,
 });
 
+export const runtime = 'nodejs';
+
 export default generateManifest;

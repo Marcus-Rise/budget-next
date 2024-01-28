@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import metaConfig from '@/meta-config.cjs';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import { configFactory } from '@/config';
 
 const roboto = Roboto({
   weight: ['400', '500', '700'],
@@ -33,6 +34,10 @@ const metadata: Metadata = {
     statusBarStyle: 'default',
     title: metaConfig.title,
     startupImage: '/manifest-icon/512',
+  },
+  metadataBase: configFactory().canonicalBaseUrl,
+  twitter: {
+    card: 'summary',
   },
 };
 
