@@ -1,9 +1,6 @@
 import 'server-only';
 import type { OauthCredentials } from '@/oauth/oauth.types';
-import type {
-  IOauthCredentialsRepository,
-  OauthCredentialsRepositoryQuery,
-} from '@/oauth/repository/oauth-credentials-repository.interface';
+import type { IOauthCredentialsRepository } from '@/oauth/repository/oauth-credentials-repository.interface';
 import type { Kysely } from 'kysely';
 import type { Database } from '@/db/database.types';
 import type { OauthCredentialsCreateDto } from '@/oauth/repository/oauth-credentials-create.dto';
