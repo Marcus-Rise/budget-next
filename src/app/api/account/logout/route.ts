@@ -1,7 +1,14 @@
 import type { NextRequest } from 'next/server';
 import { authService } from '@/auth/service';
+import { oauthService } from '@/oauth/service';
 
-const AccountLogout = (req: NextRequest) => authService.logout(req);
+const AccountLogout = async (req: NextRequest) => {
+  const { oauthId } = await authService.getPayload();
+
+  await oauthService.logout(oauthId);
+
+  return authService.logout(req);
+};
 
 export const runtime = 'edge';
 

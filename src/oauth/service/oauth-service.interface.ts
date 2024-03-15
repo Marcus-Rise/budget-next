@@ -1,25 +1,13 @@
-import type { OauthSilentTokenPayload } from '@/oauth/oauth.types';
+import type { OauthCredentials, OauthSilentTokenPayload } from '@/oauth/oauth.types';
 
-type OauthAccessToken = string;
-type UserId = number;
-
-type OauthCredentials = { userId: UserId; accessToken: OauthAccessToken };
-
-type OauthCredentialsExpire = Date;
-
-type OauthCredentialsWithExpire = OauthCredentials & { expire: OauthCredentialsExpire };
+type OauthId = OauthCredentials['id'];
 
 interface IOauthService {
   login(payload: OauthSilentTokenPayload): Promise<OauthCredentials>;
 
-  checkAuth(credentials: OauthCredentials): Promise<OauthCredentialsExpire>;
+  getCredentials(oauthId: OauthId): Promise<OauthCredentials>;
+
+  logout(oauthId: OauthId): Promise<void>;
 }
 
-export type {
-  IOauthService,
-  OauthAccessToken,
-  UserId,
-  OauthCredentials,
-  OauthCredentialsWithExpire,
-  OauthCredentialsExpire,
-};
+export type { IOauthService, OauthId };

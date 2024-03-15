@@ -8,15 +8,18 @@ import type {
 import type { TransactionRemoveDto, TransactionSaveDto } from '@/transaction/transaction.dto';
 import type { IAuthService } from '@/auth/service/auth-service.interface';
 import type { ITransactionService } from '@/transaction/service/transaction-service.interface';
+import type { IOauthService } from '@/oauth/service/oauth-service.interface';
 
 class TransactionService implements ITransactionService {
   constructor(
     private readonly _repo: ITransactionRepository,
     private readonly _auth: IAuthService,
+    private readonly _oauth: IOauthService,
   ) {}
 
   async getAll(query?: Omit<TransactionRepositoryQuery, 'userId'>): Promise<Transaction[]> {
-    const { userId } = await this._auth.getOauthCredentials();
+    const { oauthId } = await this._auth.getPayload();
+    const { userId } = await this._oauth.getCredentials(oauthId);
 
     return this._repo.list({
       ...query,
@@ -25,7 +28,8 @@ class TransactionService implements ITransactionService {
   }
 
   async save({ uuid, ...dto }: TransactionSaveDto): Promise<void> {
-    const { userId } = await this._auth.getOauthCredentials();
+    const { oauthId } = await this._auth.getPayload();
+    const { userId } = await this._oauth.getCredentials(oauthId);
 
     await this._repo.save({
       ...dto,
