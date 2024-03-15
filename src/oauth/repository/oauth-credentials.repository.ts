@@ -35,22 +35,12 @@ export class OauthCredentialsRepository implements IOauthCredentialsRepository {
       .executeTakeFirstOrThrow();
   }
 
-  async find(query?: OauthCredentialsRepositoryQuery): Promise<OauthCredentials | undefined> {
-    let queryBuilder = this._db.selectFrom('oauthCredentials').selectAll();
-
-    if (query?.id) {
-      queryBuilder = queryBuilder.where('id', '=', query.id);
-    }
-
-    if (query?.userId) {
-      queryBuilder = queryBuilder.where('userId', '=', query.userId);
-    }
-
-    if (query?.tokenId) {
-      queryBuilder = queryBuilder.where('tokenId', '=', query.tokenId);
-    }
-
-    return queryBuilder.executeTakeFirst();
+  async find(query: { id: OauthCredentials['id'] }): Promise<OauthCredentials | undefined> {
+    return this._db
+      .selectFrom('oauthCredentials')
+      .selectAll()
+      .where('id', '=', query.id)
+      .executeTakeFirst();
   }
 
   async remove(query: OauthCredentialsRepositoryQuery): Promise<void> {
