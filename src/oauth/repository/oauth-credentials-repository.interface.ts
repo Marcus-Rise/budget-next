@@ -8,7 +8,7 @@ interface IOauthCredentialsRepository {
 
   find(query: { id: OauthCredentials['id'] }): Promise<OauthCredentials | undefined>;
 
-  remove(query: OauthCredentialsRepositoryQuery): Promise<void>;
+  remove(query: { id: OauthCredentials['id'] }): Promise<void>;
 }
 
 export type { IOauthCredentialsRepository, OauthCredentialsRepositoryQuery };

@@ -43,21 +43,7 @@ export class OauthCredentialsRepository implements IOauthCredentialsRepository {
       .executeTakeFirst();
   }
 
-  async remove(query: OauthCredentialsRepositoryQuery): Promise<void> {
-    let queryBuilder = this._db.deleteFrom('oauthCredentials');
-
-    if (query.id) {
-      queryBuilder.where('id', '=', query.id);
-    }
-
-    if (query.userId) {
-      queryBuilder.where('userId', '=', query.userId);
-    }
-
-    if (query.tokenId) {
-      queryBuilder.where('tokenId', '=', query.tokenId);
-    }
-
-    await queryBuilder.execute();
+  async remove(query: { id: OauthCredentials['id'] }): Promise<void> {
+    await this._db.deleteFrom('oauthCredentials').where('id', '=', query.id).execute();
   }
 }
