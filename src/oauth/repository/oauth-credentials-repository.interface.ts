@@ -6,7 +6,7 @@ type OauthCredentialsRepositoryQuery = Partial<Pick<OauthCredentials, 'id' | 'us
 interface IOauthCredentialsRepository {
   create(dto: OauthCredentialsCreateDto): Promise<OauthCredentials>;
 
-  find(query?: OauthCredentialsRepositoryQuery): Promise<OauthCredentials | undefined>;
+  find(query: { id: OauthCredentials['id'] }): Promise<OauthCredentials | undefined>;
 
   remove(query: OauthCredentialsRepositoryQuery): Promise<void>;
 }
