@@ -6,7 +6,6 @@ import type {
   OauthCredentials,
   OauthSilentTokenPayload,
 } from '@/oauth/oauth.types';
-import { OauthLoginException } from '@/oauth/oauth-login.exception';
 import type { IOauthService, OauthId } from '@/oauth/service/oauth-service.interface';
 import type { IConfig } from '@/config';
 import type { IOauthCredentialsRepository } from '@/oauth/repository';
@@ -28,10 +27,12 @@ class OauthService implements IOauthService {
     requestUrl.searchParams.set('access_token', this._oauthConfig.serviceToken);
     requestUrl.searchParams.set('uuid', payload.uuid);
 
-    const response = await fetch(requestUrl);
+    const response = await fetch(requestUrl).catch((e: Error) => {
+      throw new OauthException(e.message);
+    });
 
     if (!response.ok) {
-      throw new OauthLoginException(response.statusText);
+      throw new OauthException(response.statusText);
     }
 
     const dto: OauthAccessTokenResponseDto = await response.json();
@@ -39,17 +40,21 @@ class OauthService implements IOauthService {
     if (!dto.response) {
       console.error(dto);
 
-      throw new OauthLoginException('Invalid login response');
+      throw new OauthException('Invalid login response');
     }
 
     const expire = await this._checkAuth({
       accessToken: dto.response.access_token,
       userId: String(dto.response.user_id),
+    }).catch((e: Error) => {
+      throw new OauthException(e.message);
     });
 
-    return this._repo.create(
-      OauthCredentialsDtoFactory.fromOauthAccessTokenResponseDto(dto.response, expire),
-    );
+    return this._repo
+      .create(OauthCredentialsDtoFactory.fromOauthAccessTokenResponseDto(dto.response, expire))
+      .catch((e: Error) => {
+        throw new OauthException(e.message);
+      });
   }
 
   async getCredentials(oauthId: OauthId): Promise<OauthCredentials> {
@@ -84,7 +89,7 @@ class OauthService implements IOauthService {
     const response = await fetch(requestUrl);
 
     if (!response.ok) {
-      throw new OauthLoginException('Invalid check token response');
+      throw new OauthException('Invalid check token response');
     }
 
     const {
@@ -92,11 +97,11 @@ class OauthService implements IOauthService {
     }: OauthAccessTokenCheckResponseDto = await response.json();
 
     if (expire - date <= 0 || success !== 1) {
-      throw new OauthLoginException('Expired token');
+      throw new OauthException('Expired token');
     }
 
     if (userId !== String(user_id)) {
-      throw new OauthLoginException('Invalid token');
+      throw new OauthException('Invalid token');
     }
 
     return new Date(expire * 1000);
