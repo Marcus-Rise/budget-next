@@ -19,7 +19,13 @@ class AuthService implements IAuthService {
   }
 
   async isAuthed(): Promise<boolean> {
-    return !!(await this.getPayload());
+    const token = cookies().get(AuthService._COOKIE_KEY)?.value;
+
+    if (!token) {
+      return false;
+    }
+
+    return !!(await this._jwt.verify(token));
   }
 
   async login(
