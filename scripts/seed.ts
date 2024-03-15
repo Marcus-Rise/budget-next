@@ -1,4 +1,4 @@
-import 'dotenv-flow/config';
+import './_env';
 import type { TransactionTable } from '@/transaction/repository/transaction.table';
 // @ts-ignore
 import data from './seed.json';

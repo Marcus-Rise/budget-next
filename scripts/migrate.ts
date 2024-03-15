@@ -1,4 +1,4 @@
-import 'dotenv-flow/config';
+import './_env';
 import * as path from 'path';
 import { promises as fs } from 'fs';
 import { FileMigrationProvider, Migrator } from 'kysely';
