@@ -45,9 +45,18 @@ type OauthAccessTokenCheckResponseDto = {
   };
 };
 
+type OauthCredentials = {
+  id: string;
+  userId: string;
+  accessToken: string;
+  tokenId: string;
+  expire: Date;
+};
+
 export type {
   OauthSilentTokenPayload,
   OauthAccessTokenRequestDto,
   OauthAccessTokenResponseDto,
   OauthAccessTokenCheckResponseDto,
+  OauthCredentials,
 };

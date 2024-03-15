@@ -14,10 +14,9 @@ const AccountLogin = async (req: NextRequest) => {
   const payload: OauthSilentTokenPayload = JSON.parse(payloadString);
 
   try {
-    const oauthCredentials = await oauthService.login(payload);
-    const expire = await oauthService.checkAuth(oauthCredentials);
+    const { userId, expire, id } = await oauthService.login(payload);
 
-    return authService.login({ ...oauthCredentials, expire }, req);
+    return authService.login({ expire, oauthId: id }, req);
   } catch (e) {
     console.error(e);
 
