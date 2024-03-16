@@ -1,0 +1,11 @@
+.item {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  & > * {
+    scroll-snap-align: start;
+  }
+
+  scrollbar-width: none;
+}
