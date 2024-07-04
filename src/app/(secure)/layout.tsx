@@ -29,5 +29,6 @@ const SecureLayout: FC<PropsWithChildren> = ({ children }) => (
 );
 
 export const dynamic = 'force-dynamic';
+export const runtime = 'edge';
 
 export default SecureLayout;
