@@ -19,10 +19,10 @@ const Default: Story = {
     children: <span>awdawd</span>,
     right: (
       <div className={'flex h-full'}>
-        <button className={'bg-primary border-none p-2'} onClick={() => console.log('copy')}>
+        <button className={'bg-primary border-none p-2'} onClick={() => alert('copy')}>
           Скопировать
         </button>
-        <button className={'bg-danger border-none p-2'} onClick={() => console.log('delete')}>
+        <button className={'bg-danger border-none p-2'} onClick={() => alert('delete')}>
           Удалить
         </button>
       </div>
