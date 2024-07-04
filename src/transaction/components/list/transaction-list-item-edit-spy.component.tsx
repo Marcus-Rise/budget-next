@@ -22,7 +22,7 @@ const TransactionListItemEditSpy: FC<TransactionListItemEditSpyProps> = ({
   const openEditor = useTransactionEditorStore((state) => state.openEditor);
 
   const scrollListItemElementToLeft = useCallback(() => {
-    listItemElement.current?.scrollBy({
+    listItemElement.current?.scrollTo({
       left: -1000,
       behavior: 'smooth',
     });
