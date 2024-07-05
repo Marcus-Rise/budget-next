@@ -1,7 +1,7 @@
 import type { Preview } from '@storybook/react';
 import '../src/app/globals.css';
 import { Roboto } from 'next/font/google';
-import classNames from 'classnames';
+import clsx from 'clsx';
 
 const roboto = Roboto({
   weight: ['400', '500', '700'],
@@ -24,7 +24,7 @@ const preview: Preview = {
   },
   decorators: [
     (Story) => (
-      <div className={classNames(roboto.variable, 'font-sans bg-background text-font')}>
+      <div className={clsx(roboto.variable, 'font-sans bg-background text-font h-screen p-3')}>
         <Story />
       </div>
     ),

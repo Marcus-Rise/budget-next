@@ -1,6 +1,6 @@
 'use client'; // Error components must be Client Components
 
-import { Button } from '@/components/button.component';
+import { Button } from '@/components/button';
 import Link from 'next/link';
 import { useEffect } from 'react';
 

@@ -1,9 +1,10 @@
 import type { ButtonHTMLAttributes, FC } from 'react';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: 'primary' | 'secondary' | 'danger' | 'success';
   rounded?: boolean;
+  flat?: boolean;
 };
 
 const Button: FC<ButtonProps> = ({
@@ -11,12 +12,13 @@ const Button: FC<ButtonProps> = ({
   variant = 'primary',
   rounded,
   className,
+  flat,
   ...props
 }) => {
   return (
     <button
       {...props}
-      className={classNames(
+      className={clsx(
         className,
         'text-white fill-white stroke-white hover:opacity-90 active:opacity-75 disabled:opacity-50',
         {
@@ -24,7 +26,7 @@ const Button: FC<ButtonProps> = ({
           'bg-secondary': variant === 'secondary',
           'bg-danger': variant === 'danger',
           'bg-success': variant === 'success',
-          'rounded-md': !rounded,
+          'rounded-md': !rounded && !flat,
           'py-2': !rounded,
           'px-2': !rounded,
           'p-3 rounded-full leading-4 flex justify-center content-center items-center justify-items-center':

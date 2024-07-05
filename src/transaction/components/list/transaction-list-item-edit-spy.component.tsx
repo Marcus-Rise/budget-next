@@ -8,6 +8,7 @@ import { SwipeX } from '@/components/swipe-x';
 import { transactionDelete, transactionSave } from '@/transaction/transaction.actions';
 import { TransactionDtoFactory } from '@/transaction/transaction-dto.factory';
 import { useRouter } from 'next/navigation';
+import { Button } from '@/components/button';
 
 type TransactionListItemEditSpyProps = PropsWithChildren<
   Pick<Transaction, 'title' | 'amount' | 'date' | 'category' | 'uuid'>
@@ -35,7 +36,7 @@ const TransactionListItemEditSpy: FC<TransactionListItemEditSpyProps> = ({
 
   const copyTransaction: MouseEventHandler = useCallback(
     async (e) => {
-      e.stopPropagation();
+      e.stopPropagation(); // usetransition
 
       try {
         await transactionSave(TransactionDtoFactory.copy(transaction));
@@ -74,12 +75,12 @@ const TransactionListItemEditSpy: FC<TransactionListItemEditSpyProps> = ({
       onClick={openTransactionToEdit}
       right={
         <div className={'flex h-full'}>
-          <button className={'bg-primary border-none p-2'} onClick={copyTransaction}>
+          <Button flat variant={'primary'} onClick={copyTransaction}>
             Скопировать
-          </button>
-          <button className={'bg-danger border-none p-2'} onClick={deleteTransaction}>
+          </Button>
+          <Button flat variant={'danger'} onClick={deleteTransaction}>
             Удалить
-          </button>
+          </Button>
         </div>
       }
     >
