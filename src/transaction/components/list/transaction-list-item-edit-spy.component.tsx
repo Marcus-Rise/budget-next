@@ -1,6 +1,7 @@
 'use client';
 
 import type { FC, MouseEventHandler, PropsWithChildren } from 'react';
+import { useTransition } from 'react';
 import type { Transaction } from '@/transaction/transaction.types';
 import { useTransactionEditorStore } from '@/transaction/transaction-editor.store';
 import { useCallback, useRef } from 'react';
@@ -21,6 +22,7 @@ const TransactionListItemEditSpy: FC<TransactionListItemEditSpyProps> = ({
   const listItemElement = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const openEditor = useTransactionEditorStore((state) => state.openEditor);
+  const [isPending, startTransaction] = useTransition();
 
   const scrollListItemElementToLeft = useCallback(() => {
     listItemElement.current?.scrollTo({
@@ -35,36 +37,38 @@ const TransactionListItemEditSpy: FC<TransactionListItemEditSpyProps> = ({
   );
 
   const copyTransaction: MouseEventHandler = useCallback(
-    async (e) => {
-      e.stopPropagation(); // usetransition
+    (e) =>
+      startTransaction(async () => {
+        e.stopPropagation();
 
-      try {
-        await transactionSave(TransactionDtoFactory.copy(transaction));
+        try {
+          await transactionSave(TransactionDtoFactory.copy(transaction));
 
-        scrollListItemElementToLeft();
+          scrollListItemElementToLeft();
 
-        router.refresh();
-      } catch (e) {
-        console.error(e);
-      }
-    },
+          router.refresh();
+        } catch (e) {
+          console.error(e);
+        }
+      }),
     [router, scrollListItemElementToLeft, transaction],
   );
 
   const deleteTransaction: MouseEventHandler = useCallback(
-    async (e) => {
-      e.stopPropagation();
+    (e) =>
+      startTransaction(async () => {
+        e.stopPropagation();
 
-      try {
-        await transactionDelete({ uuid: transaction.uuid });
+        try {
+          await transactionDelete({ uuid: transaction.uuid });
 
-        scrollListItemElementToLeft();
+          scrollListItemElementToLeft();
 
-        router.refresh();
-      } catch (e) {
-        console.error(e);
-      }
-    },
+          router.refresh();
+        } catch (e) {
+          console.error(e);
+        }
+      }),
     [router, scrollListItemElementToLeft, transaction.uuid],
   );
 
@@ -75,10 +79,10 @@ const TransactionListItemEditSpy: FC<TransactionListItemEditSpyProps> = ({
       onClick={openTransactionToEdit}
       right={
         <div className={'flex h-full'}>
-          <Button flat variant={'primary'} onClick={copyTransaction}>
+          <Button disabled={isPending} flat variant={'primary'} onClick={copyTransaction}>
             Скопировать
           </Button>
-          <Button flat variant={'danger'} onClick={deleteTransaction}>
+          <Button disabled={isPending} flat variant={'danger'} onClick={deleteTransaction}>
             Удалить
           </Button>
         </div>

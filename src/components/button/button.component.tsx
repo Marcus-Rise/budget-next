@@ -13,11 +13,13 @@ const Button: FC<ButtonProps> = ({
   rounded,
   className,
   flat,
+  type = 'button',
   ...props
 }) => {
   return (
     <button
       {...props}
+      type={type}
       className={clsx(
         className,
         'text-white fill-white stroke-white hover:opacity-90 active:opacity-75 disabled:opacity-50',
