@@ -1,7 +1,7 @@
 'use client';
 import type { FC } from 'react';
 import { IconReload } from '@/assets';
-import { Button } from '@/components/button.component';
+import { Button } from '@/components/button';
 import { useRouter } from 'next/navigation';
 import { useCallback, useTransition } from 'react';
 

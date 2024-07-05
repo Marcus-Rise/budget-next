@@ -9,7 +9,7 @@ import { Input } from '@/components/input.component';
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { TransactionSaveDto } from '@/transaction/transaction.dto';
 import { TransactionSaveDtoSchema } from '@/transaction/transaction.dto';
-import { Button } from '@/components/button.component';
+import { Button } from '@/components/button';
 import { IconMinus, IconPlus } from '@/assets';
 import classNames from 'classnames';
 

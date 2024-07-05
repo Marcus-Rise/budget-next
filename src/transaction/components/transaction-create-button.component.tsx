@@ -3,7 +3,7 @@
 import type { FC, PropsWithChildren } from 'react';
 import { useCallback } from 'react';
 import { useTransactionEditorStore } from '@/transaction/transaction-editor.store';
-import { Button } from '@/components/button.component';
+import { Button } from '@/components/button';
 import { TransactionDtoFactory } from '@/transaction/transaction-dto.factory';
 
 type TransactionCreateButtonProps = PropsWithChildren<{ className?: string; rounded?: boolean }>;
