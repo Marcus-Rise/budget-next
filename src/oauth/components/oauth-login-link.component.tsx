@@ -25,7 +25,7 @@ const OauthLoginLink: FC<OauthLoginLinkProps> = ({
   oauthUrl.searchParams.append('uuid', uuid());
 
   return (
-    <Link className={className} href={oauthUrl.href} prefetch={false}>
+    <Link className={className} href={oauthUrl} prefetch={false}>
       {children}
     </Link>
   );
