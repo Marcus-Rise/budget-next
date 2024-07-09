@@ -1,12 +1,12 @@
 import type { FC } from 'react';
 import styles from './oauth-vk-login-button.module.css';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 
 type OauthVkLoginButtonProps = {};
 
 const OauthVkLoginButton: FC<OauthVkLoginButtonProps> = ({}) => (
   <div
-    className={classNames(
+    className={clsx(
       styles.VkIdWebSdk__link,
       styles.VkIdWebSdk__button,
       styles.VkIdWebSdk__button_reset,

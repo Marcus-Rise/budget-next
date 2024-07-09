@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 
 type TransactionListSkeletonProps = {
   className?: string;
@@ -20,7 +20,7 @@ const TransactionListSkeleton: FC<TransactionListSkeletonProps> = ({ className }
   const items = new Array(5).fill(1).map((_, index) => <Item key={index} />);
 
   return (
-    <div className={classNames(className, 'animate-pulse flex flex-col gap-7')}>
+    <div className={clsx(className, 'animate-pulse flex flex-col gap-7')}>
       <div className="flex flex-row items-center gap-3">
         <div className="bg-skeleton h-5 w-3"></div>
         <div className="bg-skeleton rounded w-20 h-5"></div>

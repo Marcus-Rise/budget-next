@@ -1,10 +1,10 @@
 import type { FC } from 'react';
 import { TransactionStatisticSkeleton } from '@/transaction/components/statistic';
 import { TransactionListSkeleton } from '@/transaction/components/list';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 
 const ButtonRoundedSkeleton: FC<{ className?: string }> = ({ className }) => (
-  <div className={classNames(className, 'bg-skeleton rounded-full h-10 w-10')} />
+  <div className={clsx(className, 'bg-skeleton rounded-full h-10 w-10')} />
 );
 
 const TransactionFilterSkeleton: FC = () => (
