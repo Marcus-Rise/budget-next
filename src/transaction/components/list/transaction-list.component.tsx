@@ -3,7 +3,7 @@ import { ListDated } from '@/components/list-dated';
 import { dateToStringHelper } from '@/helpers/date';
 import { TransactionListItem } from '@/transaction/components/list/transaction-list-item.component';
 import { TransactionListItemEditSpy } from '@/transaction/components/list/transaction-list-item-edit-spy.component';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import { Price } from '@/components/price';
 import { Collapse } from '@/components/collapse.component';
 import type { Transaction } from '@/transaction/transaction.types';
@@ -22,7 +22,7 @@ const TransactionList: FC<TransactionListProps> = async ({ children, className, 
     <ListDated
       items={transactions}
       renderWrapper={({ children }) => (
-        <dl className={classNames(className, 'flex flex-col gap-5')}>{children}</dl>
+        <dl className={clsx(className, 'flex flex-col gap-5')}>{children}</dl>
       )}
     >
       {(date, items) => {

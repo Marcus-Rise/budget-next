@@ -4,7 +4,7 @@ import type { ComponentProps, FC } from 'react';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { IconProfile } from '@/assets';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 
 type UserProfileImageProps = Pick<
   ComponentProps<typeof Image>,
@@ -19,9 +19,7 @@ const UserProfileImage: FC<UserProfileImageProps> = ({ alt, src, className, heig
   }, [src]);
 
   if (error) {
-    return (
-      <IconProfile className={classNames(className, 'fill-font')} height={height} width={width} />
-    );
+    return <IconProfile className={clsx(className, 'fill-font')} height={height} width={width} />;
   }
 
   return (

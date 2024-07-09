@@ -11,7 +11,7 @@ import type { TransactionSaveDto } from '@/transaction/transaction.dto';
 import { TransactionSaveDtoSchema } from '@/transaction/transaction.dto';
 import { Button } from '@/components/button';
 import { IconMinus, IconPlus } from '@/assets';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 
 type TransactionFormDto = Omit<TransactionSaveDto, 'uuid'>;
 
@@ -57,10 +57,7 @@ const TransactionForm: FC<TransactionFormProps> = ({
   }, [amount, category, date, reset, title]);
 
   return (
-    <form
-      className={classNames(className, 'flex flex-col gap-3')}
-      onSubmit={handleSubmit(onSubmit)}
-    >
+    <form className={clsx(className, 'flex flex-col gap-3')} onSubmit={handleSubmit(onSubmit)}>
       <Controller
         control={control}
         name={'title'}

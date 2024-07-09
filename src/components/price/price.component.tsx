@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 
 type PriceProps = {
   className?: string;
@@ -14,9 +14,7 @@ const formatter = new Intl.NumberFormat('ru-RU', {
 const Price: FC<PriceProps> = ({ amount, className }) => {
   const priceAsString = formatter.format(amount).replace('+', '+\u00A0').replace('-', '-\u00A0');
 
-  return (
-    <span className={classNames({ 'text-success': amount > 0 }, className)}>{priceAsString}</span>
-  );
+  return <span className={clsx({ 'text-success': amount > 0 }, className)}>{priceAsString}</span>;
 };
 
 export { Price };

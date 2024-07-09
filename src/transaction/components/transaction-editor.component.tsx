@@ -6,7 +6,7 @@ import { useTransactionEditorStore } from '@/transaction/transaction-editor.stor
 import { transactionDelete, transactionSave } from '@/transaction/transaction.actions';
 import { useRouter } from 'next/navigation';
 import type { TransactionSaveDto } from '@/transaction/transaction.dto';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import dynamic from 'next/dynamic';
 import { TransactionFormSkeleton } from '@/transaction/components/form/transaction-form-skeleton.component';
 
@@ -97,7 +97,7 @@ const TransactionEditor: FC<TransactionEditorProps> = ({ className }) => {
         onClick={closeEditor}
       />
       <div
-        className={classNames(
+        className={clsx(
           className,
           'h-full md:h-fit md:rounded-md md:p-10 bg-background flex flex-col items-center justify-center gap-7 z-[2] relative',
         )}

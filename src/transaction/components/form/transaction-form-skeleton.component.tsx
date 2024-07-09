@@ -1,19 +1,19 @@
 import type { FC } from 'react';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 
 const InputSkeleton: FC<{ className?: string }> = ({ className }) => (
-  <div className={classNames(className, 'flex flex-col gap-1')}>
+  <div className={clsx(className, 'flex flex-col gap-1')}>
     <div className="bg-skeleton rounded w-16 h-5"></div>
     <div className="bg-skeleton rounded h-10"></div>
   </div>
 );
 
 const ButtonSkeleton: FC<{ className?: string }> = ({ className }) => (
-  <div className={classNames(className, 'bg-skeleton rounded h-10')} />
+  <div className={clsx(className, 'bg-skeleton rounded h-10')} />
 );
 
 const ButtonRoundedSkeleton: FC<{ className?: string }> = ({ className }) => (
-  <div className={classNames(className, 'bg-skeleton rounded-full h-10 w-10')} />
+  <div className={clsx(className, 'bg-skeleton rounded-full h-10 w-10')} />
 );
 
 type TransactionFormSkeletonProps = {};

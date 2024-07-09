@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import { Price } from '@/components/price';
 
 type Value = number;
@@ -32,7 +32,7 @@ const TransactionStatisticChart: FC<TransactionStatisticChartProps> = ({
             {label}: <Price amount={value} />
           </span>
           <span
-            className={classNames('bg-secondary inline-block min-w-fit max-w-full px-2 py-1')}
+            className={clsx('bg-secondary inline-block min-w-fit max-w-full px-2 py-1')}
             style={{
               width: `${percent}%`,
             }}
@@ -43,7 +43,7 @@ const TransactionStatisticChart: FC<TransactionStatisticChartProps> = ({
       );
     });
 
-  return <div className={classNames(className, 'flex flex-col gap-3')}>{items}</div>;
+  return <div className={clsx(className, 'flex flex-col gap-3')}>{items}</div>;
 };
 
 export { TransactionStatisticChart };

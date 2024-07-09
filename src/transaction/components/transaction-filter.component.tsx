@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import { format } from 'date-fns/format';
 import { isWithinInterval } from 'date-fns/isWithinInterval';
 import { subMonths } from 'date-fns/subMonths';
@@ -43,10 +43,10 @@ const TransactionFilter: FC<TransactionFilterProps> = ({ className, date }) => {
   const iconSize = '2rem';
 
   return (
-    <div className={classNames(className, 'flex flex-row gap-3 items-center')}>
+    <div className={clsx(className, 'flex flex-row gap-3 items-center')}>
       <Link
         href={isInCurrentPeriod ? '#' : `/?${todaySearchParams}`}
-        className={classNames({
+        className={clsx({
           'cursor-not-allowed': isInCurrentPeriod,
           'text-secondary': isInCurrentPeriod,
         })}

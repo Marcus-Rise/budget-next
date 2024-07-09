@@ -1,8 +1,6 @@
-'use client';
-
 import type { InputHTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 
 type InputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'ref'> & {
   hint?: string;
@@ -15,7 +13,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     const noValue = props.value === undefined || props.value === '';
 
     return (
-      <div className={classNames(className, 'flex flex-col gap-1')}>
+      <div className={clsx(className, 'flex flex-col gap-1')}>
         {!!label && !noValue && (
           <label className={'px-3 text-sm text-secondary'} htmlFor={id}>
             {label}
@@ -33,7 +31,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         />
         {!!(error || hint) && (
           <small
-            className={classNames('px-3', {
+            className={clsx('px-3', {
               'text-danger': !!error,
             })}
           >
