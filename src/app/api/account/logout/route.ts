@@ -14,6 +14,4 @@ const AccountLogout = async (req: NextRequest) => {
   }
 };
 
-export const runtime = 'edge';
-
 export { AccountLogout as GET };
