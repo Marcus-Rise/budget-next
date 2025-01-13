@@ -1,8 +1,9 @@
 type IOauthConfig = {
-  idApiUrl: string;
-  appId: number;
+  apiUrl: URL;
+  redirectUrl: URL;
   serviceToken: string;
-  redirectUrl: string;
+  codeVerifier: string;
+  appId: string;
 };
 
 type OauthConfigFactory = () => IOauthConfig;

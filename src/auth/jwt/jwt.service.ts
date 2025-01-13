@@ -27,8 +27,6 @@ class JwtService implements IJwtService {
 
       return payload as Payload;
     } catch (e) {
-      console.error(e);
-
       throw new JwtException(JWT_ERROR_MESSAGE);
     }
   }
