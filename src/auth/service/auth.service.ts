@@ -6,6 +6,7 @@ import { cookies } from 'next/headers';
 import type { IJwtService } from '@/auth/jwt/jwt-service.interface';
 import type { OauthCredentials } from '@/oauth/oauth.types';
 import type { CookieOptions } from 'express';
+import { redirect } from 'next/navigation';
 
 class AuthService implements IAuthService {
   private static _COOKIE_KEY = 'Authorization';
@@ -52,7 +53,7 @@ class AuthService implements IAuthService {
     return response;
   }
 
-  async logout(request: NextRequest, returnUrl: string = '/'): Promise<NextResponse> {
+  async logoutWithResponse(request: NextRequest, returnUrl: string = '/'): Promise<NextResponse> {
     const redirectUrl = new URL(`/account/login`, request.nextUrl);
     redirectUrl.searchParams.set('returnUrl', encodeURIComponent(returnUrl));
 
@@ -61,6 +62,15 @@ class AuthService implements IAuthService {
     response.cookies.delete(AuthService._COOKIE_KEY);
 
     return response;
+  }
+
+  async logout(returnUrl: string = '/'): Promise<void> {
+    const searchParams = new URLSearchParams();
+    searchParams.set('returnUrl', encodeURIComponent(returnUrl));
+
+    cookies().delete(AuthService._COOKIE_KEY);
+
+    redirect('/account/login?=' + searchParams.toString());
   }
 }
 

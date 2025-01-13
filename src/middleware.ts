@@ -12,11 +12,13 @@ const middleware: NextMiddleware = async (request) => {
     }
 
     // private url, must be logged in, saving requested url to return after login
-    return isAuthed ? NextResponse.next() : authService.logout(request, request.nextUrl.pathname);
+    return isAuthed
+      ? NextResponse.next()
+      : authService.logoutWithResponse(request, request.nextUrl.pathname);
   } catch (e) {
     console.error(e);
 
-    return authService.logout(request);
+    return authService.logoutWithResponse(request);
   }
 };
 

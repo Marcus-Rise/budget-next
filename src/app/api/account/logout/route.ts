@@ -8,10 +8,12 @@ const AccountLogout = async (req: NextRequest) => {
 
     await oauthService.logout(oauthId);
 
-    return authService.logout(req);
+    return authService.logout();
   } catch (e) {
-    return authService.logout(req);
+    return authService.logout();
   }
 };
+
+export const dynamic = 'force-dynamic';
 
 export { AccountLogout as GET };

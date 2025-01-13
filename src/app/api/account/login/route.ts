@@ -20,7 +20,7 @@ const AccountLogin = async (req: NextRequest) => {
   } catch (e) {
     console.error(e);
 
-    return authService.logout(req);
+    return authService.logout();
   }
 };
 

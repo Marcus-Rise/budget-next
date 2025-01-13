@@ -9,7 +9,9 @@ interface IAuthService {
     request: NextRequest,
   ): Promise<NextResponse>;
 
-  logout(request: NextRequest, returnUrl?: string): Promise<NextResponse>;
+  logoutWithResponse(request: NextRequest, returnUrl?: string): Promise<NextResponse>;
+
+  logout(returnUrl?: string): Promise<void>;
 
   isAuthed(): Promise<boolean>;
 
