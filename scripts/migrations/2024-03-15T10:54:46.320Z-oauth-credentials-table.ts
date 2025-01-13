@@ -6,7 +6,7 @@ export async function up(db: Kysely<Database>): Promise<void> {
   await db.schema
     .createTable('oauthCredentials')
     .addColumn('id', 'uuid', (col) => col.primaryKey().defaultTo(sql`gen_random_uuid()`))
-    .addColumn('tokenId', 'varchar', (col) => col.notNull())
+    .addColumn('tokenId', 'varchar', (col) => col.notNull()) // todo создать миграцию на удаление
     .addColumn('userId', 'varchar', (col) => col.notNull())
     .addColumn('accessToken', 'varchar', (col) => col.notNull())
     .addColumn('expire', 'date', (col) => col.notNull())

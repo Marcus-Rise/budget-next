@@ -51,7 +51,5 @@ const viewport: Viewport = {
   ],
 };
 
-// export const runtime = 'edge';
-
 export default RootLayout;
 export { metadata, viewport };

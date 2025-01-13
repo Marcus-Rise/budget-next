@@ -1,17 +1,17 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
-import type { OauthSilentTokenPayload } from '@/oauth/oauth.types';
+import type { OauthAccessCodeResponseDto } from '@/oauth/oauth.types';
 import { oauthService } from '@/oauth/service';
 import { authService } from '@/auth/service';
 
 const AccountLogin = async (req: NextRequest) => {
-  const payloadString = req.nextUrl.searchParams.get('payload');
-
-  if (!payloadString) {
+  if (req.nextUrl.searchParams.size === 0) {
     return NextResponse.json({ message: 'No payload' }, { status: 400 });
   }
 
-  const payload: OauthSilentTokenPayload = JSON.parse(payloadString);
+  const payload = Object.fromEntries(
+    req.nextUrl.searchParams.entries(),
+  ) as OauthAccessCodeResponseDto;
 
   try {
     const { expire, id } = await oauthService.login(payload);
@@ -23,7 +23,5 @@ const AccountLogin = async (req: NextRequest) => {
     return authService.logout(req);
   }
 };
-
-export const runtime = 'edge';
 
 export { AccountLogin as GET };

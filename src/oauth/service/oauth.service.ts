@@ -1,60 +1,70 @@
 import 'server-only';
 import type { IOauthConfig } from '@/oauth/config';
 import type {
-  OauthAccessTokenCheckResponseDto,
+  OauthAccessCodeResponseDto,
   OauthAccessTokenResponseDto,
   OauthCredentials,
-  OauthSilentTokenPayload,
+  OauthProfileInfoResponseDto,
+  OauthResponseError,
 } from '@/oauth/oauth.types';
 import type { IOauthService, OauthId } from '@/oauth/service/oauth-service.interface';
-import type { IConfig } from '@/config';
 import type { IOauthCredentialsRepository } from '@/oauth/repository';
 import { OauthCredentialsDtoFactory } from '@/oauth/oauth-credentials-dto.factory';
 import { isAfter } from 'date-fns/isAfter';
 import { OauthException } from '@/oauth/oauth.exception';
+import { computeCodeChallengeFromVerifier } from '@/oauth/oauth.helper';
+import { v4 as uuid } from 'uuid';
 
 class OauthService implements IOauthService {
   constructor(
-    private readonly _config: IConfig,
     private readonly _oauthConfig: IOauthConfig,
     private readonly _repo: IOauthCredentialsRepository,
   ) {}
 
-  async login(payload: OauthSilentTokenPayload): Promise<OauthCredentials> {
-    const requestUrl = new URL('/method/auth.exchangeSilentAuthToken', this._config.apiBaseUrl);
-    requestUrl.searchParams.set('v', this._config.apiVersion);
-    requestUrl.searchParams.set('token', payload.token);
-    requestUrl.searchParams.set('access_token', this._oauthConfig.serviceToken);
-    requestUrl.searchParams.set('uuid', payload.uuid);
+  async getLoginUrl(): Promise<URL> {
+    const { appId, codeVerifier, redirectUrl, apiUrl } = this._oauthConfig;
+    const loginLink = new URL('/authorize', apiUrl);
 
-    const response = await fetch(requestUrl).catch((e: Error) => {
-      throw new OauthException(e.message);
+    loginLink.searchParams.set('response_type', 'code');
+    loginLink.searchParams.set('client_id', appId);
+    loginLink.searchParams.set('redirect_uri', redirectUrl.href);
+    loginLink.searchParams.set(
+      'code_challenge',
+      await computeCodeChallengeFromVerifier(codeVerifier),
+    );
+    loginLink.searchParams.set('code_challenge_method', 's256');
+    loginLink.searchParams.set('state', uuid());
+
+    return loginLink;
+  }
+
+  async login({ code, state, device_id }: OauthAccessCodeResponseDto): Promise<OauthCredentials> {
+    const { codeVerifier, apiUrl, redirectUrl, appId, serviceToken } = this._oauthConfig;
+
+    const response = await fetch(new URL('/oauth2/auth', apiUrl), {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: new URLSearchParams({
+        grant_type: 'authorization_code',
+        code_verifier: codeVerifier,
+        redirect_uri: redirectUrl.href,
+        code,
+        service_token: serviceToken,
+        client_id: appId,
+        device_id,
+        state,
+      }),
     });
 
-    if (!response.ok) {
-      throw new OauthException(response.statusText);
+    const dto: OauthAccessTokenResponseDto | OauthResponseError = await response.json();
+
+    if ('error' in dto) {
+      throw new OauthException(JSON.stringify(dto));
     }
 
-    const dto: OauthAccessTokenResponseDto = await response.json();
-
-    if (!dto.response) {
-      console.error(dto);
-
-      throw new OauthException('Invalid login response');
-    }
-
-    const expire = await this._checkAuth({
-      accessToken: dto.response.access_token,
-      userId: String(dto.response.user_id),
-    }).catch((e: Error) => {
-      throw new OauthException(e.message);
-    });
-
-    return this._repo
-      .create(OauthCredentialsDtoFactory.fromOauthAccessTokenResponseDto(dto.response, expire))
-      .catch((e: Error) => {
-        throw new OauthException(e.message);
-      });
+    return this._repo.create(OauthCredentialsDtoFactory.fromOauthAccessTokenResponseDto(dto));
   }
 
   async getCredentials(oauthId: OauthId): Promise<OauthCredentials> {
@@ -74,37 +84,56 @@ class OauthService implements IOauthService {
   }
 
   async logout(oauthId: OauthId) {
+    const credentials = await this._repo.find({ id: oauthId });
+
+    if (!credentials) {
+      throw new OauthException('no oauth token found');
+    }
+
+    const { apiUrl, appId } = this._oauthConfig;
+
+    const response = await fetch(new URL('/oauth2/logout', apiUrl), {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: new URLSearchParams({
+        access_token: credentials.accessToken,
+        client_id: appId,
+      }),
+    });
+
+    const dto: OauthAccessTokenResponseDto | OauthResponseError = await response.json();
+
+    if ('error' in dto) {
+      throw new OauthException(JSON.stringify(dto));
+    }
+
     await this._repo.remove({ id: oauthId });
   }
 
-  async _checkAuth({
-    accessToken,
-    userId,
-  }: Pick<OauthCredentials, 'userId' | 'accessToken'>): Promise<Date> {
-    const requestUrl = new URL('/method/secure.checkToken', this._config.apiBaseUrl);
-    requestUrl.searchParams.set('v', this._config.apiVersion);
-    requestUrl.searchParams.set('access_token', this._oauthConfig.serviceToken);
-    requestUrl.searchParams.set('token', accessToken);
+  async getProfileInfo(oauthId: OauthId): Promise<OauthProfileInfoResponseDto['user']> {
+    const { apiUrl, appId } = this._oauthConfig;
+    const { accessToken } = await this.getCredentials(oauthId);
 
-    const response = await fetch(requestUrl);
+    const response = await fetch(new URL('/oauth2/user_info', apiUrl), {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: new URLSearchParams({
+        access_token: accessToken,
+        client_id: appId,
+      }),
+    });
 
-    if (!response.ok) {
-      throw new OauthException('Invalid check token response');
+    const dto: OauthProfileInfoResponseDto | OauthResponseError = await response.json();
+
+    if ('error' in dto) {
+      throw new OauthException(JSON.stringify(dto));
     }
 
-    const {
-      response: { user_id, expire, date, success },
-    }: OauthAccessTokenCheckResponseDto = await response.json();
-
-    if (expire - date <= 0 || success !== 1) {
-      throw new OauthException('Expired token');
-    }
-
-    if (userId !== String(user_id)) {
-      throw new OauthException('Invalid token');
-    }
-
-    return new Date(expire * 1000);
+    return dto.user;
   }
 }
 

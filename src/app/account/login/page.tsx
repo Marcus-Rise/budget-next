@@ -1,16 +1,15 @@
 import type { FC } from 'react';
 import { OauthVkLoginButton } from '@/oauth/components/vk-login-button';
-import { oauthConfigFactory } from '@/oauth/config';
-import { OauthLoginLink } from '@/oauth/components/oauth-login-link.component';
 import Link from 'next/link';
 import metaConfig from '@/meta-config.cjs';
 import { Footer } from '@/components/footer.component';
 import { LogoImage } from '@/components/logo-image.component';
+import { oauthService } from '@/oauth/service';
 
 const LogoSize = 128;
 
-const Login: FC = () => {
-  const { appId, redirectUrl, idApiUrl } = oauthConfigFactory();
+const Login: FC = async () => {
+  const loginUrl = await oauthService.getLoginUrl();
 
   return (
     <div className={'h-[calc(100dvh)] w-full flex flex-col'}>
@@ -24,15 +23,9 @@ const Login: FC = () => {
 
           <p className={'text-center text-2xl'}>Добро пожаловать!</p>
 
-          <OauthLoginLink
-            className={'mx-auto w-80'}
-            apiUrl={idApiUrl}
-            appId={appId}
-            redirectUri={redirectUrl}
-            responseType={'silent_token'}
-          >
+          <Link className={'mx-auto w-80'} href={loginUrl.href} prefetch={false}>
             <OauthVkLoginButton />
-          </OauthLoginLink>
+          </Link>
         </div>
       </main>
       <Footer

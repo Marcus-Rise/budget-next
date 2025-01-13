@@ -1,48 +1,12 @@
-type OauthSilentTokenPayload = {
-  type: 'silent_token' | string;
-  token: string;
-  ttl: number;
-  uuid: string;
-  user: {
-    first_name: string;
-    avatar: string;
-  };
-};
-
-type OauthAccessTokenRequestDto = {
-  /**
-   * version
-   */
-  v: string;
-  token: string;
-  access_token: string;
-  uuid: string;
-};
-
 type OauthAccessTokenResponseDto = {
-  response: {
-    access_token: string;
-    access_token_id: string;
-    user_id: number;
-    phone: string;
-    /**
-     * date
-     */
-    phone_validated: number;
-    is_service: boolean;
-    email: string;
-    source: number;
-    source_description: string;
-  };
-};
-
-type OauthAccessTokenCheckResponseDto = {
-  response: {
-    success: number;
-    user_id: number;
-    date: number;
-    expire: number;
-  };
+  refresh_token: string;
+  access_token: string;
+  id_token: string;
+  token_type: 'Bearer' | string;
+  expires_in: number;
+  user_id: number;
+  state: string;
+  scope: string;
 };
 
 type OauthCredentials = {
@@ -53,10 +17,27 @@ type OauthCredentials = {
   expire: Date;
 };
 
-export type {
-  OauthSilentTokenPayload,
-  OauthAccessTokenRequestDto,
-  OauthAccessTokenResponseDto,
-  OauthAccessTokenCheckResponseDto,
-  OauthCredentials,
+export type OauthAccessCodeResponseDto = {
+  code: string;
+  state: string;
+  type: string;
+  device_id: string;
 };
+
+export type OauthResponseError = {
+  error: string;
+  error_description: string;
+};
+
+export type OauthProfileInfoResponseDto = {
+  user: {
+    user_id: string;
+    first_name: string;
+    last_name: string;
+    phone: string;
+    avatar: string;
+    email: string;
+  };
+};
+
+export type { OauthAccessTokenResponseDto, OauthCredentials };

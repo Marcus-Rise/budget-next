@@ -1,37 +1,29 @@
-import type { User, UserGetResponseDto } from '@/user/user.types';
-import type { IConfig } from '@/config';
+import type { User } from '@/user/user.types';
 import type { IAuthService } from '@/auth/service/auth-service.interface';
 import type { IUserService } from '@/user/service/user-service.interface';
 import type { IOauthService } from '@/oauth/service/oauth-service.interface';
+import { redirect } from 'next/navigation';
 
 class UserService implements IUserService {
   constructor(
-    private readonly _config: IConfig,
     private readonly _auth: IAuthService,
     private readonly _oauth: IOauthService,
   ) {}
 
   async getCurrentUser(): Promise<User> {
-    const { oauthId } = await this._auth.getPayload();
-    const { accessToken } = await this._oauth.getCredentials(oauthId);
+    try {
+      const { oauthId } = await this._auth.getPayload();
+      const { avatar, first_name } = await this._oauth.getProfileInfo(oauthId);
 
-    const requestUrl = new URL('/method/users.get', this._config.apiBaseUrl);
-    requestUrl.searchParams.set('v', this._config.apiVersion);
-    requestUrl.searchParams.append('fields', 'photo');
+      return {
+        name: first_name,
+        avatar,
+      };
+    } catch (error) {
+      console.error(error);
 
-    const response = await fetch(requestUrl, {
-      headers: {
-        Authorization: 'Bearer ' + accessToken,
-      },
-    });
-    const dto: UserGetResponseDto = await response.json();
-
-    const { first_name, photo } = dto.response.at(0)!;
-
-    return {
-      name: first_name,
-      avatar: photo,
-    };
+      redirect('/api/account/logout');
+    }
   }
 }
 
