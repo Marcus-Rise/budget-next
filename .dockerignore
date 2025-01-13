@@ -1,0 +1,8 @@
+.idea
+.next
+.vercel
+node_modules
+.storybook
+docker-compose.*
+Dockerfile
+services/caddy/Dockerfile
