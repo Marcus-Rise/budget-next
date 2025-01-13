@@ -70,7 +70,7 @@ class AuthService implements IAuthService {
 
     cookies().delete(AuthService._COOKIE_KEY);
 
-    redirect('/account/login?=' + searchParams.toString());
+    redirect('/account/login?' + searchParams.toString());
   }
 }
 
