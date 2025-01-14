@@ -1,15 +1,18 @@
 import 'server-only';
-import type { AuthPayload, IAuthService } from '@/auth/service/auth-service.interface';
+import type {
+  AuthPayload,
+  AuthRedirectUrl,
+  IAuthService,
+} from '@/auth/service/auth-service.interface';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import type { IJwtService } from '@/auth/jwt/jwt-service.interface';
 import type { OauthCredentials } from '@/oauth/oauth.types';
-import type { CookieOptions } from 'express';
-import { redirect } from 'next/navigation';
 
 class AuthService implements IAuthService {
   private static _COOKIE_KEY = 'Authorization';
+  private static _RETURN_URL_KEY = 'returnUrl';
 
   constructor(private readonly _jwt: IJwtService) {}
 
@@ -32,30 +35,23 @@ class AuthService implements IAuthService {
   async login(
     { expire, ...payload }: AuthPayload & Pick<OauthCredentials, 'expire'>,
     request: NextRequest,
-  ): Promise<NextResponse> {
-    const returnUrl = request.nextUrl.searchParams.get('returnUrl') || '/';
-    const redirectUrl = new URL(returnUrl, request.nextUrl);
+  ): Promise<AuthRedirectUrl> {
+    const token = await this._jwt.sign(payload, expire);
 
-    const response = NextResponse.redirect(redirectUrl, { status: 302 });
-
-    const cookieOptions: Partial<CookieOptions> = {
+    cookies().set(AuthService._COOKIE_KEY, token, {
       httpOnly: true,
       path: '/',
       sameSite: 'lax',
       secure: process.env.NODE_ENV === 'production',
       expires: expire,
-    };
+    });
 
-    const token = await this._jwt.sign(payload, expire);
-
-    response.cookies.set(AuthService._COOKIE_KEY, token, cookieOptions);
-
-    return response;
+    return request.nextUrl.searchParams.get(AuthService._RETURN_URL_KEY) || '/';
   }
 
-  async logoutWithResponse(request: NextRequest, returnUrl: string = '/'): Promise<NextResponse> {
+  async logoutWithResponse(request: NextRequest, returnTo: string = '/'): Promise<NextResponse> {
     const redirectUrl = new URL(`/account/login`, request.nextUrl);
-    redirectUrl.searchParams.set('returnUrl', encodeURIComponent(returnUrl));
+    redirectUrl.searchParams.set(AuthService._RETURN_URL_KEY, encodeURIComponent(returnTo));
 
     const response = NextResponse.redirect(redirectUrl);
 
@@ -64,13 +60,13 @@ class AuthService implements IAuthService {
     return response;
   }
 
-  async logout(returnUrl: string = '/'): Promise<void> {
+  async logout(returnUrl: string = '/'): Promise<AuthRedirectUrl> {
     const searchParams = new URLSearchParams();
-    searchParams.set('returnUrl', encodeURIComponent(returnUrl));
+    searchParams.set(AuthService._RETURN_URL_KEY, encodeURIComponent(returnUrl));
 
     cookies().delete(AuthService._COOKIE_KEY);
 
-    redirect('/account/login?' + searchParams.toString());
+    return '/account/login?' + searchParams.toString();
   }
 }
 

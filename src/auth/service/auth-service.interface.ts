@@ -3,19 +3,21 @@ import type { OauthCredentials } from '@/oauth/oauth.types';
 
 type AuthPayload = { oauthId: OauthCredentials['id'] };
 
+type AuthRedirectUrl = string;
+
 interface IAuthService {
   login(
     payload: AuthPayload & Pick<OauthCredentials, 'expire'>,
     request: NextRequest,
-  ): Promise<NextResponse>;
+  ): Promise<AuthRedirectUrl>;
 
-  logoutWithResponse(request: NextRequest, returnUrl?: string): Promise<NextResponse>;
+  logoutWithResponse(request: NextRequest, returnTo?: string): Promise<NextResponse>;
 
-  logout(returnUrl?: string): Promise<void>;
+  logout(returnTo?: string): Promise<AuthRedirectUrl>;
 
   isAuthed(): Promise<boolean>;
 
   getPayload(): Promise<AuthPayload>;
 }
 
-export type { IAuthService, AuthPayload };
+export type { IAuthService, AuthPayload, AuthRedirectUrl };

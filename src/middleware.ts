@@ -18,7 +18,7 @@ const middleware: NextMiddleware = async (request) => {
   } catch (e) {
     console.error(e);
 
-    return authService.logoutWithResponse(request);
+    return authService.logoutWithResponse(request, '/');
   }
 };
 

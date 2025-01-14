@@ -3,6 +3,8 @@ import { NextResponse } from 'next/server';
 import type { OauthAccessCodeResponseDto } from '@/oauth/oauth.types';
 import { oauthService } from '@/oauth/service';
 import { authService } from '@/auth/service';
+import { redirect, RedirectType } from 'next/navigation';
+import type { AuthRedirectUrl } from '@/auth/service/auth-service.interface';
 
 const AccountLogin = async (req: NextRequest) => {
   if (req.nextUrl.searchParams.size === 0) {
@@ -13,15 +15,19 @@ const AccountLogin = async (req: NextRequest) => {
     req.nextUrl.searchParams.entries(),
   ) as OauthAccessCodeResponseDto;
 
+  let redirectUrl: AuthRedirectUrl;
+
   try {
     const { expire, id } = await oauthService.login(payload);
 
-    return authService.login({ expire, oauthId: id }, req);
+    redirectUrl = await authService.login({ expire, oauthId: id }, req);
   } catch (e) {
-    console.error(e);
+    console.error('LOGIN ERROR', e);
 
-    return authService.logout();
+    redirectUrl = await authService.logout();
   }
+
+  redirect(redirectUrl, RedirectType.push);
 };
 
 export { AccountLogin as GET };
