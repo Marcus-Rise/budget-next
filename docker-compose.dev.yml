@@ -12,8 +12,10 @@ services:
     depends_on:
       db:
         condition: service_healthy
+
   db:
-    image: "postgres:latest"
+    build:
+      context: services/postgres
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -25,6 +27,7 @@ services:
       interval: 5s
       timeout: 3s
       retries: 3
+
   pgadmin:
     image: adminer
     ports:

@@ -76,7 +76,8 @@ services:
       - private
 
   db:
-    image: "postgres:latest"
+    build:
+      context: services/postgres
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres

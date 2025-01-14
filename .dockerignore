@@ -8,3 +8,4 @@ node_modules
 docker-compose.*
 Dockerfile
 services/caddy/Dockerfile
+services/postgres/Dockerfile
