@@ -36,6 +36,20 @@ RUN \
   else echo "Lockfile not found." && exit 1; \
   fi
 
+FROM base as migrator
+WORKDIR /app
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/tsconfig.json ./tsconfig.json
+COPY --from=builder /app/scripts ./scripts
+COPY --from=builder /app/src ./src
+
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV POSTGRES_URL ""
+
+CMD npm run m:m
+
 # Production image, copy all the files and run next
 FROM base AS runner
 WORKDIR /app

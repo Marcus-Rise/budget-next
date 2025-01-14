@@ -32,6 +32,19 @@ services:
       retries: 3
     depends_on:
       - db
+  db-migrator:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: migrator
+    env_file:
+      - .env
+      - .env.local
+    environment:
+      POSTGRES_URL: "postgresql://postgres:postgres@db:5432/postgres"
+    depends_on:
+      db:
+        condition: service_healthy
   db:
     image: "postgres:latest"
     environment:

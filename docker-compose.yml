@@ -1,5 +1,18 @@
 services:
-  postgres:
+  db-migrator:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: migrator
+    env_file:
+      - .env
+      - .env.local
+    environment:
+      POSTGRES_URL: "postgresql://postgres:postgres@db:5432/postgres"
+    depends_on:
+      db:
+        condition: service_healthy
+  db:
     image: "postgres:latest"
     environment:
       POSTGRES_USER: postgres
@@ -12,10 +25,9 @@ services:
       interval: 5s
       timeout: 3s
       retries: 3
-
   pgadmin:
     image: adminer
     ports:
       - "8080:8080"
     depends_on:
-      - postgres
+      - db
