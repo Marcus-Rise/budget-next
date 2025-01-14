@@ -3,7 +3,7 @@ import { Kysely, PostgresDialect } from 'kysely';
 import pg from 'pg';
 
 export const db = new Kysely<Database>({
-  log: ['query', 'error'],
+  log: ['error'],
   dialect: new PostgresDialect({
     pool: new pg.Pool({
       connectionString: process.env.POSTGRES_URL,
