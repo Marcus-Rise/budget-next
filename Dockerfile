@@ -36,7 +36,7 @@ RUN \
   else echo "Lockfile not found." && exit 1; \
   fi
 
-FROM base as migrator
+FROM base AS migrator
 WORKDIR /app
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
