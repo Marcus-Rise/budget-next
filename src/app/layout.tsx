@@ -4,8 +4,6 @@ import type { FC, PropsWithChildren } from 'react';
 import { Roboto } from 'next/font/google';
 import { clsx } from 'clsx';
 import metaConfig from '@/meta-config.cjs';
-import { Analytics } from '@vercel/analytics/react';
-import { SpeedInsights } from '@vercel/speed-insights/next';
 import { configFactory } from '@/config';
 
 const roboto = Roboto({
@@ -17,11 +15,7 @@ const roboto = Roboto({
 
 const RootLayout: FC<PropsWithChildren> = ({ children }) => (
   <html lang="ru">
-    <body className={clsx(roboto.variable, 'font-sans bg-background text-font')}>
-      {children}
-      <Analytics />
-      <SpeedInsights />
-    </body>
+    <body className={clsx(roboto.variable, 'font-sans bg-background text-font')}>{children}</body>
   </html>
 );
 
@@ -50,8 +44,6 @@ const viewport: Viewport = {
     { media: '(prefers-color-scheme: light)', color: metaConfig.themeColor.light },
   ],
 };
-
-// export const runtime = 'edge';
 
 export default RootLayout;
 export { metadata, viewport };

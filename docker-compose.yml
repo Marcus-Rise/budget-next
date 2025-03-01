@@ -1,0 +1,100 @@
+networks:
+  private:
+  public:
+
+volumes:
+  caddy_data:
+  caddy_config:
+  postgres:
+
+services:
+  web:
+    build:
+      context: services/caddy
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    env_file:
+      - .env
+      - .env.local
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://0.0.0.0 || exit 1
+      interval: 3s
+      timeout: 5s
+      retries: 3
+    restart: always
+    depends_on:
+      - app
+    networks:
+      - public
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+    logging:
+      driver: json-file
+      options:
+        max-size: "200k"
+        max-file: "10"
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+      - .env.local
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://0.0.0.0:3000 || exit 1
+      interval: 3s
+      timeout: 10s
+      retries: 3
+    restart: always
+    depends_on:
+      - db
+    networks:
+      - public
+      - private
+    logging:
+      driver: json-file
+      options:
+        max-size: "200k"
+        max-file: "10"
+
+  db-migrator:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: migrator
+    env_file:
+      - .env
+      - .env.local
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - private
+
+  db:
+    build:
+      context: services/postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+      PGDATA: /data/postgres
+    healthcheck:
+      test: [ "CMD-SHELL", "sh -c 'pg_isready -U postgres -d postgres'" ]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+    restart: always
+    networks:
+      - private
+    volumes:
+      - postgres:/data/postgres
+    logging:
+      driver: json-file
+      options:
+        max-size: "200k"
+        max-file: "10"

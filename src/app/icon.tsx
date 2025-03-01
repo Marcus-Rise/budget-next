@@ -18,7 +18,5 @@ const IconResponse = ({ id }: { id: string }) => {
   });
 };
 
-export const runtime = 'edge';
-
 export default IconResponse;
 export { generateImageMetadata };

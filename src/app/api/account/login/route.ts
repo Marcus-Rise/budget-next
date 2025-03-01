@@ -1,29 +1,33 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
-import type { OauthSilentTokenPayload } from '@/oauth/oauth.types';
+import type { OauthAccessCodeResponseDto } from '@/oauth/oauth.types';
 import { oauthService } from '@/oauth/service';
 import { authService } from '@/auth/service';
+import { redirect, RedirectType } from 'next/navigation';
+import type { AuthRedirectUrl } from '@/auth/service/auth-service.interface';
 
 const AccountLogin = async (req: NextRequest) => {
-  const payloadString = req.nextUrl.searchParams.get('payload');
-
-  if (!payloadString) {
+  if (req.nextUrl.searchParams.size === 0) {
     return NextResponse.json({ message: 'No payload' }, { status: 400 });
   }
 
-  const payload: OauthSilentTokenPayload = JSON.parse(payloadString);
+  const payload = Object.fromEntries(
+    req.nextUrl.searchParams.entries(),
+  ) as OauthAccessCodeResponseDto;
+
+  let redirectUrl: AuthRedirectUrl;
 
   try {
     const { expire, id } = await oauthService.login(payload);
 
-    return authService.login({ expire, oauthId: id }, req);
+    redirectUrl = await authService.login({ expire, oauthId: id }, req);
   } catch (e) {
-    console.error(e);
+    console.error('LOGIN ERROR', e);
 
-    return authService.logout(req);
+    redirectUrl = await authService.logout();
   }
-};
 
-export const runtime = 'edge';
+  redirect(redirectUrl, RedirectType.push);
+};
 
 export { AccountLogin as GET };

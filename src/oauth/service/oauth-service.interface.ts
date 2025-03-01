@@ -1,13 +1,21 @@
-import type { OauthCredentials, OauthSilentTokenPayload } from '@/oauth/oauth.types';
+import type {
+  OauthAccessCodeResponseDto,
+  OauthCredentials,
+  OauthProfileInfoResponseDto,
+} from '@/oauth/oauth.types';
 
 type OauthId = OauthCredentials['id'];
 
 interface IOauthService {
-  login(payload: OauthSilentTokenPayload): Promise<OauthCredentials>;
+  getLoginUrl(): Promise<URL>;
+
+  login(payload: OauthAccessCodeResponseDto): Promise<OauthCredentials>;
 
   getCredentials(oauthId: OauthId): Promise<OauthCredentials>;
 
   logout(oauthId: OauthId): Promise<void>;
+
+  getProfileInfo(oauthId: OauthId): Promise<OauthProfileInfoResponseDto['user']>;
 }
 
 export type { IOauthService, OauthId };
