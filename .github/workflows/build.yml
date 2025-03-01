@@ -1,7 +1,15 @@
 name: ci
 
 on:
-  workflow_call:
+#  schedule:
+#    - cron: "0 10 * * *"
+  push:
+    branches:
+      - "**"
+    tags:
+      - "v*.*.*"
+  pull_request:
+
 
 jobs:
   docker:
